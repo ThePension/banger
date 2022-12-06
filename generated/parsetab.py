@@ -6,7 +6,7 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR_HEX COLOR_TOK EOL ERROR IDENTIFIER IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCblock : block_code\n             | block_titleblock_code : CODE LBRACKETS STRING RBRACKETS\n                  | CODE LBRACKETS STRING RBRACKETS blockblock_title : TITLE LBRACKETS STRING RBRACKETS\n                   | TITLE LBRACKETS STRING RBRACKETS block'
+_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR_HEX COLOR_TOK EOL ERROR IDENTIFIER IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCblock : block_code\n             | block_titleblock_code : CODE LBRACKETS STRING RBRACKETSblock_code : CODE LBRACKETS STRING RBRACKETS blockblock_title : TITLE LBRACKETS STRING RBRACKETSblock_title : TITLE LBRACKETS STRING RBRACKETS block'
     
 _lr_action_items = {'CODE':([0,10,11,],[4,4,4,]),'TITLE':([0,10,11,],[5,5,5,]),'$end':([1,2,3,10,11,12,13,],[0,-1,-2,-3,-5,-4,-6,]),'LBRACKETS':([4,5,],[6,7,]),'STRING':([6,7,],[8,9,]),'RBRACKETS':([8,9,],[10,11,]),}
 
@@ -30,7 +30,7 @@ _lr_productions = [
   ('block -> block_code','block',1,'p_block','banger_parser.py',9),
   ('block -> block_title','block',1,'p_block','banger_parser.py',10),
   ('block_code -> CODE LBRACKETS STRING RBRACKETS','block_code',4,'p_block_code','banger_parser.py',15),
-  ('block_code -> CODE LBRACKETS STRING RBRACKETS block','block_code',5,'p_block_code','banger_parser.py',16),
-  ('block_title -> TITLE LBRACKETS STRING RBRACKETS','block_title',4,'p_block_title','banger_parser.py',37),
-  ('block_title -> TITLE LBRACKETS STRING RBRACKETS block','block_title',5,'p_block_title','banger_parser.py',38),
+  ('block_code -> CODE LBRACKETS STRING RBRACKETS block','block_code',5,'p_block_code_rec','banger_parser.py',19),
+  ('block_title -> TITLE LBRACKETS STRING RBRACKETS','block_title',4,'p_block_title','banger_parser.py',40),
+  ('block_title -> TITLE LBRACKETS STRING RBRACKETS block','block_title',5,'p_block_title_rec','banger_parser.py',44),
 ]

@@ -12,9 +12,12 @@ def p_block(p):
 
 
 def p_block_code(p):
-    '''block_code : CODE LBRACKETS STRING RBRACKETS
-                  | CODE LBRACKETS STRING RBRACKETS block'''
-    p[0] = AST.CodeBlock(p[3])
+    '''block_code : CODE LBRACKETS STRING RBRACKETS'''
+    p[0] = AST.CodeBlock(AST.StringBlock(p[3]))
+
+def p_block_code_rec(p):
+    '''block_code : CODE LBRACKETS STRING RBRACKETS block'''
+    p[0] = AST.ProgramBlock([AST.CodeBlock(AST.StringBlock(p[3]))] + p[5].children)
 
 
 # def p_block_list(p):
@@ -34,9 +37,13 @@ def p_block_code(p):
 
 
 def p_block_title(p):
-    '''block_title : TITLE LBRACKETS STRING RBRACKETS
-                   | TITLE LBRACKETS STRING RBRACKETS block'''
+    '''block_title : TITLE LBRACKETS STRING RBRACKETS'''
     p[0] = AST.TitleBlock(AST.StringBlock(p[3]))
+
+def p_block_title_rec(p):
+    '''block_title : TITLE LBRACKETS STRING RBRACKETS block'''
+    p[0] = AST.ProgramBlock([AST.TitleBlock(AST.StringBlock(p[3]))] + p[5].children)
+
 
 # def p_param(p):
 #     '''param : param_bg
