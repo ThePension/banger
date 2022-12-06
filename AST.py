@@ -1,26 +1,14 @@
-# coding: latin-1
-
-''' Petit module utilitaire pour la construction, la manipulation et la 
-repr�sentation d'arbres syntaxiques abstraits.
-
-S�rement plein de bugs et autres surprises. � prendre comme un 
-"work in progress"...
-Notamment, l'utilisation de pydot pour repr�senter un arbre syntaxique cousu
-est une utilisation un peu "limite" de graphviz. �a marche, mais le layout n'est
-pas toujours optimal...
-'''
-
 import pydot
 
 
-class Node:
+class Block:
     count = 0
     type = 'Node (unspecified)'
     shape = 'ellipse'
 
     def __init__(self, children=None):
-        self.ID = str(Node.count)
-        Node.count += 1
+        self.ID = str(Block.count)
+        Block.count += 1
         if not children:
             self.children = []
         elif hasattr(children, '__len__'):
@@ -36,7 +24,7 @@ class Node:
         result = "%s%s\n" % (prefix, repr(self))
         prefix += '|  '
         for c in self.children:
-            if not isinstance(c, Node):
+            if not isinstance(c, Block):
                 result += "%s*** Error: Child of type %r: %r\n" % (
                     prefix, type(c), c)
                 continue
@@ -101,51 +89,70 @@ class Node:
         return graph
 
 
-class ProgramNode(Node):
-    type = 'Program'
+class CodeBlock(Block):
+    type = "code"
 
 
-class TokenNode(Node):
+class ListBlock(Block):
+    type = "list"
+
+
+class TitleBlock(Block):
+    type = "title"
+
+
+class ListBlock(Block):
+    type = "list_block"
+
+
+class ListElement(Block):
+    type = "list_element"
+
+
+class ParamBlock(Block):
+    type = "param"
+
+
+class StringBlock(Block):
+    type = "string"
+
+
+class TokenBlock(Block):
     type = 'token'
 
     def __init__(self, tok):
-        Node.__init__(self)
+        Block.__init__(self)
         self.tok = tok
 
     def __repr__(self):
         return repr(self.tok)
 
 
-class OpNode(Node):
-    def __init__(self, op, children):
-        Node.__init__(self, children)
-        self.op = op
-        try:
-            self.nbargs = len(children)
-        except AttributeError:
-            self.nbargs = 1
+# class OpBlock(Block):
+#     def __init__(self, op, children):
+#         Block.__init__(self, children)
+#         self.op = op
+#         try:
+#             self.nbargs = len(children)
+#         except AttributeError:
+#             self.nbargs = 1
 
-    def __repr__(self):
-        return "%s (%s)" % (self.op, self.nbargs)
-
-
-class AssignNode(Node):
-    type = '='
+#     def __repr__(self):
+#         return "%s (%s)" % (self.op, self.nbargs)
 
 
-class PrintNode(Node):
-    type = 'print'
+# class AssignNode(Block):
+#     type = '='
+
+# class WhileNode(Block):
+#     type = 'while'
 
 
-class WhileNode(Node):
-    type = 'while'
-
-
-class EntryNode(Node):
+class EntryBlock(Block):
     type = 'ENTRY'
 
     def __init__(self):
-        Node.__init__(self, None)
+        Block.__init__(self, None)
 
 
 def addToClass(cls):

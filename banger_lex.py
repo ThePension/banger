@@ -35,11 +35,7 @@ tokens = (
 
 t_BG = r"\bbg\b"
 t_COLOR_TOK = r"\bcolor\b"
-# Regex for hexa color
-
-# t_COLOR_HEX = r"(?:^|\s)[＃#]{1}(\w+)"
-t_COLOR_HEX = r"#\(?:[0-9a-fA-F]{3}){1,2}$"
-
+t_COLOR_HEX = r"[\#]{1}([0-9a-fA-F]{3}){1,2}"
 t_CODE = r"\bcode\b"
 t_CENTER = r"\bcenter\b"
 t_LIST = r"\blist\b"
