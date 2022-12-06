@@ -5,86 +5,66 @@ import AST
 import pydot
 import os
 
-# https://www.dabeaz.com/ply/ply.html#ply_nn4
-
-operations = {
-    "+": lambda x, y: x + y,
-    "-": lambda x, y: x - y,
-    "*": lambda x, y: x * y,
-    "/": lambda x, y: x / y
-}
-
-precedence = (
-    ('left', 'ADD_OP'),
-    ('left', 'MUL_OP'),
-    ('right', 'UMINUS'),
-)
 
 # Définit un programme 'prog'
 
 
-def p_prog(p):
-    '''prog : statement'''
+def p_block(p):
+    '''block : block
+             | block_code
+             | block_list
+             | block_title
+             | block_par'''
     p[0] = AST.ProgramNode(p[1])
 
 
-def p_prog_rec(p):
-    '''prog : statement EOE prog'''
+def p_block_code(p):
+    '''block_code : code LBRACKETS block RBRACKETS'''
     p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_statement_assign(p):
-    '''statement : IDENTIFIER EQUALS expression'''
-    id = AST.TokenNode(p[1])
-    expression = p[3]
-    p[0] = AST.AssignNode([id, expression])
+def p_block_list(p):
+    '''block_list : list LBRACKETS block RBRACKETS'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_statement(p):
-    '''statement : expression
-                 | structure'''
-    p[0] = p[1]
+def p_list_element(p):
+    '''list_elements : list_element
+                     | block'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_statement_print(p):
-    '''statement : PRINT expression'''
-    p[0] = AST.PrintNode(p[2])
+def p_block_title(p):
+    '''block_title : title LBRACKETS STRING RBRACKETS
+                   | title LBRACKETS block RBRACKETS'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_struct_while(p):
-    '''structure : WHILE expression LBRACKETS prog RBRACKETS'''
-    cond = p[2]
-    body = p[4]
-    p[0] = AST.WhileNode([cond, body])
+def p_param(p):
+    '''param : param_bg
+             | param_font'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-# Définit une expression avec opérateur
+def p_param_bg(p):
+    '''param_bg : BG COLOR_TOK COLOR_HEX'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_expression_op(p):
-    '''expression : expression ADD_OP expression
-                  | expression MUL_OP expression'''
-    p[0] = AST.OpNode(p[2], [p[1], p[3]])
+def p_param_font(p):
+    '''param_font : param_font
+                  | param_font param'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_expression_num(p):
-    '''expression : NUMBER'''
-    p[0] = AST.TokenNode(p[1])
+def p_token(p):
+    '''token : STRING'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
-def p_expression_paren(p):
-    '''expression : LPAREN expression RPAREN'''
-    p[0] = p[2]
-
-
-def p_expression_uminus(p):
-    '''expression : ADD_OP expression %prec UMINUS'''
-    p[0] = AST.OpNode(p[1], [p[2]])
-
-
-def p_expression_iden(p):
-    '''expression : IDENTIFIER'''
-    p[0] = AST.TokenNode(p[1])
+def p_block_code(p):
+    '''block_code : code LBRACKETS block RBRACKETS'''
+    p[0] = AST.ProgramNode([p[1]] + p[3].children)
 
 
 def p_error(p):
@@ -93,12 +73,6 @@ def p_error(p):
         parser = yacc.yacc()
         parser.errok()
 
-
-precedence = (
-    ('left', 'ADD_OP'),
-    ('left', 'MUL_OP'),
-    ('right', 'UMINUS'),          # Unary minus operator
-)
 
 yacc.yacc(outputdir="generated")
 

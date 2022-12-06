@@ -4,14 +4,13 @@ import sys
 
 reserved_words = (
     "bg",
-    "color",
     "code",
     "center",
     "list",
     "subpage",
     "title",
     "toc",  # Table Of Contents
-    "bulletpoint"
+    "bulletpoint",
 )
 
 tokens = (
@@ -29,11 +28,18 @@ tokens = (
     "LBRACKETS",
     "RBRACKETS",
     "STRING",
+    "COLOR_TOK",
+    "COLOR_HEX",
 ) + tuple(map(lambda s: s.upper(), reserved_words))
 
 
 t_BG = r"\bbg\b"
-t_COLOR = r"\bcolor\b"
+t_COLOR_TOK = r"\bcolor\b"
+# Regex for hexa color
+
+# t_COLOR_HEX = r"(?:^|\s)[＃#]{1}(\w+)"
+t_COLOR_HEX = r"#\(?:[0-9a-fA-F]{3}){1,2}$"
+
 t_CODE = r"\bcode\b"
 t_CENTER = r"\bcenter\b"
 t_LIST = r"\blist\b"

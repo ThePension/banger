@@ -1,8 +1,8 @@
 bg red color blue {
     toc
     
-    bg green {
-        title color white { "Exemple de titre" }
+    bg #FF00FF {
+        title color #FFFFFF { "Exemple de titre" }
 
         code center {
            "-- extrait de code"
@@ -15,7 +15,7 @@ bg red color blue {
         }
         
         subpage "Autre page" {
-            title center color red { "Titre de la subpage" }
+            title center color #FF0000 { "Titre de la subpage" }
             "-- Contenu de l'autre page"
         }
     }
