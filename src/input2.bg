@@ -1,6 +1,6 @@
-code { "int i = 0;" }
-
 title { "Exemple de titre" }
+
+code { "int i = 0;" }
 
 list {
     * "Element 1"

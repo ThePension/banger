@@ -2,8 +2,6 @@ import ply.yacc as yacc
 from banger_lex import tokens
 import sys
 import AST
-import pydot
-import os
 
 def p_document(p):
     '''document : block'''
