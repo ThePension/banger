@@ -1,6 +1,8 @@
 import AST
 from AST import addToClass
 
+# MathJax : https://github.com/mathjax/MathJax/
+
 
 @addToClass(AST.Document)
 def compile(self):
@@ -11,6 +13,14 @@ def compile(self):
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+            });
+        </script>
+        <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
         <title>Document</title>
     </head>
     <body>
@@ -58,7 +68,7 @@ def compile(self):
 
 @addToClass(AST.StringBlock)
 def compile(self):
-    html = str(self)[2:-3]
+    html = r"" + str(self)[2:-3].replace('\\\\', '\\') # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
     return html
 
 if __name__ == "__main__":

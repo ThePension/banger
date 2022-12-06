@@ -6,5 +6,6 @@ list {
     * "Element 1"
     * "Element 2"
     * "Element 3"
+    * "$\sqrt2=x^2 \Rightarrow x=\sqrt{\sqrt{2}}$"
 }
 
