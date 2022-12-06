@@ -1,0 +1,22 @@
+bg red, color blue {
+    table of content
+    
+    bg green {
+        title color white { Exemple de titre }
+
+        code center {
+            -- extrait de code
+        }
+
+        list {
+            * element 1
+            * element 2
+            * element 3
+        }
+        
+        subpage "Autre page" {
+            -- Contenu de l'autre page
+            title center color red { Titre de la subpage }
+        }
+    }
+}
