@@ -88,10 +88,11 @@ class Block:
             graph.add_edge(edge)
         return graph
 
+class ProgramBlock(Block):
+    type = 'program'
 
 class CodeBlock(Block):
     type = "code"
-
 
 class ListBlock(Block):
     type = "list"
