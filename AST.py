@@ -97,18 +97,14 @@ class CodeBlock(Block):
 class ListBlock(Block):
     type = "list"
 
-
 class TitleBlock(Block):
     type = "title"
-
 
 class ListBlock(Block):
     type = "list_block"
 
-
 class ListElement(Block):
     type = "list_element"
-
 
 class ParamBlock(Block):
     type = "param"
@@ -117,17 +113,12 @@ class ParamBlock(Block):
 class StringBlock(Block):
     type = "string"
 
-
-class TokenBlock(Block):
-    type = 'token'
-
     def __init__(self, tok):
         Block.__init__(self)
         self.tok = tok
 
     def __repr__(self):
         return repr(self.tok)
-
 
 # class OpBlock(Block):
 #     def __init__(self, op, children):
