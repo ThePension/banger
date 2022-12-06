@@ -5,6 +5,10 @@ import AST
 import pydot
 import os
 
+def p_document(p):
+    '''document : block'''
+    p[0] = AST.Document(p[1])
+
 def p_block(p):
     '''block : block_code
              | block_title'''

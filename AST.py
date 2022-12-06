@@ -88,6 +88,9 @@ class Block:
             graph.add_edge(edge)
         return graph
 
+class Document(Block):
+    type = "document"
+
 class ProgramBlock(Block):
     type = 'program'
 

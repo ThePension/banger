@@ -1,4 +1,4 @@
-code { "-- extrait de code" }
+code { "int i = 0;" }
 
 title { "Exemple de titre" }
 
