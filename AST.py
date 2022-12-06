@@ -91,8 +91,8 @@ class Block:
 class Document(Block):
     type = "document"
 
-class ProgramBlock(Block):
-    type = 'program'
+class GenericBlock(Block):
+    type = 'block'
 
 class CodeBlock(Block):
     type = "code"

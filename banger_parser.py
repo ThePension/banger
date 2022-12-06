@@ -11,42 +11,48 @@ def p_document(p):
 
 def p_block(p):
     '''block : block_code
-             | block_title'''
-    p[0] = AST.ProgramBlock(p[1])
-
+             | block_title
+             | block_list'''
+    p[0] = AST.GenericBlock(p[1])
 
 def p_block_code(p):
-    '''block_code : CODE LBRACKETS STRING RBRACKETS'''
-    p[0] = AST.CodeBlock(AST.StringBlock(p[3]))
+    '''block_code : CODE LBRACKETS content RBRACKETS'''
+    p[0] = AST.CodeBlock(p[3])
 
 def p_block_code_rec(p):
-    '''block_code : CODE LBRACKETS STRING RBRACKETS block'''
-    p[0] = AST.ProgramBlock([AST.CodeBlock(AST.StringBlock(p[3]))] + p[5].children)
+    '''block_code : CODE LBRACKETS content RBRACKETS block'''
+    p[0] = AST.GenericBlock([AST.CodeBlock(p[3])] + p[5].children)
 
 
-# def p_block_list(p):
-#     '''block_list : LIST LBRACKETS list_elements RBRACKETS
-#                   | LIST LBRACKETS list_elements RBRACKETS block'''
-#     p[0] = AST.ListBlock(p[3].children)
+def p_block_list(p):
+    '''block_list : LIST LBRACKETS list_elements RBRACKETS'''
+    p[0] = AST.ListBlock(p[3].children)
+
+def p_block_list_rec(p):
+    '''block_list : LIST LBRACKETS list_elements RBRACKETS block'''
+    p[0] = AST.GenericBlock(AST.ListBlock(p[3].children) + p[5].children)
 
 
-# def p_list_elements(p):
-#     '''list_elements : list_element
-#                      | list_element list_elements'''
-#     p[0] = AST.ListElement(p[1])
+def p_list_elements(p):
+    '''list_elements : list_element'''
+    p[0] = AST.ListElement(p[1])
 
-# def p_list_element(p):
-#     '''list_element : STRING'''
-#     p[0] = AST.ListElement(p[1])
+def p_list_elements_rec(p):
+    '''list_elements : list_element list_elements'''
+    p[0] = AST.GenericBlock([p[1]] + p[2].children)
+
+def p_list_element(p):
+    '''list_element : BULLETPOINT content'''
+    p[0] = AST.ListElement(p[2])
 
 
 def p_block_title(p):
-    '''block_title : TITLE LBRACKETS STRING RBRACKETS'''
-    p[0] = AST.TitleBlock(AST.StringBlock(p[3]))
+    '''block_title : TITLE LBRACKETS content RBRACKETS'''
+    p[0] = AST.TitleBlock(p[3])
 
 def p_block_title_rec(p):
-    '''block_title : TITLE LBRACKETS STRING RBRACKETS block'''
-    p[0] = AST.ProgramBlock([AST.TitleBlock(AST.StringBlock(p[3]))] + p[5].children)
+    '''block_title : TITLE LBRACKETS content RBRACKETS block'''
+    p[0] = AST.GenericBlock([AST.TitleBlock(p[3])] + p[5].children)
 
 
 # def p_param(p):
@@ -66,6 +72,10 @@ def p_block_title_rec(p):
 #                   | param_font param'''
 #     p[0] = AST.ParamBlock([p[1]] + p[3].children)
 
+
+def p_content(p):
+    '''content : STRING'''
+    p[0] = AST.StringBlock(p[1])
 
 def p_error(p):
     if p is not None:

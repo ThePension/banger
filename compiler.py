@@ -26,8 +26,7 @@ def compile(self):
 
     return html
 
-
-@addToClass(AST.ProgramBlock)
+@addToClass(AST.GenericBlock)
 def compile(self):
     html = ""
 
@@ -36,15 +35,26 @@ def compile(self):
 
     return html
 
-
 @addToClass(AST.CodeBlock)
 def compile(self):
     return "<pre><code>" + self.children[0].compile() + "</code></pre>"
 
-
 @addToClass(AST.TitleBlock)
 def compile(self):
     return "<h1>" + self.children[0].compile() + "</h1>"
+
+@addToClass(AST.ListBlock)
+def compile(self):
+    html = "<ul>"
+    for c in self.children:
+        html += c.compile()
+    html += "</ul>"
+
+    return html
+
+@addToClass(AST.ListElement)
+def compile(self):
+    return "<li>" + self.children[0].compile() + "</li>"
 
 @addToClass(AST.StringBlock)
 def compile(self):

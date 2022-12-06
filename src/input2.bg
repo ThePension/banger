@@ -2,3 +2,9 @@ code { "int i = 0;" }
 
 title { "Exemple de titre" }
 
+list {
+    * "Element 1"
+    * "Element 2"
+    * "Element 3"
+}
+
