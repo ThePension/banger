@@ -58,7 +58,7 @@ def compile(self):
 
 @addToClass(AST.StringBlock)
 def compile(self):
-    html = str(self)
+    html = str(self)[2:-3]
     return html
 
 if __name__ == "__main__":
