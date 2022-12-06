@@ -10,7 +10,8 @@ reserved_words = (
     "list",
     "subpage",
     "title",
-    "toc", # Table Of Contents
+    "toc",  # Table Of Contents
+    "bulletpoint"
 )
 
 tokens = (
@@ -27,22 +28,36 @@ tokens = (
     "IDENTIFIER",
     "LBRACKETS",
     "RBRACKETS",
-) + tuple(map(lambda s : s.upper(), reserved_words))
+    "STRING",
+) + tuple(map(lambda s: s.upper(), reserved_words))
+
+
+t_BG = r"\bbg\b"
+t_COLOR = r"\bcolor\b"
+t_CODE = r"\bcode\b"
+t_CENTER = r"\bcenter\b"
+t_LIST = r"\blist\b"
+t_SUBPAGE = r"\bsubpage\b"
+t_TITLE = r"\btitle\b"
+t_TOC = r"\btoc\b"
+t_BULLETPOINT = r"\*[ ]"
 
 t_ignore = r"[ ]"
-t_LPAREN  = r'\('
-t_RPAREN  = r'\)'
+# t_LPAREN = r'\('
+# t_RPAREN = r'\)'
+# t_UMINUS = r"\-"
 t_EOL = r'\;'
 t_ASSIGNATION = r'\='
 t_LBRACKETS = r"\{"
 t_RBRACKETS = r"\}"
-t_UMINUS = r"\-"
+t_STRING = r'".*?"'
 
 nondigit = r'([_A-Za-z])'
 digit = r'([0-9])'
 identifier = r'(' + nondigit + r'(' + digit + r'|' + nondigit + r')*)'
 
-@TOKEN(identifier)
+
+@ TOKEN(identifier)
 def t_IDENTIFIER(t):
     if t.value in reserved_words:
         t.type = t.value.upper()
@@ -61,13 +76,16 @@ def t_IDENTIFIER(t):
 #     t.value = float(t.value)
 #     return t
 
+
 def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
 
+
 def t_error(t):
-    print("Illegal character '%s'" %t.value[0])
+    print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
+
 
 lex.lex()
 
@@ -79,5 +97,6 @@ if __name__ == "__main__":
     while 1:
         tok = lex.token()
 
-        if not tok : break
+        if not tok:
+            break
         print("line %d : %s (%s)" % (tok.lineno, tok.type, tok.value))
