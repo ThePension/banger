@@ -1,6 +1,6 @@
 title bg #FF0000 color #FFFFFF { "Exemple de titre" }
 
-code { 
+code {
     "int i = 0;"
 }
 
@@ -8,14 +8,14 @@ code {
     "for(int i = 0; i < 10; i++) { }"
 }
 
-list {
+list bg #00FF00 {
     * "Element 1"
     * "Element 2"
     * "Element 3"
     * "$\sqrt2=x^2 \Rightarrow x=\sqrt{\sqrt{2}}$"
 }
 
-title 
+title color #0F0F0F bg #F0F0F0
 {
     "$\frac{x^2}{x - 1}$"
 }

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR COLOR_HEX EOL ERROR IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock : block_code block\n             | block_title block\n             | block_list blockblock_code : CODE LBRACKETS content RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETSlist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE param LBRACKETS content RBRACKETSparam : param_bg\n             | param_fontparam : param_bg param\n             | param_font paramparam_bg : BG COLOR_HEXparam_font : COLOR COLOR_HEXcontent : STRING'
+_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR COLOR_HEX EOL ERROR IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock : block_code block\n             | block_title block\n             | block_list blockblock_code : CODE LBRACKETS content RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETSblock_list : LIST param LBRACKETS list_elements RBRACKETSlist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE param LBRACKETS content RBRACKETSparam : param_bg\n             | param_fontparam : param_bg param\n             | param_font paramparam_bg : BG COLOR_HEXparam_font : COLOR COLOR_HEXcontent : STRING'
     
-_lr_action_items = {'CODE':([0,3,4,5,31,32,34,37,],[6,6,6,6,-8,-13,-9,-14,]),'TITLE':([0,3,4,5,31,32,34,37,],[7,7,7,7,-8,-13,-9,-14,]),'LIST':([0,3,4,5,31,32,34,37,],[8,8,8,8,-8,-13,-9,-14,]),'$end':([1,2,3,4,5,9,10,11,31,32,34,37,],[0,-1,-2,-3,-4,-5,-6,-7,-8,-13,-9,-14,]),'LBRACKETS':([6,7,8,14,15,16,24,25,26,27,],[12,13,19,23,-15,-16,-17,-18,-19,-20,]),'BG':([7,15,16,26,27,],[17,17,17,-19,-20,]),'COLOR':([7,15,16,26,27,],[18,18,18,-19,-20,]),'STRING':([12,13,23,30,],[21,21,21,21,]),'COLOR_HEX':([17,18,],[26,27,]),'BULLETPOINT':([19,21,29,36,],[30,-21,30,-12,]),'RBRACKETS':([20,21,22,28,29,33,35,36,],[31,-21,32,34,-10,37,-11,-12,]),}
+_lr_action_items = {'CODE':([0,3,4,5,33,34,36,40,41,],[6,6,6,6,-8,-14,-9,-15,-10,]),'TITLE':([0,3,4,5,33,34,36,40,41,],[7,7,7,7,-8,-14,-9,-15,-10,]),'LIST':([0,3,4,5,33,34,36,40,41,],[8,8,8,8,-8,-14,-9,-15,-10,]),'$end':([1,2,3,4,5,9,10,11,33,34,36,40,41,],[0,-1,-2,-3,-4,-5,-6,-7,-8,-14,-9,-15,-10,]),'LBRACKETS':([6,7,8,14,15,16,20,25,26,27,28,],[12,13,19,24,-16,-17,32,-18,-19,-20,-21,]),'BG':([7,8,15,16,27,28,],[17,17,17,17,-20,-21,]),'COLOR':([7,8,15,16,27,28,],[18,18,18,18,-20,-21,]),'STRING':([12,13,24,31,],[22,22,22,22,]),'COLOR_HEX':([17,18,],[27,28,]),'BULLETPOINT':([19,22,30,32,38,],[31,-22,31,31,-13,]),'RBRACKETS':([21,22,23,29,30,35,37,38,39,],[33,-22,34,36,-11,40,-12,-13,41,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'document':([0,],[1,]),'block':([0,3,4,5,],[2,9,10,11,]),'block_code':([0,3,4,5,],[3,3,3,3,]),'block_title':([0,3,4,5,],[4,4,4,4,]),'block_list':([0,3,4,5,],[5,5,5,5,]),'param':([7,15,16,],[14,24,25,]),'param_bg':([7,15,16,],[15,15,15,]),'param_font':([7,15,16,],[16,16,16,]),'content':([12,13,23,30,],[20,22,33,36,]),'list_elements':([19,29,],[28,35,]),'list_element':([19,29,],[29,29,]),}
+_lr_goto_items = {'document':([0,],[1,]),'block':([0,3,4,5,],[2,9,10,11,]),'block_code':([0,3,4,5,],[3,3,3,3,]),'block_title':([0,3,4,5,],[4,4,4,4,]),'block_list':([0,3,4,5,],[5,5,5,5,]),'param':([7,8,15,16,],[14,20,25,26,]),'param_bg':([7,8,15,16,],[15,15,15,15,]),'param_font':([7,8,15,16,],[16,16,16,16,]),'content':([12,13,24,31,],[21,23,35,38,]),'list_elements':([19,30,32,],[29,37,39,]),'list_element':([19,30,32,],[30,30,30,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -36,6 +36,7 @@ _lr_productions = [
   ('block -> block_list block','block',2,'p_block_rec','banger_parser.py',19),
   ('block_code -> CODE LBRACKETS content RBRACKETS','block_code',4,'p_block_code','banger_parser.py',23),
   ('block_list -> LIST LBRACKETS list_elements RBRACKETS','block_list',4,'p_block_list','banger_parser.py',28),
+  ('block_list -> LIST param LBRACKETS list_elements RBRACKETS','block_list',5,'p_block_list_with_param','banger_parser.py',32),
   ('list_elements -> list_element','list_elements',1,'p_list_elements','banger_parser.py',38),
   ('list_elements -> list_element list_elements','list_elements',2,'p_list_elements_rec','banger_parser.py',42),
   ('list_element -> BULLETPOINT content','list_element',2,'p_list_element','banger_parser.py',46),

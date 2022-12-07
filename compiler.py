@@ -90,8 +90,8 @@ def compile(self):
 def compile(self):
     html = "<ul "
     
-    # for p in self.params:
-    #     html += p.compile()
+    for p in self.params:
+        html += p.compile()
 
     html += " class='list-group list-group-flush'>"
 

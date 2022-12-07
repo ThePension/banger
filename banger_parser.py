@@ -28,11 +28,11 @@ def p_block_list(p):
     '''block_list : LIST LBRACKETS list_elements RBRACKETS'''
     p[0] = AST.ListBlock(p[3].children)
 
-# def p_block_list_with_param(p):
-#     '''block_list : LIST param LBRACKETS list_elements RBRACKETS'''
-#     listBlock = AST.ListBlock(p[4].children)
-#     listBlock.params += [p[2]]
-#     p[0] = listBlock
+def p_block_list_with_param(p):
+    '''block_list : LIST param LBRACKETS list_elements RBRACKETS'''
+    listBlock = AST.ListBlock(p[4].children)
+    listBlock.params += [p[2]]
+    p[0] = listBlock
 
 def p_list_elements(p):
     '''list_elements : list_element'''
