@@ -1,4 +1,4 @@
-title bg #FF0000 color #FFFFFF { "Exemple de titre" }
+title color #FFFFFF bg #FF0000 { "Exemple de titre" }
 
 code {
     "int i = 0;"
@@ -8,7 +8,23 @@ code {
     "for(int i = 0; i < 10; i++) { }"
 }
 
-list bg #00FF00 {
+code {
+    title { "Titre dans un bloc de code" }
+
+    title { "Deuxième titre dans un bloc de code" }
+}
+
+title bg #00FF00 {
+    code {
+        "Bloc de code dans un titre"
+    }
+
+    code {
+        "Deuxième bloc de code dans un titre"
+    }
+}
+
+list color #0000FF bg #00FF00 {
     * "Element 1"
     * "Element 2"
     * "Element 3"
@@ -24,3 +40,6 @@ title color #0F0F0F bg #F0F0F0
     "$\frac{x^2}{x - 1}$"
 }
 
+title { "test" }
+
+code color #FF0000 { "test" }

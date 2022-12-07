@@ -74,7 +74,14 @@ def compile(self):
 
 @addToClass(AST.CodeBlock)
 def compile(self):
-    return "<pre><code>" + self.children[0].compile() + "</code></pre>"
+    html =  "<pre><code "
+
+    for p in self.params:
+        html += p.compile()
+    
+    html += ">" + self.children[0].compile() + "</code></pre>"
+
+    return html
 
 
 @addToClass(AST.TitleBlock)

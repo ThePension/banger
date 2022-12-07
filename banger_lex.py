@@ -4,14 +4,14 @@ import sys
 
 reserved_words = (
     "bg",
-    "code",
+    # "code",
     "center",
-    "list",
-    "subpage",
-    "title",
+    # "list",
+    # "subpage",
+    # "title",
     "toc",  # Table Of Contents
     "bulletpoint",
-    "image",
+    # "image",
 )
 
 tokens = (
@@ -31,21 +31,23 @@ tokens = (
     "STRING",
     "COLOR",
     "COLOR_HEX",
+    "BLOCK_ID",
 ) + tuple(map(lambda s: s.upper(), reserved_words))
 
 
 t_BG = r"\bbg\b"
 t_COLOR = r"\bcolor\b"
 t_COLOR_HEX = r"[\#]{1}([0-9a-fA-F]{3}){1,2}"
-t_CODE = r"\bcode\b"
 t_CENTER = r"\bcenter\b"
-t_LIST = r"\blist\b"
-t_SUBPAGE = r"\bsubpage\b"
-t_TITLE = r"\btitle\b"
+# t_SUBPAGE = r"\bsubpage\b"
 t_TOC = r"\btoc\b"
-t_IMAGE = r"\bimage\b"
 t_BULLETPOINT = r"\*[ ]"
 
+title = r"\btitle\b"
+list = r"\blist\b"
+code = r"\bcode\b"
+image = r"\bimage\b"
+t_BLOCK_ID = r'(' + title + r'|' + list + r'|' + code + r'|' + image + r')'
 
 t_ignore = r"[ ]"
 # t_LPAREN = r'\('
