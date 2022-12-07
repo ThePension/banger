@@ -7,6 +7,7 @@ class Block:
     shape = 'ellipse'
 
     def __init__(self, children=None):
+        self.params = []
         self.ID = str(Block.count)
         Block.count += 1
         if not children:
@@ -111,6 +112,16 @@ class ListElement(Block):
 
 class ParamBlock(Block):
     type = "param"
+
+class ParamBGBlock(ParamBlock):
+    type = "param_bg"
+
+    def __init__(self, tok):
+        Block.__init__(self)
+        self.tok = tok
+
+    def __repr__(self):
+        return repr(self.tok)
 
 
 class StringBlock(Block):

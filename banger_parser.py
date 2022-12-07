@@ -28,7 +28,7 @@ def p_block_list(p):
 
 def p_block_list_rec(p):
     '''block_list : LIST LBRACKETS list_elements RBRACKETS block'''
-    p[0] = AST.GenericBlock(AST.ListBlock(p[3].children) + p[5].children)
+    p[0] = AST.GenericBlock([AST.ListBlock(p[3].children)] + p[5].children)
 
 
 def p_list_elements(p):
@@ -52,17 +52,30 @@ def p_block_title_rec(p):
     '''block_title : TITLE LBRACKETS content RBRACKETS block'''
     p[0] = AST.GenericBlock([AST.TitleBlock(p[3])] + p[5].children)
 
+def p_block_title_with_param(p):
+    '''block_title : TITLE param LBRACKETS content RBRACKETS'''
+    titleBlock = AST.TitleBlock(p[3])
+    titleBlock.params += [p[2]]
+    p[0] = titleBlock
 
-# def p_param(p):
-#     '''param : param_bg
-#              | param_bg param'''
-#     p[0] = AST.ParamBlock([p[1]] + p[3].children)
+def p_block_title_with_param_rec(p):
+    '''block_title : TITLE param LBRACKETS content RBRACKETS block'''
+    titleBlock = AST.TitleBlock(p[4])
+    titleBlock.params += [p[2]]
+    p[0] = AST.GenericBlock([titleBlock] + [p[6]])
+
+def p_param(p):
+    '''param : param_bg'''
+    p[0] = AST.ParamBlock(p[1])
+
+def p_param_rec(p):
+    '''param : param_bg param'''
+    p[0] = AST.ParamBlock([p[1]] + p[2].children)
 
 
-# def p_param_bg(p):
-#     '''param_bg : BG COLOR_TOK
-#                 | BG COLOR_HEX'''
-#     p[0] = AST.ParamBlock([p[1]] + p[3].children)
+def p_param_bg(p):
+    '''param_bg : BG COLOR_HEX'''
+    p[0] = AST.ParamBGBlock(AST.StringBlock(p[2]))
 
 
 # def p_param_font(p):

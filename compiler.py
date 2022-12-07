@@ -76,7 +76,15 @@ def compile(self):
 
 @addToClass(AST.TitleBlock)
 def compile(self):
-    return "<h1>" + self.children[0].compile() + "</h1>"
+    html = "<h1 "
+    
+    for p in self.params:
+        html += p.compile()
+
+    html += ">"
+    html += self.children[0].compile() + "</h1>"
+
+    return html
 
 @addToClass(AST.ListBlock)
 def compile(self):
@@ -95,6 +103,20 @@ def compile(self):
 def compile(self):
     html = r"" + str(self)[2:-3].replace('\\\\', '\\') # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
     return html
+
+@addToClass(AST.ParamBlock)
+def compile(self):
+    html = "style=\""
+
+    for c in self.children:
+        html += c.compile()
+
+    html += "\""
+    return html
+
+@addToClass(AST.ParamBGBlock)
+def compile(self):
+    return "background-color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
 
 if __name__ == "__main__":
     from banger_parser import parse

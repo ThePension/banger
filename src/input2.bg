@@ -1,4 +1,4 @@
-title { "Exemple de titre" }
+title bg #FF0000 { "Exemple de titre" }
 
 code { "int i = 0;" }
 
@@ -7,5 +7,10 @@ list {
     * "Element 2"
     * "Element 3"
     * "$\sqrt2=x^2 \Rightarrow x=\sqrt{\sqrt{2}}$"
+}
+
+title 
+{
+    "$\frac{x^2}{x - 1}$"
 }
 

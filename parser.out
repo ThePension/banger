@@ -3,10 +3,7 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     ASSIGNATION
-    BG
-    BULLETPOINT
     CENTER
-    COLOR_HEX
     COLOR_TOK
     EOL
     ERROR
@@ -24,49 +21,60 @@ Rule 1     document -> block
 Rule 2     block -> block_code
 Rule 3     block -> block_title
 Rule 4     block -> block_list
-Rule 5     block_code -> CODE LBRACKETS STRING RBRACKETS
-Rule 6     block_code -> CODE LBRACKETS STRING RBRACKETS block
-Rule 7     block_list -> LIST LBRACKETS list_elements RBRACKETS
-Rule 8     block_list -> LIST LBRACKETS list_elements RBRACKETS block
-Rule 9     list_elements -> list_element
-Rule 10    list_elements -> list_element list_elements
-Rule 11    list_element -> STRING
-Rule 12    block_title -> TITLE LBRACKETS STRING RBRACKETS
-Rule 13    block_title -> TITLE LBRACKETS STRING RBRACKETS block
+Rule 5     block -> block_code param
+Rule 6     block -> block_title param
+Rule 7     block -> block_list param
+Rule 8     block_code -> CODE LBRACKETS content RBRACKETS
+Rule 9     block_code -> CODE LBRACKETS content RBRACKETS block
+Rule 10    block_list -> LIST LBRACKETS list_elements RBRACKETS
+Rule 11    block_list -> LIST LBRACKETS list_elements RBRACKETS block
+Rule 12    list_elements -> list_element
+Rule 13    list_elements -> list_element list_elements
+Rule 14    list_element -> BULLETPOINT content
+Rule 15    block_title -> TITLE LBRACKETS content RBRACKETS
+Rule 16    block_title -> TITLE LBRACKETS content RBRACKETS block
+Rule 17    param -> param_bg
+Rule 18    param -> param_bg param
+Rule 19    param_bg -> BG content
+Rule 20    param_bg -> BG COLOR_HEX
+Rule 21    content -> STRING
 
 Terminals, with rules where they appear
 
 ASSIGNATION          : 
-BG                   : 
-BULLETPOINT          : 
+BG                   : 19 20
+BULLETPOINT          : 14
 CENTER               : 
-CODE                 : 5 6
-COLOR_HEX            : 
+CODE                 : 8 9
+COLOR_HEX            : 20
 COLOR_TOK            : 
 EOL                  : 
 ERROR                : 
 IDENTIFIER           : 
 IGNORE               : 
-LBRACKETS            : 5 6 7 8 12 13
-LIST                 : 7 8
+LBRACKETS            : 8 9 10 11 15 16
+LIST                 : 10 11
 NEWLINE              : 
 NUMBER               : 
-RBRACKETS            : 5 6 7 8 12 13
-STRING               : 5 6 11 12 13
+RBRACKETS            : 8 9 10 11 15 16
+STRING               : 21
 SUBPAGE              : 
-TITLE                : 12 13
+TITLE                : 15 16
 TOC                  : 
 error                : 
 
 Nonterminals, with rules where they appear
 
-block                : 1 6 8 13
-block_code           : 2
-block_list           : 4
-block_title          : 3
+block                : 1 9 11 16
+block_code           : 2 5
+block_list           : 4 7
+block_title          : 3 6
+content              : 8 9 14 15 16 19
 document             : 0
-list_element         : 9 10
-list_elements        : 7 8 10
+list_element         : 12 13
+list_elements        : 10 11 13
+param                : 5 6 7 18
+param_bg             : 17 18
 
 Parsing method: LALR
 
@@ -77,12 +85,15 @@ state 0
     (2) block -> . block_code
     (3) block -> . block_title
     (4) block -> . block_list
-    (5) block_code -> . CODE LBRACKETS STRING RBRACKETS
-    (6) block_code -> . CODE LBRACKETS STRING RBRACKETS block
-    (12) block_title -> . TITLE LBRACKETS STRING RBRACKETS
-    (13) block_title -> . TITLE LBRACKETS STRING RBRACKETS block
-    (7) block_list -> . LIST LBRACKETS list_elements RBRACKETS
-    (8) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+    (5) block -> . block_code param
+    (6) block -> . block_title param
+    (7) block -> . block_list param
+    (8) block_code -> . CODE LBRACKETS content RBRACKETS
+    (9) block_code -> . CODE LBRACKETS content RBRACKETS block
+    (15) block_title -> . TITLE LBRACKETS content RBRACKETS
+    (16) block_title -> . TITLE LBRACKETS content RBRACKETS block
+    (10) block_list -> . LIST LBRACKETS list_elements RBRACKETS
+    (11) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
 
     CODE            shift and go to state 6
     TITLE           shift and go to state 7
@@ -110,219 +121,374 @@ state 2
 state 3
 
     (2) block -> block_code .
+    (5) block -> block_code . param
+    (17) param -> . param_bg
+    (18) param -> . param_bg param
+    (19) param_bg -> . BG content
+    (20) param_bg -> . BG COLOR_HEX
 
+  ! shift/reduce conflict for BG resolved as shift
     $end            reduce using rule 2 (block -> block_code .)
+    BG              shift and go to state 11
 
+  ! BG              [ reduce using rule 2 (block -> block_code .) ]
+
+    param                          shift and go to state 9
+    param_bg                       shift and go to state 10
 
 state 4
 
     (3) block -> block_title .
+    (6) block -> block_title . param
+    (17) param -> . param_bg
+    (18) param -> . param_bg param
+    (19) param_bg -> . BG content
+    (20) param_bg -> . BG COLOR_HEX
 
+  ! shift/reduce conflict for BG resolved as shift
     $end            reduce using rule 3 (block -> block_title .)
+    BG              shift and go to state 11
 
+  ! BG              [ reduce using rule 3 (block -> block_title .) ]
+
+    param                          shift and go to state 12
+    param_bg                       shift and go to state 10
 
 state 5
 
     (4) block -> block_list .
+    (7) block -> block_list . param
+    (17) param -> . param_bg
+    (18) param -> . param_bg param
+    (19) param_bg -> . BG content
+    (20) param_bg -> . BG COLOR_HEX
 
+  ! shift/reduce conflict for BG resolved as shift
     $end            reduce using rule 4 (block -> block_list .)
+    BG              shift and go to state 11
 
+  ! BG              [ reduce using rule 4 (block -> block_list .) ]
+
+    param                          shift and go to state 13
+    param_bg                       shift and go to state 10
 
 state 6
 
-    (5) block_code -> CODE . LBRACKETS STRING RBRACKETS
-    (6) block_code -> CODE . LBRACKETS STRING RBRACKETS block
+    (8) block_code -> CODE . LBRACKETS content RBRACKETS
+    (9) block_code -> CODE . LBRACKETS content RBRACKETS block
 
-    LBRACKETS       shift and go to state 9
+    LBRACKETS       shift and go to state 14
 
 
 state 7
 
-    (12) block_title -> TITLE . LBRACKETS STRING RBRACKETS
-    (13) block_title -> TITLE . LBRACKETS STRING RBRACKETS block
+    (15) block_title -> TITLE . LBRACKETS content RBRACKETS
+    (16) block_title -> TITLE . LBRACKETS content RBRACKETS block
 
-    LBRACKETS       shift and go to state 10
+    LBRACKETS       shift and go to state 15
 
 
 state 8
 
-    (7) block_list -> LIST . LBRACKETS list_elements RBRACKETS
-    (8) block_list -> LIST . LBRACKETS list_elements RBRACKETS block
+    (10) block_list -> LIST . LBRACKETS list_elements RBRACKETS
+    (11) block_list -> LIST . LBRACKETS list_elements RBRACKETS block
 
-    LBRACKETS       shift and go to state 11
+    LBRACKETS       shift and go to state 16
 
 
 state 9
 
-    (5) block_code -> CODE LBRACKETS . STRING RBRACKETS
-    (6) block_code -> CODE LBRACKETS . STRING RBRACKETS block
+    (5) block -> block_code param .
 
-    STRING          shift and go to state 12
+    $end            reduce using rule 5 (block -> block_code param .)
+    BG              reduce using rule 5 (block -> block_code param .)
 
 
 state 10
 
-    (12) block_title -> TITLE LBRACKETS . STRING RBRACKETS
-    (13) block_title -> TITLE LBRACKETS . STRING RBRACKETS block
+    (17) param -> param_bg .
+    (18) param -> param_bg . param
+    (17) param -> . param_bg
+    (18) param -> . param_bg param
+    (19) param_bg -> . BG content
+    (20) param_bg -> . BG COLOR_HEX
 
-    STRING          shift and go to state 13
+  ! shift/reduce conflict for BG resolved as shift
+    $end            reduce using rule 17 (param -> param_bg .)
+    BG              shift and go to state 11
 
+  ! BG              [ reduce using rule 17 (param -> param_bg .) ]
+
+    param_bg                       shift and go to state 10
+    param                          shift and go to state 17
 
 state 11
 
-    (7) block_list -> LIST LBRACKETS . list_elements RBRACKETS
-    (8) block_list -> LIST LBRACKETS . list_elements RBRACKETS block
-    (9) list_elements -> . list_element
-    (10) list_elements -> . list_element list_elements
-    (11) list_element -> . STRING
+    (19) param_bg -> BG . content
+    (20) param_bg -> BG . COLOR_HEX
+    (21) content -> . STRING
 
-    STRING          shift and go to state 16
+    COLOR_HEX       shift and go to state 19
+    STRING          shift and go to state 20
 
-    list_elements                  shift and go to state 14
-    list_element                   shift and go to state 15
+    content                        shift and go to state 18
 
 state 12
 
-    (5) block_code -> CODE LBRACKETS STRING . RBRACKETS
-    (6) block_code -> CODE LBRACKETS STRING . RBRACKETS block
+    (6) block -> block_title param .
 
-    RBRACKETS       shift and go to state 17
+    $end            reduce using rule 6 (block -> block_title param .)
+    BG              reduce using rule 6 (block -> block_title param .)
 
 
 state 13
 
-    (12) block_title -> TITLE LBRACKETS STRING . RBRACKETS
-    (13) block_title -> TITLE LBRACKETS STRING . RBRACKETS block
+    (7) block -> block_list param .
 
-    RBRACKETS       shift and go to state 18
+    $end            reduce using rule 7 (block -> block_list param .)
+    BG              reduce using rule 7 (block -> block_list param .)
 
 
 state 14
 
-    (7) block_list -> LIST LBRACKETS list_elements . RBRACKETS
-    (8) block_list -> LIST LBRACKETS list_elements . RBRACKETS block
+    (8) block_code -> CODE LBRACKETS . content RBRACKETS
+    (9) block_code -> CODE LBRACKETS . content RBRACKETS block
+    (21) content -> . STRING
 
-    RBRACKETS       shift and go to state 19
+    STRING          shift and go to state 20
 
+    content                        shift and go to state 21
 
 state 15
 
-    (9) list_elements -> list_element .
-    (10) list_elements -> list_element . list_elements
-    (9) list_elements -> . list_element
-    (10) list_elements -> . list_element list_elements
-    (11) list_element -> . STRING
+    (15) block_title -> TITLE LBRACKETS . content RBRACKETS
+    (16) block_title -> TITLE LBRACKETS . content RBRACKETS block
+    (21) content -> . STRING
 
-    RBRACKETS       reduce using rule 9 (list_elements -> list_element .)
-    STRING          shift and go to state 16
+    STRING          shift and go to state 20
 
-    list_element                   shift and go to state 15
-    list_elements                  shift and go to state 20
+    content                        shift and go to state 22
 
 state 16
 
-    (11) list_element -> STRING .
+    (10) block_list -> LIST LBRACKETS . list_elements RBRACKETS
+    (11) block_list -> LIST LBRACKETS . list_elements RBRACKETS block
+    (12) list_elements -> . list_element
+    (13) list_elements -> . list_element list_elements
+    (14) list_element -> . BULLETPOINT content
 
-    STRING          reduce using rule 11 (list_element -> STRING .)
-    RBRACKETS       reduce using rule 11 (list_element -> STRING .)
+    BULLETPOINT     shift and go to state 25
 
+    list_elements                  shift and go to state 23
+    list_element                   shift and go to state 24
 
 state 17
 
-    (5) block_code -> CODE LBRACKETS STRING RBRACKETS .
-    (6) block_code -> CODE LBRACKETS STRING RBRACKETS . block
-    (2) block -> . block_code
-    (3) block -> . block_title
-    (4) block -> . block_list
-    (5) block_code -> . CODE LBRACKETS STRING RBRACKETS
-    (6) block_code -> . CODE LBRACKETS STRING RBRACKETS block
-    (12) block_title -> . TITLE LBRACKETS STRING RBRACKETS
-    (13) block_title -> . TITLE LBRACKETS STRING RBRACKETS block
-    (7) block_list -> . LIST LBRACKETS list_elements RBRACKETS
-    (8) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+    (18) param -> param_bg param .
 
-    $end            reduce using rule 5 (block_code -> CODE LBRACKETS STRING RBRACKETS .)
-    CODE            shift and go to state 6
-    TITLE           shift and go to state 7
-    LIST            shift and go to state 8
+    $end            reduce using rule 18 (param -> param_bg param .)
+    BG              reduce using rule 18 (param -> param_bg param .)
 
-    block                          shift and go to state 21
-    block_code                     shift and go to state 3
-    block_title                    shift and go to state 4
-    block_list                     shift and go to state 5
 
 state 18
 
-    (12) block_title -> TITLE LBRACKETS STRING RBRACKETS .
-    (13) block_title -> TITLE LBRACKETS STRING RBRACKETS . block
-    (2) block -> . block_code
-    (3) block -> . block_title
-    (4) block -> . block_list
-    (5) block_code -> . CODE LBRACKETS STRING RBRACKETS
-    (6) block_code -> . CODE LBRACKETS STRING RBRACKETS block
-    (12) block_title -> . TITLE LBRACKETS STRING RBRACKETS
-    (13) block_title -> . TITLE LBRACKETS STRING RBRACKETS block
-    (7) block_list -> . LIST LBRACKETS list_elements RBRACKETS
-    (8) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+    (19) param_bg -> BG content .
 
-    $end            reduce using rule 12 (block_title -> TITLE LBRACKETS STRING RBRACKETS .)
-    CODE            shift and go to state 6
-    TITLE           shift and go to state 7
-    LIST            shift and go to state 8
+    BG              reduce using rule 19 (param_bg -> BG content .)
+    $end            reduce using rule 19 (param_bg -> BG content .)
 
-    block                          shift and go to state 22
-    block_code                     shift and go to state 3
-    block_title                    shift and go to state 4
-    block_list                     shift and go to state 5
 
 state 19
 
-    (7) block_list -> LIST LBRACKETS list_elements RBRACKETS .
-    (8) block_list -> LIST LBRACKETS list_elements RBRACKETS . block
-    (2) block -> . block_code
-    (3) block -> . block_title
-    (4) block -> . block_list
-    (5) block_code -> . CODE LBRACKETS STRING RBRACKETS
-    (6) block_code -> . CODE LBRACKETS STRING RBRACKETS block
-    (12) block_title -> . TITLE LBRACKETS STRING RBRACKETS
-    (13) block_title -> . TITLE LBRACKETS STRING RBRACKETS block
-    (7) block_list -> . LIST LBRACKETS list_elements RBRACKETS
-    (8) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+    (20) param_bg -> BG COLOR_HEX .
 
-    $end            reduce using rule 7 (block_list -> LIST LBRACKETS list_elements RBRACKETS .)
-    CODE            shift and go to state 6
-    TITLE           shift and go to state 7
-    LIST            shift and go to state 8
+    BG              reduce using rule 20 (param_bg -> BG COLOR_HEX .)
+    $end            reduce using rule 20 (param_bg -> BG COLOR_HEX .)
 
-    block                          shift and go to state 23
-    block_code                     shift and go to state 3
-    block_title                    shift and go to state 4
-    block_list                     shift and go to state 5
 
 state 20
 
-    (10) list_elements -> list_element list_elements .
+    (21) content -> STRING .
 
-    RBRACKETS       reduce using rule 10 (list_elements -> list_element list_elements .)
+    BG              reduce using rule 21 (content -> STRING .)
+    $end            reduce using rule 21 (content -> STRING .)
+    RBRACKETS       reduce using rule 21 (content -> STRING .)
+    BULLETPOINT     reduce using rule 21 (content -> STRING .)
 
 
 state 21
 
-    (6) block_code -> CODE LBRACKETS STRING RBRACKETS block .
+    (8) block_code -> CODE LBRACKETS content . RBRACKETS
+    (9) block_code -> CODE LBRACKETS content . RBRACKETS block
 
-    $end            reduce using rule 6 (block_code -> CODE LBRACKETS STRING RBRACKETS block .)
+    RBRACKETS       shift and go to state 26
 
 
 state 22
 
-    (13) block_title -> TITLE LBRACKETS STRING RBRACKETS block .
+    (15) block_title -> TITLE LBRACKETS content . RBRACKETS
+    (16) block_title -> TITLE LBRACKETS content . RBRACKETS block
 
-    $end            reduce using rule 13 (block_title -> TITLE LBRACKETS STRING RBRACKETS block .)
+    RBRACKETS       shift and go to state 27
 
 
 state 23
 
-    (8) block_list -> LIST LBRACKETS list_elements RBRACKETS block .
+    (10) block_list -> LIST LBRACKETS list_elements . RBRACKETS
+    (11) block_list -> LIST LBRACKETS list_elements . RBRACKETS block
 
-    $end            reduce using rule 8 (block_list -> LIST LBRACKETS list_elements RBRACKETS block .)
+    RBRACKETS       shift and go to state 28
 
+
+state 24
+
+    (12) list_elements -> list_element .
+    (13) list_elements -> list_element . list_elements
+    (12) list_elements -> . list_element
+    (13) list_elements -> . list_element list_elements
+    (14) list_element -> . BULLETPOINT content
+
+    RBRACKETS       reduce using rule 12 (list_elements -> list_element .)
+    BULLETPOINT     shift and go to state 25
+
+    list_element                   shift and go to state 24
+    list_elements                  shift and go to state 29
+
+state 25
+
+    (14) list_element -> BULLETPOINT . content
+    (21) content -> . STRING
+
+    STRING          shift and go to state 20
+
+    content                        shift and go to state 30
+
+state 26
+
+    (8) block_code -> CODE LBRACKETS content RBRACKETS .
+    (9) block_code -> CODE LBRACKETS content RBRACKETS . block
+    (2) block -> . block_code
+    (3) block -> . block_title
+    (4) block -> . block_list
+    (5) block -> . block_code param
+    (6) block -> . block_title param
+    (7) block -> . block_list param
+    (8) block_code -> . CODE LBRACKETS content RBRACKETS
+    (9) block_code -> . CODE LBRACKETS content RBRACKETS block
+    (15) block_title -> . TITLE LBRACKETS content RBRACKETS
+    (16) block_title -> . TITLE LBRACKETS content RBRACKETS block
+    (10) block_list -> . LIST LBRACKETS list_elements RBRACKETS
+    (11) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+
+    BG              reduce using rule 8 (block_code -> CODE LBRACKETS content RBRACKETS .)
+    $end            reduce using rule 8 (block_code -> CODE LBRACKETS content RBRACKETS .)
+    CODE            shift and go to state 6
+    TITLE           shift and go to state 7
+    LIST            shift and go to state 8
+
+    block                          shift and go to state 31
+    block_code                     shift and go to state 3
+    block_title                    shift and go to state 4
+    block_list                     shift and go to state 5
+
+state 27
+
+    (15) block_title -> TITLE LBRACKETS content RBRACKETS .
+    (16) block_title -> TITLE LBRACKETS content RBRACKETS . block
+    (2) block -> . block_code
+    (3) block -> . block_title
+    (4) block -> . block_list
+    (5) block -> . block_code param
+    (6) block -> . block_title param
+    (7) block -> . block_list param
+    (8) block_code -> . CODE LBRACKETS content RBRACKETS
+    (9) block_code -> . CODE LBRACKETS content RBRACKETS block
+    (15) block_title -> . TITLE LBRACKETS content RBRACKETS
+    (16) block_title -> . TITLE LBRACKETS content RBRACKETS block
+    (10) block_list -> . LIST LBRACKETS list_elements RBRACKETS
+    (11) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+
+    BG              reduce using rule 15 (block_title -> TITLE LBRACKETS content RBRACKETS .)
+    $end            reduce using rule 15 (block_title -> TITLE LBRACKETS content RBRACKETS .)
+    CODE            shift and go to state 6
+    TITLE           shift and go to state 7
+    LIST            shift and go to state 8
+
+    block                          shift and go to state 32
+    block_code                     shift and go to state 3
+    block_title                    shift and go to state 4
+    block_list                     shift and go to state 5
+
+state 28
+
+    (10) block_list -> LIST LBRACKETS list_elements RBRACKETS .
+    (11) block_list -> LIST LBRACKETS list_elements RBRACKETS . block
+    (2) block -> . block_code
+    (3) block -> . block_title
+    (4) block -> . block_list
+    (5) block -> . block_code param
+    (6) block -> . block_title param
+    (7) block -> . block_list param
+    (8) block_code -> . CODE LBRACKETS content RBRACKETS
+    (9) block_code -> . CODE LBRACKETS content RBRACKETS block
+    (15) block_title -> . TITLE LBRACKETS content RBRACKETS
+    (16) block_title -> . TITLE LBRACKETS content RBRACKETS block
+    (10) block_list -> . LIST LBRACKETS list_elements RBRACKETS
+    (11) block_list -> . LIST LBRACKETS list_elements RBRACKETS block
+
+    BG              reduce using rule 10 (block_list -> LIST LBRACKETS list_elements RBRACKETS .)
+    $end            reduce using rule 10 (block_list -> LIST LBRACKETS list_elements RBRACKETS .)
+    CODE            shift and go to state 6
+    TITLE           shift and go to state 7
+    LIST            shift and go to state 8
+
+    block                          shift and go to state 33
+    block_code                     shift and go to state 3
+    block_title                    shift and go to state 4
+    block_list                     shift and go to state 5
+
+state 29
+
+    (13) list_elements -> list_element list_elements .
+
+    RBRACKETS       reduce using rule 13 (list_elements -> list_element list_elements .)
+
+
+state 30
+
+    (14) list_element -> BULLETPOINT content .
+
+    BULLETPOINT     reduce using rule 14 (list_element -> BULLETPOINT content .)
+    RBRACKETS       reduce using rule 14 (list_element -> BULLETPOINT content .)
+
+
+state 31
+
+    (9) block_code -> CODE LBRACKETS content RBRACKETS block .
+
+    BG              reduce using rule 9 (block_code -> CODE LBRACKETS content RBRACKETS block .)
+    $end            reduce using rule 9 (block_code -> CODE LBRACKETS content RBRACKETS block .)
+
+
+state 32
+
+    (16) block_title -> TITLE LBRACKETS content RBRACKETS block .
+
+    BG              reduce using rule 16 (block_title -> TITLE LBRACKETS content RBRACKETS block .)
+    $end            reduce using rule 16 (block_title -> TITLE LBRACKETS content RBRACKETS block .)
+
+
+state 33
+
+    (11) block_list -> LIST LBRACKETS list_elements RBRACKETS block .
+
+    BG              reduce using rule 11 (block_list -> LIST LBRACKETS list_elements RBRACKETS block .)
+    $end            reduce using rule 11 (block_list -> LIST LBRACKETS list_elements RBRACKETS block .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for BG in state 3 resolved as shift
+WARNING: shift/reduce conflict for BG in state 4 resolved as shift
+WARNING: shift/reduce conflict for BG in state 5 resolved as shift
+WARNING: shift/reduce conflict for BG in state 10 resolved as shift
