@@ -157,9 +157,17 @@ def compile(self):
 def compile(self):
     return "color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
 
-@addToClass(AST.ParamCenteredBlock)
+@addToClass(AST.ParamAlignCenterBlock)
 def compile(self):
     return "text-align: center;" # "margin: 0 auto; text-align: center;"
+
+@addToClass(AST.ParamAlignRightBlock)
+def compile(self):
+    return "text-align: right;"
+
+@addToClass(AST.ParamAlignLeftBlock)
+def compile(self):
+    return "text-align: left;"
 
 
 if __name__ == "__main__":

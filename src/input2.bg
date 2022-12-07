@@ -1,4 +1,4 @@
-title center color #FFFFFF bg #FF0000 { "Exemple de titre" }
+title right color #FFFFFF bg #FF0000 { "Exemple de titre" }
 
 code center {
     "int i = 0;"
@@ -31,7 +31,7 @@ list color #0000FF bg #00FF00 {
     * "$\sqrt2=x^2 \Rightarrow x=\sqrt{\sqrt{2}}$"
 }
 
-image center {
+image center bg #0F0FFF {
     "image.png"
 }
 

@@ -6,6 +6,8 @@ reserved_words = (
     "bg",
     # "code",
     "center",
+    "right",
+    "left",
     # "list",
     # "subpage",
     # "title",
@@ -39,6 +41,8 @@ t_BG = r"\bbg\b"
 t_COLOR = r"\bcolor\b"
 t_COLOR_HEX = r"[\#]{1}([0-9a-fA-F]{3}){1,2}"
 t_CENTER = r"\bcenter\b"
+t_RIGHT = r"\bright\b"
+t_LEFT = r"\bleft\b"
 # t_SUBPAGE = r"\bsubpage\b"
 t_TOC = r"\btoc\b"
 t_BULLETPOINT = r"\*[ ]"

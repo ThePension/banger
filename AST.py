@@ -89,34 +89,26 @@ class Block:
             graph.add_edge(edge)
         return graph
 
-
 class Document(Block):
     type = "document"
-
 
 class GenericBlock(Block):
     type = 'block'
 
-
 class CodeBlock(Block):
     type = "code"
-
 
 class ListBlock(Block):
     type = "list"
 
-
 class TitleBlock(Block):
     type = "title"
-
 
 class ListBlock(Block):
     type = "list_block"
 
-
 class ListElement(Block):
     type = "list_element"
-
 
 class ParamBlock(Block):
     type = "param"
@@ -124,8 +116,14 @@ class ParamBlock(Block):
 class ImageBlock(Block):
     type = "image"
 
-class ParamCenteredBlock(ParamBlock):
-    type = "param_centered_block"
+class ParamAlignCenterBlock(ParamBlock):
+    type = "param_align_center_block"
+
+class ParamAlignRightBlock(ParamBlock):
+    type = "param_align_right_block"
+
+class ParamAlignLeftBlock(ParamBlock):
+    type = "param_align_left_block"
 
 class ParamBGBlock(ParamBlock):
     type = "param_bg"
@@ -137,7 +135,6 @@ class ParamBGBlock(ParamBlock):
     def __repr__(self):
         return repr(self.tok)
 
-
 class ParamFontBlock(ParamBlock):
     type = "param_font"
 
@@ -147,7 +144,6 @@ class ParamFontBlock(ParamBlock):
 
     def __repr__(self):
         return repr(self.tok)
-
 
 class StringBlock(Block):
     type = "string"

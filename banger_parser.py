@@ -87,11 +87,17 @@ def p_param_font(p):
     '''param_font : COLOR COLOR_HEX'''
     p[0] = AST.ParamFontBlock(AST.StringBlock(p[2]))
 
-def p_param_align(p):
+def p_param_align_center(p):
     '''param_align : CENTER'''
-                #    | RIGHT
-                #    | LEFT'''
-    p[0] = AST.ParamCenteredBlock()
+    p[0] = AST.ParamAlignCenterBlock()
+
+def p_param_align_right(p):
+    '''param_align : RIGHT'''
+    p[0] = AST.ParamAlignRightBlock()
+
+def p_param_align_left(p):
+    '''param_align : LEFT'''
+    p[0] = AST.ParamAlignLeftBlock()
 
 def p_content(p):
     '''content_string : STRING'''
