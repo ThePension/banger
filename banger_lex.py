@@ -11,6 +11,7 @@ reserved_words = (
     "title",
     "toc",  # Table Of Contents
     "bulletpoint",
+    "image",
 )
 
 tokens = (
@@ -42,7 +43,9 @@ t_LIST = r"\blist\b"
 t_SUBPAGE = r"\bsubpage\b"
 t_TITLE = r"\btitle\b"
 t_TOC = r"\btoc\b"
+t_IMAGE = r"\bimage\b"
 t_BULLETPOINT = r"\*[ ]"
+
 
 t_ignore = r"[ ]"
 # t_LPAREN = r'\('

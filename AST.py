@@ -89,29 +89,42 @@ class Block:
             graph.add_edge(edge)
         return graph
 
+
 class Document(Block):
     type = "document"
+
 
 class GenericBlock(Block):
     type = 'block'
 
+
 class CodeBlock(Block):
     type = "code"
+
 
 class ListBlock(Block):
     type = "list"
 
+
 class TitleBlock(Block):
     type = "title"
+
 
 class ListBlock(Block):
     type = "list_block"
 
+
 class ListElement(Block):
     type = "list_element"
 
+
 class ParamBlock(Block):
     type = "param"
+
+
+class ImageBlock(Block):
+    type = "image"
+
 
 class ParamBGBlock(ParamBlock):
     type = "param_bg"
@@ -144,6 +157,7 @@ class StringBlock(Block):
 
     def __repr__(self):
         return repr(self.tok)
+
 
 # class OpBlock(Block):
 #     def __init__(self, op, children):

@@ -15,7 +15,11 @@ list {
     * "$\sqrt2=x^2 \Rightarrow x=\sqrt{\sqrt{2}}$"
 }
 
-title 
+image {
+    "image.png"
+}
+
+title
 {
     "$\frac{x^2}{x - 1}$"
 }

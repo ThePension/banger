@@ -61,6 +61,7 @@ def compile(self):
 
     return html
 
+
 @addToClass(AST.GenericBlock)
 def compile(self):
     html = ""
@@ -70,14 +71,16 @@ def compile(self):
 
     return html
 
+
 @addToClass(AST.CodeBlock)
 def compile(self):
     return "<pre><code>" + self.children[0].compile() + "</code></pre>"
 
+
 @addToClass(AST.TitleBlock)
 def compile(self):
     html = "<h1 "
-    
+
     for p in self.params:
         html += p.compile()
 
@@ -85,6 +88,7 @@ def compile(self):
     html += self.children[0].compile() + "</h1>"
 
     return html
+
 
 @addToClass(AST.ListBlock)
 def compile(self):
@@ -95,14 +99,25 @@ def compile(self):
 
     return html
 
+
 @addToClass(AST.ListElement)
 def compile(self):
     return "<li class='list-group-item'>" + self.children[0].compile() + "</li>"
 
+
+@addToClass(AST.ImageBlock)
+def compile(self):
+    html = ""
+    html += "<img src=" + self.children[0].compile() + " >"
+    return html
+
+
 @addToClass(AST.StringBlock)
 def compile(self):
-    html = r"" + str(self)[2:-3].replace('\\\\', '\\') # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
+    # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
+    html = r"" + str(self)[2:-3].replace('\\\\', '\\')
     return html
+
 
 @addToClass(AST.ParamBlock)
 def compile(self):
@@ -113,6 +128,7 @@ def compile(self):
 
     html += "\""
     return html
+
 
 @addToClass(AST.ParamBGBlock)
 def compile(self):
