@@ -17,6 +17,13 @@ def p_block(p):
     p[0] = AST.GenericBlock(p[1])
 
 
+def p_block_rec(p):
+    '''block : block_code block
+             | block_title block
+             | block_list block'''
+    p[0] = AST.GenericBlock([p[1]] + p[2].children)
+
+
 def p_block_code(p):
     '''block_code : CODE LBRACKETS content RBRACKETS'''
     p[0] = AST.CodeBlock(p[3])
@@ -35,6 +42,13 @@ def p_block_list(p):
 def p_block_list_rec(p):
     '''block_list : LIST LBRACKETS list_elements RBRACKETS block'''
     p[0] = AST.GenericBlock([AST.ListBlock(p[3].children)] + p[5].children)
+
+
+def p_block_list_with_param(p):
+    '''block_list : LIST param LBRACKETS list_elements RBRACKETS'''
+    listBlock = AST.ListBlock(p[4].children)
+    listBlock.params += [p[2]]
+    p[0] = listBlock
 
 
 def p_list_elements(p):
@@ -71,9 +85,10 @@ def p_block_title_with_param(p):
 
 def p_block_title_with_param_rec(p):
     '''block_title : TITLE param LBRACKETS content RBRACKETS block'''
-    titleBlock = AST.TitleBlock(p[4])
-    titleBlock.params += [p[2]]
-    p[0] = AST.GenericBlock([titleBlock] + [p[6]])
+
+
+def p_block_title_with_param(p):
+    '''block_title : TITLE param LBRACKETS content RBRACKETS'''
 
 
 def p_block_image(p):
