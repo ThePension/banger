@@ -118,6 +118,12 @@ def compile(self):
 def compile(self):
     return "background-color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
 
+
+@addToClass(AST.ParamFontBlock)
+def compile(self):
+    return "color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
+
+
 if __name__ == "__main__":
     from banger_parser import parse
     import sys

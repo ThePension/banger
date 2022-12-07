@@ -124,6 +124,17 @@ class ParamBGBlock(ParamBlock):
         return repr(self.tok)
 
 
+class ParamFontBlock(ParamBlock):
+    type = "param_font"
+
+    def __init__(self, tok):
+        Block.__init__(self)
+        self.tok = tok
+
+    def __repr__(self):
+        return repr(self.tok)
+
+
 class StringBlock(Block):
     type = "string"
 

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR_HEX COLOR_TOK EOL ERROR IDENTIFIER IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock : block_code param\n             | block_title param\n             | block_list paramblock_code : CODE LBRACKETS content RBRACKETSblock_code : CODE LBRACKETS content RBRACKETS blockblock_list : LIST LBRACKETS list_elements RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETS blocklist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE LBRACKETS content RBRACKETS blockparam : param_bgparam : param_bg paramparam_bg : BG content\n                | BG COLOR_HEXcontent : STRING'
+_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR_HEX COLOR_TOK EOL ERROR IDENTIFIER IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock_code : CODE LBRACKETS content RBRACKETSblock_code : CODE LBRACKETS content RBRACKETS blockblock_list : LIST LBRACKETS list_elements RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETS blocklist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE LBRACKETS content RBRACKETS blockblock_title : TITLE param LBRACKETS content RBRACKETSblock_title : TITLE param LBRACKETS content RBRACKETS blockparam : param_bgparam : param_bg paramparam_bg : BG COLOR_HEXcontent : STRING'
     
-_lr_action_items = {'CODE':([0,26,27,28,],[6,6,6,6,]),'TITLE':([0,26,27,28,],[7,7,7,7,]),'LIST':([0,26,27,28,],[8,8,8,8,]),'$end':([1,2,3,4,5,9,10,12,13,17,18,19,20,26,27,28,31,32,33,],[0,-1,-2,-3,-4,-5,-17,-6,-7,-18,-19,-20,-21,-8,-15,-10,-9,-16,-11,]),'BG':([3,4,5,9,10,12,13,17,18,19,20,26,27,28,31,32,33,],[11,11,11,-5,11,-6,-7,-18,-19,-20,-21,-8,-15,-10,-9,-16,-11,]),'LBRACKETS':([6,7,8,],[14,15,16,]),'COLOR_HEX':([11,],[19,]),'STRING':([11,14,15,25,],[20,20,20,20,]),'BULLETPOINT':([16,20,24,30,],[25,-21,25,-14,]),'RBRACKETS':([20,21,22,23,24,29,30,],[-21,26,27,28,-12,-13,-14,]),}
+_lr_action_items = {'CODE':([0,24,25,27,32,],[6,6,6,6,6,]),'TITLE':([0,24,25,27,32,],[7,7,7,7,7,]),'LIST':([0,24,25,27,32,],[8,8,8,8,8,]),'$end':([1,2,3,4,5,24,25,27,30,31,32,33,34,],[0,-1,-2,-3,-4,-5,-12,-7,-6,-13,-14,-8,-15,]),'LBRACKETS':([6,7,8,11,12,19,20,],[9,10,14,18,-16,-17,-18,]),'BG':([7,12,20,],[13,13,-18,]),'STRING':([9,10,18,23,],[16,16,16,16,]),'COLOR_HEX':([13,],[20,]),'BULLETPOINT':([14,16,22,29,],[23,-19,23,-11,]),'RBRACKETS':([15,16,17,21,22,26,28,29,],[24,-19,25,27,-9,32,-10,-11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'document':([0,],[1,]),'block':([0,26,27,28,],[2,31,32,33,]),'block_code':([0,26,27,28,],[3,3,3,3,]),'block_title':([0,26,27,28,],[4,4,4,4,]),'block_list':([0,26,27,28,],[5,5,5,5,]),'param':([3,4,5,10,],[9,12,13,17,]),'param_bg':([3,4,5,10,],[10,10,10,10,]),'content':([11,14,15,25,],[18,21,22,30,]),'list_elements':([16,24,],[23,29,]),'list_element':([16,24,],[24,24,]),}
+_lr_goto_items = {'document':([0,],[1,]),'block':([0,24,25,27,32,],[2,30,31,33,34,]),'block_code':([0,24,25,27,32,],[3,3,3,3,3,]),'block_title':([0,24,25,27,32,],[4,4,4,4,4,]),'block_list':([0,24,25,27,32,],[5,5,5,5,5,]),'param':([7,12,],[11,19,]),'param_bg':([7,12,],[12,12,]),'content':([9,10,18,23,],[15,17,26,29,]),'list_elements':([14,22,],[21,28,]),'list_element':([14,22,],[22,22,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -31,21 +31,19 @@ _lr_productions = [
   ('block -> block_code','block',1,'p_block','banger_parser.py',11),
   ('block -> block_title','block',1,'p_block','banger_parser.py',12),
   ('block -> block_list','block',1,'p_block','banger_parser.py',13),
-  ('block -> block_code param','block',2,'p_block_with_param','banger_parser.py',17),
-  ('block -> block_title param','block',2,'p_block_with_param','banger_parser.py',18),
-  ('block -> block_list param','block',2,'p_block_with_param','banger_parser.py',19),
-  ('block_code -> CODE LBRACKETS content RBRACKETS','block_code',4,'p_block_code','banger_parser.py',23),
-  ('block_code -> CODE LBRACKETS content RBRACKETS block','block_code',5,'p_block_code_rec','banger_parser.py',27),
-  ('block_list -> LIST LBRACKETS list_elements RBRACKETS','block_list',4,'p_block_list','banger_parser.py',32),
-  ('block_list -> LIST LBRACKETS list_elements RBRACKETS block','block_list',5,'p_block_list_rec','banger_parser.py',36),
-  ('list_elements -> list_element','list_elements',1,'p_list_elements','banger_parser.py',41),
-  ('list_elements -> list_element list_elements','list_elements',2,'p_list_elements_rec','banger_parser.py',45),
-  ('list_element -> BULLETPOINT content','list_element',2,'p_list_element','banger_parser.py',49),
-  ('block_title -> TITLE LBRACKETS content RBRACKETS','block_title',4,'p_block_title','banger_parser.py',54),
-  ('block_title -> TITLE LBRACKETS content RBRACKETS block','block_title',5,'p_block_title_rec','banger_parser.py',58),
-  ('param -> param_bg','param',1,'p_param','banger_parser.py',63),
-  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',67),
-  ('param_bg -> BG content','param_bg',2,'p_param_bg','banger_parser.py',72),
-  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',73),
-  ('content -> STRING','content',1,'p_content','banger_parser.py',84),
+  ('block_code -> CODE LBRACKETS content RBRACKETS','block_code',4,'p_block_code','banger_parser.py',17),
+  ('block_code -> CODE LBRACKETS content RBRACKETS block','block_code',5,'p_block_code_rec','banger_parser.py',21),
+  ('block_list -> LIST LBRACKETS list_elements RBRACKETS','block_list',4,'p_block_list','banger_parser.py',26),
+  ('block_list -> LIST LBRACKETS list_elements RBRACKETS block','block_list',5,'p_block_list_rec','banger_parser.py',30),
+  ('list_elements -> list_element','list_elements',1,'p_list_elements','banger_parser.py',35),
+  ('list_elements -> list_element list_elements','list_elements',2,'p_list_elements_rec','banger_parser.py',39),
+  ('list_element -> BULLETPOINT content','list_element',2,'p_list_element','banger_parser.py',43),
+  ('block_title -> TITLE LBRACKETS content RBRACKETS','block_title',4,'p_block_title','banger_parser.py',48),
+  ('block_title -> TITLE LBRACKETS content RBRACKETS block','block_title',5,'p_block_title_rec','banger_parser.py',52),
+  ('block_title -> TITLE param LBRACKETS content RBRACKETS','block_title',5,'p_block_title_with_param','banger_parser.py',56),
+  ('block_title -> TITLE param LBRACKETS content RBRACKETS block','block_title',6,'p_block_title_with_param_rec','banger_parser.py',62),
+  ('param -> param_bg','param',1,'p_param','banger_parser.py',68),
+  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',72),
+  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',77),
+  ('content -> STRING','content',1,'p_content','banger_parser.py',88),
 ]

@@ -1,6 +1,12 @@
-title bg #FF0000 { "Exemple de titre" }
+title bg #FF0000 color #FFFFFF { "Exemple de titre" }
 
-code { "int i = 0;" }
+code { 
+    "int i = 0;"
+}
+
+code {
+    "for(int i = 0; i < 10; i++) { }"
+}
 
 list {
     * "Element 1"

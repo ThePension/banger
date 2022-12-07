@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR_HEX COLOR_TOK EOL ERROR IDENTIFIER IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock_code : CODE LBRACKETS content RBRACKETSblock_code : CODE LBRACKETS content RBRACKETS blockblock_list : LIST LBRACKETS list_elements RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETS blocklist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE LBRACKETS content RBRACKETS blockblock_title : TITLE param LBRACKETS content RBRACKETSblock_title : TITLE param LBRACKETS content RBRACKETS blockparam : param_bgparam : param_bg paramparam_bg : BG COLOR_HEXcontent : STRING'
+_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR COLOR_HEX EOL ERROR IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock_code : CODE LBRACKETS content RBRACKETSblock_code : CODE LBRACKETS content RBRACKETS blockblock_list : LIST LBRACKETS list_elements RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETS blocklist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE LBRACKETS content RBRACKETS blockblock_title : TITLE param LBRACKETS content RBRACKETSblock_title : TITLE param LBRACKETS content RBRACKETS blockparam : param_bg\n             | param_fontparam : param_bg param\n             | param_font paramparam_bg : BG COLOR_HEXparam_font : COLOR COLOR_HEXcontent : STRING'
     
-_lr_action_items = {'CODE':([0,24,25,27,32,],[6,6,6,6,6,]),'TITLE':([0,24,25,27,32,],[7,7,7,7,7,]),'LIST':([0,24,25,27,32,],[8,8,8,8,8,]),'$end':([1,2,3,4,5,24,25,27,30,31,32,33,34,],[0,-1,-2,-3,-4,-5,-12,-7,-6,-13,-14,-8,-15,]),'LBRACKETS':([6,7,8,11,12,19,20,],[9,10,14,18,-16,-17,-18,]),'BG':([7,12,20,],[13,13,-18,]),'STRING':([9,10,18,23,],[16,16,16,16,]),'COLOR_HEX':([13,],[20,]),'BULLETPOINT':([14,16,22,29,],[23,-19,23,-11,]),'RBRACKETS':([15,16,17,21,22,26,28,29,],[24,-19,25,27,-9,32,-10,-11,]),}
+_lr_action_items = {'CODE':([0,28,29,31,36,],[6,6,6,6,6,]),'TITLE':([0,28,29,31,36,],[7,7,7,7,7,]),'LIST':([0,28,29,31,36,],[8,8,8,8,8,]),'$end':([1,2,3,4,5,28,29,31,34,35,36,37,38,],[0,-1,-2,-3,-4,-5,-12,-7,-6,-13,-14,-8,-15,]),'LBRACKETS':([6,7,8,11,12,13,21,22,23,24,],[9,10,16,20,-16,-17,-18,-19,-20,-21,]),'BG':([7,12,13,23,24,],[14,14,14,-20,-21,]),'COLOR':([7,12,13,23,24,],[15,15,15,-20,-21,]),'STRING':([9,10,20,27,],[18,18,18,18,]),'COLOR_HEX':([14,15,],[23,24,]),'BULLETPOINT':([16,18,26,33,],[27,-22,27,-11,]),'RBRACKETS':([17,18,19,25,26,30,32,33,],[28,-22,29,31,-9,36,-10,-11,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'document':([0,],[1,]),'block':([0,24,25,27,32,],[2,30,31,33,34,]),'block_code':([0,24,25,27,32,],[3,3,3,3,3,]),'block_title':([0,24,25,27,32,],[4,4,4,4,4,]),'block_list':([0,24,25,27,32,],[5,5,5,5,5,]),'param':([7,12,],[11,19,]),'param_bg':([7,12,],[12,12,]),'content':([9,10,18,23,],[15,17,26,29,]),'list_elements':([14,22,],[21,28,]),'list_element':([14,22,],[22,22,]),}
+_lr_goto_items = {'document':([0,],[1,]),'block':([0,28,29,31,36,],[2,34,35,37,38,]),'block_code':([0,28,29,31,36,],[3,3,3,3,3,]),'block_title':([0,28,29,31,36,],[4,4,4,4,4,]),'block_list':([0,28,29,31,36,],[5,5,5,5,5,]),'param':([7,12,13,],[11,21,22,]),'param_bg':([7,12,13,],[12,12,12,]),'param_font':([7,12,13,],[13,13,13,]),'content':([9,10,20,27,],[17,19,30,33,]),'list_elements':([16,26,],[25,32,]),'list_element':([16,26,],[26,26,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -43,7 +43,10 @@ _lr_productions = [
   ('block_title -> TITLE param LBRACKETS content RBRACKETS','block_title',5,'p_block_title_with_param','banger_parser.py',56),
   ('block_title -> TITLE param LBRACKETS content RBRACKETS block','block_title',6,'p_block_title_with_param_rec','banger_parser.py',62),
   ('param -> param_bg','param',1,'p_param','banger_parser.py',68),
-  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',72),
-  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',77),
-  ('content -> STRING','content',1,'p_content','banger_parser.py',88),
+  ('param -> param_font','param',1,'p_param','banger_parser.py',69),
+  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',73),
+  ('param -> param_font param','param',2,'p_param_rec','banger_parser.py',74),
+  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',79),
+  ('param_font -> COLOR COLOR_HEX','param_font',2,'p_param_font','banger_parser.py',84),
+  ('content -> STRING','content',1,'p_content','banger_parser.py',89),
 ]

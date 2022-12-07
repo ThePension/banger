@@ -65,11 +65,13 @@ def p_block_title_with_param_rec(p):
     p[0] = AST.GenericBlock([titleBlock] + [p[6]])
 
 def p_param(p):
-    '''param : param_bg'''
+    '''param : param_bg
+             | param_font'''
     p[0] = AST.ParamBlock(p[1])
 
 def p_param_rec(p):
-    '''param : param_bg param'''
+    '''param : param_bg param
+             | param_font param'''
     p[0] = AST.ParamBlock([p[1]] + p[2].children)
 
 
@@ -78,10 +80,9 @@ def p_param_bg(p):
     p[0] = AST.ParamBGBlock(AST.StringBlock(p[2]))
 
 
-# def p_param_font(p):
-#     '''param_font : param_font
-#                   | param_font param'''
-#     p[0] = AST.ParamBlock([p[1]] + p[3].children)
+def p_param_font(p):
+    '''param_font : COLOR COLOR_HEX'''
+    p[0] = AST.ParamFontBlock(AST.StringBlock(p[2]))
 
 
 def p_content(p):

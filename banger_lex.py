@@ -24,17 +24,17 @@ tokens = (
     # "RPAREN",
     "EOL",
     "ASSIGNATION",
-    "IDENTIFIER",
+    # "IDENTIFIER",
     "LBRACKETS",
     "RBRACKETS",
     "STRING",
-    "COLOR_TOK",
+    "COLOR",
     "COLOR_HEX",
 ) + tuple(map(lambda s: s.upper(), reserved_words))
 
 
 t_BG = r"\bbg\b"
-t_COLOR_TOK = r"\bcolor\b"
+t_COLOR = r"\bcolor\b"
 t_COLOR_HEX = r"[\#]{1}([0-9a-fA-F]{3}){1,2}"
 t_CODE = r"\bcode\b"
 t_CENTER = r"\bcenter\b"
@@ -59,11 +59,11 @@ digit = r'([0-9])'
 identifier = r'(' + nondigit + r'(' + digit + r'|' + nondigit + r')*)'
 
 
-@ TOKEN(identifier)
-def t_IDENTIFIER(t):
-    if t.value in reserved_words:
-        t.type = t.value.upper()
-    return t
+# @ TOKEN(identifier)
+# def t_IDENTIFIER(t):
+#     if t.value in reserved_words:
+#         t.type = t.value.upper()
+#     return t
 
 # def t_ADD_OP(t):
 #     r"[\+-]"
