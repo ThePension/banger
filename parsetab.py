@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR_HEX COLOR_TOK EOL ERROR IDENTIFIER IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock_code : CODE LBRACKETS content RBRACKETSblock_code : CODE LBRACKETS content RBRACKETS blockblock_list : LIST LBRACKETS list_elements RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETS blocklist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETSblock_title : TITLE LBRACKETS content RBRACKETS blockblock_title : TITLE param LBRACKETS content RBRACKETSblock_title : TITLE param LBRACKETS content RBRACKETS blockparam : param_bgparam : param_bg paramparam_bg : BG COLOR_HEXcontent : STRING'
+_lr_signature = 'ASSIGNATION BG BULLETPOINT CENTER CODE COLOR COLOR_HEX EOL ERROR IGNORE LBRACKETS LIST NEWLINE NUMBER RBRACKETS STRING SUBPAGE TITLE TOCdocument : blockblock : block_code\n             | block_title\n             | block_listblock : block_code block\n             | block_title block\n             | block_list blockblock_code : CODE LBRACKETS content RBRACKETSblock_list : LIST LBRACKETS list_elements RBRACKETSlist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT contentblock_title : TITLE LBRACKETS content RBRACKETScontent : STRING'
     
-_lr_action_items = {'CODE':([0,24,25,27,32,],[6,6,6,6,6,]),'TITLE':([0,24,25,27,32,],[7,7,7,7,7,]),'LIST':([0,24,25,27,32,],[8,8,8,8,8,]),'$end':([1,2,3,4,5,24,25,27,30,31,32,33,34,],[0,-1,-2,-3,-4,-5,-12,-7,-6,-13,-14,-8,-15,]),'LBRACKETS':([6,7,8,11,12,19,20,],[9,10,14,18,-16,-17,-18,]),'BG':([7,12,20,],[13,13,-18,]),'STRING':([9,10,18,23,],[16,16,16,16,]),'COLOR_HEX':([13,],[20,]),'BULLETPOINT':([14,16,22,29,],[23,-19,23,-11,]),'RBRACKETS':([15,16,17,21,22,26,28,29,],[24,-19,25,27,-9,32,-10,-11,]),}
+_lr_action_items = {'CODE':([0,3,4,5,21,22,23,],[6,6,6,6,-8,-13,-9,]),'TITLE':([0,3,4,5,21,22,23,],[7,7,7,7,-8,-13,-9,]),'LIST':([0,3,4,5,21,22,23,],[8,8,8,8,-8,-13,-9,]),'$end':([1,2,3,4,5,9,10,11,21,22,23,],[0,-1,-2,-3,-4,-5,-6,-7,-8,-13,-9,]),'LBRACKETS':([6,7,8,],[12,13,14,]),'STRING':([12,13,20,],[16,16,16,]),'BULLETPOINT':([14,16,19,25,],[20,-14,20,-12,]),'RBRACKETS':([15,16,17,18,19,24,25,],[21,-14,22,23,-10,-11,-12,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'document':([0,],[1,]),'block':([0,24,25,27,32,],[2,30,31,33,34,]),'block_code':([0,24,25,27,32,],[3,3,3,3,3,]),'block_title':([0,24,25,27,32,],[4,4,4,4,4,]),'block_list':([0,24,25,27,32,],[5,5,5,5,5,]),'param':([7,12,],[11,19,]),'param_bg':([7,12,],[12,12,]),'content':([9,10,18,23,],[15,17,26,29,]),'list_elements':([14,22,],[21,28,]),'list_element':([14,22,],[22,22,]),}
+_lr_goto_items = {'document':([0,],[1,]),'block':([0,3,4,5,],[2,9,10,11,]),'block_code':([0,3,4,5,],[3,3,3,3,]),'block_title':([0,3,4,5,],[4,4,4,4,]),'block_list':([0,3,4,5,],[5,5,5,5,]),'content':([12,13,20,],[15,17,25,]),'list_elements':([14,19,],[18,24,]),'list_element':([14,19,],[19,19,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -31,19 +31,14 @@ _lr_productions = [
   ('block -> block_code','block',1,'p_block','banger_parser.py',11),
   ('block -> block_title','block',1,'p_block','banger_parser.py',12),
   ('block -> block_list','block',1,'p_block','banger_parser.py',13),
-  ('block_code -> CODE LBRACKETS content RBRACKETS','block_code',4,'p_block_code','banger_parser.py',17),
-  ('block_code -> CODE LBRACKETS content RBRACKETS block','block_code',5,'p_block_code_rec','banger_parser.py',21),
-  ('block_list -> LIST LBRACKETS list_elements RBRACKETS','block_list',4,'p_block_list','banger_parser.py',26),
-  ('block_list -> LIST LBRACKETS list_elements RBRACKETS block','block_list',5,'p_block_list_rec','banger_parser.py',30),
-  ('list_elements -> list_element','list_elements',1,'p_list_elements','banger_parser.py',35),
-  ('list_elements -> list_element list_elements','list_elements',2,'p_list_elements_rec','banger_parser.py',39),
-  ('list_element -> BULLETPOINT content','list_element',2,'p_list_element','banger_parser.py',43),
-  ('block_title -> TITLE LBRACKETS content RBRACKETS','block_title',4,'p_block_title','banger_parser.py',48),
-  ('block_title -> TITLE LBRACKETS content RBRACKETS block','block_title',5,'p_block_title_rec','banger_parser.py',52),
-  ('block_title -> TITLE param LBRACKETS content RBRACKETS','block_title',5,'p_block_title_with_param','banger_parser.py',56),
-  ('block_title -> TITLE param LBRACKETS content RBRACKETS block','block_title',6,'p_block_title_with_param_rec','banger_parser.py',62),
-  ('param -> param_bg','param',1,'p_param','banger_parser.py',68),
-  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',72),
-  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',77),
-  ('content -> STRING','content',1,'p_content','banger_parser.py',88),
+  ('block -> block_code block','block',2,'p_block_rec','banger_parser.py',17),
+  ('block -> block_title block','block',2,'p_block_rec','banger_parser.py',18),
+  ('block -> block_list block','block',2,'p_block_rec','banger_parser.py',19),
+  ('block_code -> CODE LBRACKETS content RBRACKETS','block_code',4,'p_block_code','banger_parser.py',23),
+  ('block_list -> LIST LBRACKETS list_elements RBRACKETS','block_list',4,'p_block_list','banger_parser.py',28),
+  ('list_elements -> list_element','list_elements',1,'p_list_elements','banger_parser.py',38),
+  ('list_elements -> list_element list_elements','list_elements',2,'p_list_elements_rec','banger_parser.py',42),
+  ('list_element -> BULLETPOINT content','list_element',2,'p_list_element','banger_parser.py',46),
+  ('block_title -> TITLE LBRACKETS content RBRACKETS','block_title',4,'p_block_title','banger_parser.py',50),
+  ('content -> STRING','content',1,'p_content','banger_parser.py',80),
 ]

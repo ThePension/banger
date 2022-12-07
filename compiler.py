@@ -88,9 +88,16 @@ def compile(self):
 
 @addToClass(AST.ListBlock)
 def compile(self):
-    html = "<ul class='list-group list-group-flush'>"
+    html = "<ul "
+    
+    # for p in self.params:
+    #     html += p.compile()
+
+    html += " class='list-group list-group-flush'>"
+
     for c in self.children:
         html += c.compile()
+
     html += "</ul>"
 
     return html

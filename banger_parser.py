@@ -13,23 +13,26 @@ def p_block(p):
              | block_list'''
     p[0] = AST.GenericBlock(p[1])
 
+def p_block_rec(p):
+    '''block : block_code block
+             | block_title block
+             | block_list block'''
+    p[0] = AST.GenericBlock([p[1]] + p[2].children)
+
 def p_block_code(p):
     '''block_code : CODE LBRACKETS content RBRACKETS'''
     p[0] = AST.CodeBlock(p[3])
-
-def p_block_code_rec(p):
-    '''block_code : CODE LBRACKETS content RBRACKETS block'''
-    p[0] = AST.GenericBlock([AST.CodeBlock(p[3])] + p[5].children)
 
 
 def p_block_list(p):
     '''block_list : LIST LBRACKETS list_elements RBRACKETS'''
     p[0] = AST.ListBlock(p[3].children)
 
-def p_block_list_rec(p):
-    '''block_list : LIST LBRACKETS list_elements RBRACKETS block'''
-    p[0] = AST.GenericBlock([AST.ListBlock(p[3].children)] + p[5].children)
-
+# def p_block_list_with_param(p):
+#     '''block_list : LIST param LBRACKETS list_elements RBRACKETS'''
+#     listBlock = AST.ListBlock(p[4].children)
+#     listBlock.params += [p[2]]
+#     p[0] = listBlock
 
 def p_list_elements(p):
     '''list_elements : list_element'''
@@ -43,26 +46,15 @@ def p_list_element(p):
     '''list_element : BULLETPOINT content'''
     p[0] = AST.ListElement(p[2])
 
-
 def p_block_title(p):
     '''block_title : TITLE LBRACKETS content RBRACKETS'''
     p[0] = AST.TitleBlock(p[3])
 
-def p_block_title_rec(p):
-    '''block_title : TITLE LBRACKETS content RBRACKETS block'''
-    p[0] = AST.GenericBlock([AST.TitleBlock(p[3])] + p[5].children)
-
 def p_block_title_with_param(p):
     '''block_title : TITLE param LBRACKETS content RBRACKETS'''
-    titleBlock = AST.TitleBlock(p[3])
-    titleBlock.params += [p[2]]
-    p[0] = titleBlock
-
-def p_block_title_with_param_rec(p):
-    '''block_title : TITLE param LBRACKETS content RBRACKETS block'''
     titleBlock = AST.TitleBlock(p[4])
     titleBlock.params += [p[2]]
-    p[0] = AST.GenericBlock([titleBlock] + [p[6]])
+    p[0] = titleBlock
 
 def p_param(p):
     '''param : param_bg
@@ -73,7 +65,6 @@ def p_param_rec(p):
     '''param : param_bg param
              | param_font param'''
     p[0] = AST.ParamBlock([p[1]] + p[2].children)
-
 
 def p_param_bg(p):
     '''param_bg : BG COLOR_HEX'''
