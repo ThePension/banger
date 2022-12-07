@@ -67,18 +67,14 @@ def p_list_element(p):
 
 def p_param(p):
     '''param : param_bg
-             | param_font'''
+             | param_font
+             | param_align'''
     p[0] = AST.ParamBlock(p[1])
-
-
-# def p_block_image(p):
-#     '''block_image : IMAGE LBRACKETS content RBRACKETS block'''
-#     imageBlock = AST.ImageBlock(p[3])
-#     p[0] = AST.GenericBlock([imageBlock] + [p[5]])
 
 def p_param_rec(p):
     '''param : param_bg param
-             | param_font param'''
+             | param_font param
+             | param_align param'''
     p[0] = AST.ParamBlock([p[1]] + p[2].children)
 
 
@@ -90,6 +86,12 @@ def p_param_bg(p):
 def p_param_font(p):
     '''param_font : COLOR COLOR_HEX'''
     p[0] = AST.ParamFontBlock(AST.StringBlock(p[2]))
+
+def p_param_align(p):
+    '''param_align : CENTER'''
+                #    | RIGHT
+                #    | LEFT'''
+    p[0] = AST.ParamCenteredBlock()
 
 def p_content(p):
     '''content_string : STRING'''

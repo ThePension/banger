@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ASSIGNATION BG BLOCK_ID BULLETPOINT CENTER COLOR COLOR_HEX EOL ERROR IGNORE LBRACKETS NEWLINE NUMBER RBRACKETS STRING TOCdocument : block_lightblock_light : block_completeblock_light : block_complete block_lightblock_complete : block_id LBRACKETS block_content RBRACKETSblock_complete : block_id param LBRACKETS block_content RBRACKETSblock_id : BLOCK_IDblock_content : block_light\n                     | list_elements\n                     | content_stringlist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT content_stringparam : param_bg\n             | param_fontparam : param_bg param\n             | param_font paramparam_bg : BG COLOR_HEXparam_font : COLOR COLOR_HEXcontent_string : STRING'
+_lr_signature = 'ASSIGNATION BG BLOCK_ID BULLETPOINT CENTER COLOR COLOR_HEX EOL ERROR IGNORE LBRACKETS NEWLINE NUMBER RBRACKETS STRING TOCdocument : block_lightblock_light : block_completeblock_light : block_complete block_lightblock_complete : block_id LBRACKETS block_content RBRACKETSblock_complete : block_id param LBRACKETS block_content RBRACKETSblock_id : BLOCK_IDblock_content : block_light\n                     | list_elements\n                     | content_stringlist_elements : list_elementlist_elements : list_element list_elementslist_element : BULLETPOINT content_stringparam : param_bg\n             | param_font\n             | param_alignparam : param_bg param\n             | param_font param\n             | param_align paramparam_bg : BG COLOR_HEXparam_font : COLOR COLOR_HEXparam_align : CENTERcontent_string : STRING'
     
-_lr_action_items = {'BLOCK_ID':([0,3,7,20,25,29,],[5,5,5,5,-4,-5,]),'$end':([1,2,3,6,25,29,],[0,-1,-2,-3,-4,-5,]),'RBRACKETS':([3,6,13,14,15,16,17,18,25,26,27,28,29,],[-2,-3,25,-7,-8,-9,-10,-19,-4,-11,-12,29,-5,]),'LBRACKETS':([4,5,8,9,10,21,22,23,24,],[7,-6,20,-13,-14,-15,-16,-17,-18,]),'BG':([4,5,9,10,23,24,],[11,-6,11,11,-17,-18,]),'COLOR':([4,5,9,10,23,24,],[12,-6,12,12,-17,-18,]),'STRING':([7,19,20,],[18,18,18,]),'BULLETPOINT':([7,17,18,20,27,],[19,19,-19,19,-12,]),'COLOR_HEX':([11,12,],[23,24,]),}
+_lr_action_items = {'BLOCK_ID':([0,3,7,22,28,32,],[5,5,5,5,-4,-5,]),'$end':([1,2,3,6,28,32,],[0,-1,-2,-3,-4,-5,]),'RBRACKETS':([3,6,15,16,17,18,19,20,28,29,30,31,32,],[-2,-3,28,-7,-8,-9,-10,-22,-4,-11,-12,32,-5,]),'LBRACKETS':([4,5,8,9,10,11,14,23,24,25,26,27,],[7,-6,22,-13,-14,-15,-21,-16,-17,-18,-19,-20,]),'BG':([4,5,9,10,11,14,26,27,],[12,-6,12,12,12,-21,-19,-20,]),'COLOR':([4,5,9,10,11,14,26,27,],[13,-6,13,13,13,-21,-19,-20,]),'CENTER':([4,5,9,10,11,14,26,27,],[14,-6,14,14,14,-21,-19,-20,]),'STRING':([7,21,22,],[20,20,20,]),'BULLETPOINT':([7,19,20,22,30,],[21,21,-22,21,-12,]),'COLOR_HEX':([12,13,],[26,27,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'document':([0,],[1,]),'block_light':([0,3,7,20,],[2,6,14,14,]),'block_complete':([0,3,7,20,],[3,3,3,3,]),'block_id':([0,3,7,20,],[4,4,4,4,]),'param':([4,9,10,],[8,21,22,]),'param_bg':([4,9,10,],[9,9,9,]),'param_font':([4,9,10,],[10,10,10,]),'block_content':([7,20,],[13,28,]),'list_elements':([7,17,20,],[15,26,15,]),'content_string':([7,19,20,],[16,27,16,]),'list_element':([7,17,20,],[17,17,17,]),}
+_lr_goto_items = {'document':([0,],[1,]),'block_light':([0,3,7,22,],[2,6,16,16,]),'block_complete':([0,3,7,22,],[3,3,3,3,]),'block_id':([0,3,7,22,],[4,4,4,4,]),'param':([4,9,10,11,],[8,23,24,25,]),'param_bg':([4,9,10,11,],[9,9,9,9,]),'param_font':([4,9,10,11,],[10,10,10,10,]),'param_align':([4,9,10,11,],[11,11,11,11,]),'block_content':([7,22,],[15,31,]),'list_elements':([7,19,22,],[17,29,17,]),'content_string':([7,21,22,],[18,30,18,]),'list_element':([7,19,22,],[19,19,19,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -41,9 +41,12 @@ _lr_productions = [
   ('list_element -> BULLETPOINT content_string','list_element',2,'p_list_element','banger_parser.py',65),
   ('param -> param_bg','param',1,'p_param','banger_parser.py',69),
   ('param -> param_font','param',1,'p_param','banger_parser.py',70),
-  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',80),
-  ('param -> param_font param','param',2,'p_param_rec','banger_parser.py',81),
-  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',86),
-  ('param_font -> COLOR COLOR_HEX','param_font',2,'p_param_font','banger_parser.py',91),
-  ('content_string -> STRING','content_string',1,'p_content','banger_parser.py',95),
+  ('param -> param_align','param',1,'p_param','banger_parser.py',71),
+  ('param -> param_bg param','param',2,'p_param_rec','banger_parser.py',75),
+  ('param -> param_font param','param',2,'p_param_rec','banger_parser.py',76),
+  ('param -> param_align param','param',2,'p_param_rec','banger_parser.py',77),
+  ('param_bg -> BG COLOR_HEX','param_bg',2,'p_param_bg','banger_parser.py',82),
+  ('param_font -> COLOR COLOR_HEX','param_font',2,'p_param_font','banger_parser.py',87),
+  ('param_align -> CENTER','param_align',1,'p_param_align','banger_parser.py',91),
+  ('content_string -> STRING','content_string',1,'p_content','banger_parser.py',97),
 ]

@@ -1,6 +1,6 @@
-title color #FFFFFF bg #FF0000 { "Exemple de titre" }
+title center color #FFFFFF bg #FF0000 { "Exemple de titre" }
 
-code {
+code center {
     "int i = 0;"
 }
 
@@ -31,7 +31,7 @@ list color #0000FF bg #00FF00 {
     * "$\sqrt2=x^2 \Rightarrow x=\sqrt{\sqrt{2}}$"
 }
 
-image {
+image center {
     "image.png"
 }
 
@@ -40,6 +40,6 @@ title color #0F0F0F bg #F0F0F0
     "$\frac{x^2}{x - 1}$"
 }
 
-title { "test" }
+title center { "test" }
 
 code color #FF0000 { "test" }

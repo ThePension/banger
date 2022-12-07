@@ -74,12 +74,12 @@ def compile(self):
 
 @addToClass(AST.CodeBlock)
 def compile(self):
-    html =  "<pre><code "
+    html =  "<pre "
 
     for p in self.params:
         html += p.compile()
     
-    html += ">" + self.children[0].compile() + "</code></pre>"
+    html += "><code>" + self.children[0].compile() + "</code></pre>"
 
     return html
 
@@ -121,8 +121,12 @@ def compile(self):
 
 @addToClass(AST.ImageBlock)
 def compile(self):
-    html = ""
-    html += "<img src=" + self.children[0].compile() + " >"
+    html = "<img src=\"" + self.children[0].compile() + "\" "
+
+    for p in self.params:
+        html += p.compile()
+
+    html += " >"
     return html
 
 
@@ -152,6 +156,10 @@ def compile(self):
 @addToClass(AST.ParamFontBlock)
 def compile(self):
     return "color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
+
+@addToClass(AST.ParamCenteredBlock)
+def compile(self):
+    return "text-align: center;" # "margin: 0 auto; text-align: center;"
 
 
 if __name__ == "__main__":

@@ -121,10 +121,11 @@ class ListElement(Block):
 class ParamBlock(Block):
     type = "param"
 
-
 class ImageBlock(Block):
     type = "image"
 
+class ParamCenteredBlock(ParamBlock):
+    type = "param_centered_block"
 
 class ParamBGBlock(ParamBlock):
     type = "param_bg"
