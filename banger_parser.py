@@ -43,13 +43,16 @@ def p_block_id_code(p):
 
         case "IMAGE":
             p[0] = AST.ImageBlock()
+            
+        case "TEXT":
+            p[0] = AST.TextBlock()
+            
 
 def p_block_content(p):
     '''block_content : block_light
                      | list_elements
                      | content_string'''
     p[0] = p[1]
-
 
 def p_list_elements(p):
     '''list_elements : list_element'''
@@ -77,12 +80,10 @@ def p_param_rec(p):
              | param_align param'''
     p[0] = AST.ParamBlock([p[1]] + p[2].children)
 
-
 def p_param_bg(p):
     '''param_bg : BG COLOR_HEX'''
     p[0] = AST.ParamBGBlock(AST.StringBlock(p[2]))
-
-
+    
 def p_param_font(p):
     '''param_font : COLOR COLOR_HEX'''
     p[0] = AST.ParamFontBlock(AST.StringBlock(p[2]))
@@ -98,7 +99,7 @@ def p_param_align_right(p):
 def p_param_align_left(p):
     '''param_align : LEFT'''
     p[0] = AST.ParamAlignLeftBlock()
-
+    
 def p_content(p):
     '''content_string : STRING'''
     p[0] = AST.StringBlock(str(p[1]))

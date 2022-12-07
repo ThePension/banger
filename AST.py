@@ -115,6 +115,9 @@ class ParamBlock(Block):
 
 class ImageBlock(Block):
     type = "image"
+    
+class TextBlock(Block):
+    type = "text"
 
 class ParamAlignCenterBlock(ParamBlock):
     type = "param_align_center_block"

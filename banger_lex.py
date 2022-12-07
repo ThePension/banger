@@ -51,7 +51,8 @@ title = r"\btitle\b"
 list = r"\blist\b"
 code = r"\bcode\b"
 image = r"\bimage\b"
-t_BLOCK_ID = r'(' + title + r'|' + list + r'|' + code + r'|' + image + r')'
+text = r"\btext\b"
+t_BLOCK_ID = r'(' + title + r'|' + list + r'|' + code + r'|' + image + r'|' + text + r')'
 
 t_ignore = r"[ ]"
 # t_LPAREN = r'\('
@@ -61,7 +62,7 @@ t_EOL = r'\;'
 t_ASSIGNATION = r'\='
 t_LBRACKETS = r"\{"
 t_RBRACKETS = r"\}"
-t_STRING = r'".*?"'
+t_STRING = r'"([\S\s]|.)+?"'
 
 nondigit = r'([_A-Za-z])'
 digit = r'([0-9])'

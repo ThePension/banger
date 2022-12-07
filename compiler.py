@@ -1,5 +1,6 @@
 import AST
 from AST import addToClass
+from tools import remove_superflu_tabs
 
 # MathJax : https://github.com/mathjax/MathJax/
 
@@ -79,7 +80,7 @@ def compile(self):
     for p in self.params:
         html += p.compile()
     
-    html += "><code>" + self.children[0].compile() + "</code></pre>"
+    html += "><code>" + remove_superflu_tabs(self.children[0].compile()) + "</code></pre>"
 
     return html
 
@@ -129,11 +130,15 @@ def compile(self):
     html += " >"
     return html
 
+@addToClass(AST.TextBlock)
+def compile(self):
+    html = "<p>" + self.children[0].compile() + "</p>"
+    return html
 
 @addToClass(AST.StringBlock)
 def compile(self):
     # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
-    html = r"" + str(self)[2:-3].replace('\\\\', '\\')
+    html = r"" + str(self)[2:-3].replace('\\\\', '\\').replace("\\n", "<br>")
     return html
 
 
