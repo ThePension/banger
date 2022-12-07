@@ -1,6 +1,7 @@
 import AST
 from AST import addToClass
 from tools import remove_superflu_tabs
+from textwrap import dedent
 
 # MathJax : https://github.com/mathjax/MathJax/
 
@@ -138,7 +139,7 @@ def compile(self):
 @addToClass(AST.StringBlock)
 def compile(self):
     # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
-    html = r"" + str(self)[2:-3].replace('\\\\', '\\').replace("\\n", "<br>")
+    html = r"" + str(self)[2:-3].replace('\\\\', '\\')
     return html
 
 

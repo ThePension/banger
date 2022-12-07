@@ -15,14 +15,14 @@ code {
         function myService() {
         var self = this;
 
-        this.hello = 'world'
+        this.hello = world
 
         this.printHello = function() {
             console.log('from this: hello', self.hello)
         }
     }
     "
-}
+    }
 
 text {
     "
