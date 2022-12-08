@@ -139,9 +139,8 @@ def compile(self):
 @addToClass(AST.StringBlock)
 def compile(self):
     # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
-    html = r"" + str(self)[2:-3].replace('\\\\', '\\')
+    html = str(self)[2:-3].replace('\\\\', '\\') # .replace('\\n\\n', '<br />').replace('\\n', ' ')
     return html
-
 
 @addToClass(AST.ParamBlock)
 def compile(self):
@@ -156,12 +155,12 @@ def compile(self):
 
 @addToClass(AST.ParamBGBlock)
 def compile(self):
-    return "background-color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
+    return "background-color: " + str(self)[1:-2] + ";"
 
 
 @addToClass(AST.ParamFontBlock)
 def compile(self):
-    return "color: " + str(self)[1:-2].replace('\\\\', '\\') + ";"
+    return "color: " + str(self)[1:-2] + ";"
 
 @addToClass(AST.ParamAlignCenterBlock)
 def compile(self):

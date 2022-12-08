@@ -18,6 +18,4 @@ def remove_superflu_tabs(s):
     # Recursive call in case every line starts with 4 spaces one more time
     s = remove_superflu_tabs(s)
 
-    print(s)
-
     return "<br />".join(s.split("\\n"))
