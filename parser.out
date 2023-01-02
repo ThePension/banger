@@ -6,7 +6,6 @@ Unused terminals:
     EOL
     ERROR
     IGNORE
-    LINE
     NEWLINE
     NUMBER
     TOC
@@ -53,7 +52,6 @@ ERROR                :
 IGNORE               : 
 LBRACKETS            : 4 5
 LEFT                 : 23
-LINE                 : 
 NEWLINE              : 
 NUMBER               : 
 RBRACKETS            : 4 5

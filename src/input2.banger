@@ -1,4 +1,6 @@
-title right color #FFFFFF bg #FF0000 { "Exemple de titre" }
+title right color #FFFFFF bg #FF0000 { 
+    Exemple de titre
+}
 
 title
 {

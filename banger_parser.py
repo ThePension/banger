@@ -31,21 +31,16 @@ def p_block_id_code(p):
     '''block_id : BLOCK_ID'''
     block_id = p[1]
 
-    match block_id.upper():
-        case "CODE":
-            p[0] = AST.CodeBlock()
-
-        case "LIST":
-            p[0] = AST.ListBlock()
-
-        case "TITLE":
-            p[0] = AST.TitleBlock()
-
-        case "IMAGE":
-            p[0] = AST.ImageBlock()
-            
-        case "TEXT":
-            p[0] = AST.TextBlock()
+    if block_id.upper() == "CODE":
+        p[0] = AST.CodeBlock()
+    elif block_id.upper() == "LIST":
+        p[0] = AST.ListBlock()
+    elif block_id.upper() == "TITLE":
+        p[0] = AST.TitleBlock()
+    elif block_id.upper() == "IMAGE":
+        p[0] = AST.ImageBlock()
+    elif block_id.upper() == "TEXT":
+        p[0] = AST.TextBlock()
             
 
 def p_block_content(p):
@@ -102,12 +97,14 @@ def p_param_align_left(p):
     
 def p_content(p):
     '''content_string : STRING'''
+    print(p)
     p[0] = AST.StringBlock(str(p[1]))
 
 
 def p_error(p):
     if p is not None:
         print(f"Syntax error in line {p.lineno} at {p.value} with {p.type}")
+        print(p)
         parser = yacc.yacc()
         parser.errok()
 
