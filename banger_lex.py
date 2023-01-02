@@ -8,6 +8,7 @@ reserved_words = (
     # "code",
     "center",
     "right",
+    "color",
     "left",
     # "list",
     # "subpage",
@@ -32,8 +33,6 @@ tokens = (
     "LBRACKETS",
     "RBRACKETS",
     "STRING",
-    # "LINE",
-    "COLOR",
     "COLOR_HEX",
     "BLOCK_ID",
 ) + tuple(map(lambda s: s.upper(), reserved_words))
@@ -67,9 +66,10 @@ t_ASSIGNATION = r'\='
 t_LBRACKETS = r"\{"
 t_RBRACKETS = r"\}"
 
-r_keywords = r"\s*(?!(title|list|code|image|text|{|})).+$"
-t_STRING = r_keywords  # r + r".+(\n|$)"
-# t_LINE = re.compile(r, flags=re.M).pattern
+
+# Regex for lines that are not a block
+t_STRING =  r"(?!(title|list|code|image|text|{|}|" + r"|".join(reserved_words) + r"|" + t_COLOR_HEX + r")).+(\n|\r|$)"
+
 nondigit = r'([_A-Za-z])'
 digit = r'([0-9])'
 identifier = r'(' + nondigit + r'(' + digit + r'|' + nondigit + r')*)'
