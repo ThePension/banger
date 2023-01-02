@@ -1,0 +1,17 @@
+title center color #FF0000 {
+Notes de cours 22.11.22
+}
+
+text bg #555555 {
+Ligne 1
+Ligne 2
+Ligne 3
+asdf asdfa title
+
+    title center {
+Exemple de titre
+    }
+    
+ligne vide au dessus et en dessous
+
+}

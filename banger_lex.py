@@ -1,3 +1,4 @@
+import re
 import ply.lex as lex
 from ply.lex import TOKEN
 import sys
@@ -31,6 +32,7 @@ tokens = (
     "LBRACKETS",
     "RBRACKETS",
     "STRING",
+    # "LINE",
     "COLOR",
     "COLOR_HEX",
     "BLOCK_ID",
@@ -52,18 +54,22 @@ list = r"\blist\b"
 code = r"\bcode\b"
 image = r"\bimage\b"
 text = r"\btext\b"
-t_BLOCK_ID = r'(' + title + r'|' + list + r'|' + code + r'|' + image + r'|' + text + r')'
+t_BLOCK_ID = r'(' + title + r'|' + list + r'|' + \
+    code + r'|' + image + r'|' + text + r')'
+
 
 t_ignore = r"[ ]"
 # t_LPAREN = r'\('
 # t_RPAREN = r'\)'
 # t_UMINUS = r"\-"
-t_EOL = r'\;'
+# t_EOL = r'\;'
 t_ASSIGNATION = r'\='
 t_LBRACKETS = r"\{"
 t_RBRACKETS = r"\}"
-t_STRING = r'"([\S\s]|.)+?"'
 
+r_keywords = r"\s*(?!(title|list|code|image|text|{|})).+$"
+t_STRING = r_keywords  # r + r".+(\n|$)"
+# t_LINE = re.compile(r, flags=re.M).pattern
 nondigit = r'([_A-Za-z])'
 digit = r'([0-9])'
 identifier = r'(' + nondigit + r'(' + digit + r'|' + nondigit + r')*)'
@@ -111,4 +117,5 @@ if __name__ == "__main__":
 
         if not tok:
             break
-        print("line %d : %s (%s)" % (tok.lineno, tok.type, tok.value))
+        print("line %d : %s (%s)" %
+              (tok.lineno, tok.type, tok.value.replace("\n", "")))

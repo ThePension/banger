@@ -1,9 +1,8 @@
 title center color #FF0000 {
-    "Notes de cours 22.11.22"
+    Notes de cours 22.11.22
 }
 
 text bg #555555 {
-    "
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     Pellentesque massa placerat duis ultricies lacus sed. Arcu cursus vitae congue mauris.
     Amet nulla facilisi morbi tempus iaculis urna id. Sapien pellentesque habitant morbi tristique senectus et.
@@ -11,7 +10,6 @@ text bg #555555 {
     Proin gravida hendrerit lectus a. Sed blandit libero volutpat sed. Aliquet porttitor lacus luctus accumsan tortor posuere.
     Dui sapien eget mi proin sed libero enim. Risus ultricies tristique nulla aliquet enim tortor. 
     Euismod lacinia at quis risus sed vulputate.
-    "
 }
 
 code {
