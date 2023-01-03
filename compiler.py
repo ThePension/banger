@@ -139,7 +139,7 @@ def compile(self):
 @addToClass(AST.StringBlock)
 def compile(self):
     # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
-    html = str(self)[2:-3].replace('\\\\', '\\') # .replace('\\n\\n', '<br />').replace('\\n', ' ')
+    html = str(self)[1:-2].replace('\\\\', '\\') # .replace('\\n\\n', '<br />').replace('\\n', ' ')
     return html
 
 @addToClass(AST.ParamBlock)

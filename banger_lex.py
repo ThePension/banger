@@ -66,12 +66,12 @@ t_ASSIGNATION = r'\='
 t_LBRACKETS = r"\{"
 t_RBRACKETS = r"\}"
 
-string = r"(?!(title|list|code|image|text|{|}|" + r"|".join(reserved_words) + r"|" + t_COLOR_HEX + r")).+(\n)"
+# string = r"(?!(title|list|code|image|text|{|}|" + r"|".join(reserved_words) + r"|" + t_COLOR_HEX + r")).+(\n)"
 
 # Regex for lines that are not a block
 def t_STRING(t):
     r"(?!(title|list|code|image|text|{|}|bg|center|right|color|left|toc|[\#]{1}([0-9a-fA-F]{3}){1,2})).+(\n)"
-    t.lexer.lineno += len(t.value)
+    t.lexer.lineno += 1
     
     t.value = t.value.replace("\n", "")
     

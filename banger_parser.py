@@ -20,6 +20,10 @@ def p_block(p):
     '''block_complete : block_id LBRACKETS block_content RBRACKETS'''
     p[1].children += [p[3]]
     p[0] = p[1]
+    
+def p_block(p):
+    '''block_complete : content_string'''
+    p[0] = p[1]
 
 def p_block_with_param(p):
     '''block_complete : block_id param LBRACKETS block_content RBRACKETS'''
@@ -97,14 +101,13 @@ def p_param_align_left(p):
     
 def p_content(p):
     '''content_string : STRING'''
-    print(p)
+    print(p[1])
     p[0] = AST.StringBlock(str(p[1]))
 
 
 def p_error(p):
     if p is not None:
         print(f"Syntax error in line {p.lineno} at {p.value} with {p.type}")
-        print(p)
         parser = yacc.yacc()
         parser.errok()
 
