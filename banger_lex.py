@@ -5,11 +5,12 @@ import sys
 
 reserved_words = (
     "bg",
-    # "code",
     "center",
     "right",
     "color",
     "left",
+    "start",
+    "stop",
     # "list",
     # "subpage",
     # "title",
@@ -30,8 +31,8 @@ tokens = (
     "EOL",
     "ASSIGNATION",
     # "IDENTIFIER",
-    "LBRACKETS",
-    "RBRACKETS",
+    # "LBRACKETS",
+    # "RBRACKETS",
     "STRING",
     "COLOR_HEX",
     "BLOCK_ID",
@@ -47,14 +48,15 @@ t_LEFT = r"\bleft\b"
 # t_SUBPAGE = r"\bsubpage\b"
 t_TOC = r"\btoc\b"
 t_BULLETPOINT = r"\*[ ]"
+t_START = r"\bstart\b"
+t_STOP = r"\bstop\b"
 
 title = r"\btitle\b"
 list = r"\blist\b"
 code = r"\bcode\b"
 image = r"\bimage\b"
 text = r"\btext\b"
-t_BLOCK_ID = r'(' + title + r'|' + list + r'|' + \
-    code + r'|' + image + r'|' + text + r')'
+t_BLOCK_ID = r'(' + title + r'|' + code + r'|' + list + r'|' + image + r'|' + text + r')'
 
 
 t_ignore = r"[ ]"
@@ -63,17 +65,17 @@ t_ignore = r"[ ]"
 # t_UMINUS = r"\-"
 # t_EOL = r'\;'
 t_ASSIGNATION = r'\='
-t_LBRACKETS = r"\{"
-t_RBRACKETS = r"\}"
+# t_LBRACKETS = r"\{"
+# t_RBRACKETS = r"\}"
 
 # string = r"(?!(title|list|code|image|text|{|}|" + r"|".join(reserved_words) + r"|" + t_COLOR_HEX + r")).+(\n)"
 
 # Regex for lines that are not a block
 def t_STRING(t):
-    r"(?!(title|list|code|image|text|{|}|bg|center|right|color|left|toc|[\#]{1}([0-9a-fA-F]{3}){1,2})).+(\n)"
+    r"(?!(title|list|code|image|text|bg|center|right|color|left|toc|start|stop|[\#]{1}([0-9a-fA-F]{3}){1,2})).+(\n)"
     t.lexer.lineno += 1
     
-    t.value = t.value.replace("\n", "")
+    # t.value = t.value.replace("\n", "")
     
     return t
 

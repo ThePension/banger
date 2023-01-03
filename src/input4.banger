@@ -5,8 +5,9 @@ title center color #FF0000 {
 Exemple de string
 
 text bg #555555 {
-    title center color #FF0000 {
+    text center color #FF0000 {
         Notes de cours 22.11.22
+        Exemple de string
     }
 
     title center color #FF0000 {

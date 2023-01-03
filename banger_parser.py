@@ -17,16 +17,16 @@ def p_block_light_rec(p):
     p[0] = AST.GenericBlock([p[1]] + [p[2]])
 
 def p_block(p):
-    '''block_complete : block_id LBRACKETS block_content RBRACKETS'''
+    '''block_complete : block_id START block_content STOP'''
     p[1].children += [p[3]]
     p[0] = p[1]
-    
-def p_block(p):
+       
+def p_block_string(p):
     '''block_complete : content_string'''
     p[0] = p[1]
 
 def p_block_with_param(p):
-    '''block_complete : block_id param LBRACKETS block_content RBRACKETS'''
+    '''block_complete : block_id param START block_content STOP'''
     p[1].children += [p[4]]
     p[1].params += [p[2]]
     p[0] = p[1]
@@ -49,8 +49,7 @@ def p_block_id_code(p):
 
 def p_block_content(p):
     '''block_content : block_light
-                     | list_elements
-                     | content_string'''
+                     | list_elements'''
     p[0] = p[1]
 
 def p_list_elements(p):
@@ -101,7 +100,6 @@ def p_param_align_left(p):
     
 def p_content(p):
     '''content_string : STRING'''
-    print(p[1])
     p[0] = AST.StringBlock(str(p[1]))
 
 

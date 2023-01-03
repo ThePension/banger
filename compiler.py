@@ -1,10 +1,11 @@
 import AST
 from AST import addToClass
-from tools import remove_superflu_tabs
+from tools import remove_superflu_tabs, auto_indent
 from textwrap import dedent
+import jsbeautifier
 
 # MathJax : https://github.com/mathjax/MathJax/
-
+# JsBeautifier : https://github.com/beautify-web/js-beautify
 
 @addToClass(AST.Document)
 def compile(self):
@@ -81,7 +82,7 @@ def compile(self):
     for p in self.params:
         html += p.compile()
     
-    html += "><code>" + remove_superflu_tabs(self.children[0].compile()) + "</code></pre>"
+    html += "><code>" + jsbeautifier.beautify(self.children[0].compile().replace('<br>', '')) + "</code></pre>"
 
     return html
 
@@ -133,13 +134,24 @@ def compile(self):
 
 @addToClass(AST.TextBlock)
 def compile(self):
-    html = "<p>" + self.children[0].compile() + "</p>"
+    html = "<div "
+    
+    for p in self.params:
+        html += p.compile()
+    
+    html += ">" + self.children[0].compile() + "</div>"
     return html
 
 @addToClass(AST.StringBlock)
 def compile(self):
     # See https://stackoverflow.com/questions/11924706/how-to-get-rid-of-double-backslash-in-python-windows-file-path-string
-    html = str(self)[1:-2].replace('\\\\', '\\') # .replace('\\n\\n', '<br />').replace('\\n', ' ')
+    # html = "<span "
+    
+    # for p in self.params:
+    #     html += p.compile()
+    
+    # html += ">" + str(self)[1:-2].replace('\\n', '<br>') +  "</span>"# .replace('\\\\', '\\')
+    html = str(self)[1:-2].replace('\\n', '<br>')
     return html
 
 @addToClass(AST.ParamBlock)
