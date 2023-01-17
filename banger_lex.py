@@ -11,12 +11,10 @@ reserved_words = (
     "left",
     "start",
     "stop",
-    # "list",
     # "subpage",
-    # "title",
     "toc",  # Table Of Contents
     "bulletpoint",
-    # "image",
+    "bv", # variable
 )
 
 tokens = (
@@ -30,7 +28,7 @@ tokens = (
     # "RPAREN",
     "EOL",
     "ASSIGNATION",
-    # "IDENTIFIER",
+    "IDENTIFIER",
     # "LBRACKETS",
     # "RBRACKETS",
     "STRING",
@@ -58,22 +56,21 @@ image = r"\bimage\b"
 text = r"\btext\b"
 t_BLOCK_ID = r'(' + title + r'|' + code + r'|' + list + r'|' + image + r'|' + text + r')'
 
-
 t_ignore = r"[ ]"
 # t_LPAREN = r'\('
 # t_RPAREN = r'\)'
 # t_UMINUS = r"\-"
 # t_EOL = r'\;'
-t_ASSIGNATION = r'\='
+t_ASSIGNATION = r"(\s|^)->(\s|$)"
 # t_LBRACKETS = r"\{"
 # t_RBRACKETS = r"\}"
 
 # string = r"(?!(title|list|code|image|text|{|}|" + r"|".join(reserved_words) + r"|" + t_COLOR_HEX + r")).+(\n)"
 
 # Regex for lines that are not a block
-def t_STRING(t):
-    r"(?!(title|list|code|image|text|bg|center|right|color|left|toc|start|stop|[\#]{1}([0-9a-fA-F]{3}){1,2})).+(\n)"
-    t.lexer.lineno += 1
+# def t_STRING(t):
+#     r"(?!(title|bv|list|code|image|text|bg|center|right|color|left|toc|start|stop|[\#]{1}([0-9a-fA-F]{3}){1,2})).+(\n)"
+#     t.lexer.lineno += 1
     
     # t.value = t.value.replace("\n", "")
     
@@ -83,12 +80,18 @@ nondigit = r'([_A-Za-z])'
 digit = r'([0-9])'
 identifier = r'(' + nondigit + r'(' + digit + r'|' + nondigit + r')*)'
 
+t_BV = r"\bbv\b"
 
-# @ TOKEN(identifier)
-# def t_IDENTIFIER(t):
-#     if t.value in reserved_words:
-#         t.type = t.value.upper()
-#     return t
+@TOKEN(identifier)
+def t_IDENTIFIER(t):
+    if t.value in reserved_words:
+        t.type = t.value.upper()
+
+    if t.value in ["title", "list", "code", "image", "text"]:
+        t.type = "BLOCK_ID"
+        
+    return t
+
 
 # def t_ADD_OP(t):
 #     r"[\+-]"
@@ -105,7 +108,7 @@ identifier = r'(' + nondigit + r'(' + digit + r'|' + nondigit + r')*)'
 
 
 def t_newline(t):
-    r"\n+"
+    r"\n"
     t.lexer.lineno += len(t.value)
 
 

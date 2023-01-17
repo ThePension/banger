@@ -101,6 +101,10 @@ def p_param_align_left(p):
 def p_content(p):
     '''content_string : STRING'''
     p[0] = AST.StringBlock(str(p[1]))
+    
+def p_assign(p):
+    '''assign : VAR IDENTIFIER ASSIGNATION content_string'''
+    p[0] = AST.AssignBlock(p[1], p[3])
 
 
 def p_error(p):
