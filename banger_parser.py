@@ -3,116 +3,85 @@ from banger_lex import tokens
 import sys
 import AST
 
+# Variable assignments
+def p_assignment(p):
+    '''statement : VARIABLE ASSIGN expression'''
+    p[0] = ('assign', p[1], p[3])
 
-def p_document(p):
-    '''document : block_light'''
-    p[0] = AST.Document(p[1])
+# If statements
+def p_if(p):
+    '''statement : IF LPAREN expression RPAREN LBRACE statements RBRACE
+                 | IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE'''
+    if len(p) == 8:
+        p[0] = ('if', p[3], p[6])
+    else:
+        p[0] = ('if-else', p[3], p[6], p[10])
 
-def p_block_light(p):
-    '''block_light : block_complete'''
-    p[0] = p[1]
+# While loops
+def p_while(p):
+    '''statement : WHILE LPAREN expression RPAREN LBRACE statements RBRACE'''
+    p[0] = ('while', p[3], p[6])
 
-def p_block_light_rec(p):
-    '''block_light : block_complete block_light'''
-    p[0] = AST.GenericBlock([p[1]] + [p[2]])
+# For loops  
+def p_for_loop(p):
+    '''statement : FOR VARIABLE IN VARIABLE LBRACE statements RBRACE'''
+    p[0] = ("for_loop", p[2], p[4], p[6])
 
-def p_block(p):
-    '''block_complete : block_id START block_content STOP'''
-    p[1].children += [p[3]]
-    p[0] = p[1]
-       
-def p_block_string(p):
-    '''block_complete : content_string'''
-    p[0] = p[1]
-
-def p_block_with_param(p):
-    '''block_complete : block_id param START block_content STOP'''
-    p[1].children += [p[4]]
-    p[1].params += [p[2]]
-    p[0] = p[1]
-
-def p_block_id_code(p):
-    '''block_id : BLOCK_ID'''
-    block_id = p[1]
-
-    if block_id.upper() == "CODE":
-        p[0] = AST.CodeBlock()
-    elif block_id.upper() == "LIST":
-        p[0] = AST.ListBlock()
-    elif block_id.upper() == "TITLE":
-        p[0] = AST.TitleBlock()
-    elif block_id.upper() == "IMAGE":
-        p[0] = AST.ImageBlock()
-    elif block_id.upper() == "TEXT":
-        p[0] = AST.TextBlock()
-            
-
-def p_block_content(p):
-    '''block_content : block_light
-                     | list_elements'''
-    p[0] = p[1]
-
-def p_list_elements(p):
-    '''list_elements : list_element'''
-    p[0] = AST.ListElement(p[1])
-
-
-def p_list_elements_rec(p):
-    '''list_elements : list_element list_elements'''
-    p[0] = AST.GenericBlock([p[1]] + p[2].children)
-
-
-def p_list_element(p):
-    '''list_element : BULLETPOINT content_string'''
-    p[0] = AST.ListElement(p[2])
-
-def p_param(p):
-    '''param : param_bg
-             | param_font
-             | param_align'''
-    p[0] = AST.ParamBlock(p[1])
-
-def p_param_rec(p):
-    '''param : param_bg param
-             | param_font param
-             | param_align param'''
-    p[0] = AST.ParamBlock([p[1]] + p[2].children)
-
-def p_param_bg(p):
-    '''param_bg : BG COLOR_HEX'''
-    p[0] = AST.ParamBGBlock(AST.StringBlock(p[2]))
+# Print statement
+def p_print(p):
+    '''statement : PRINT LPAREN expression RPAREN'''
+    p[0] = ('print', p[3])
     
-def p_param_font(p):
-    '''param_font : COLOR COLOR_HEX'''
-    p[0] = AST.ParamFontBlock(AST.StringBlock(p[2]))
+# Function definition
+def p_function(p):
+    '''statement : FUNCTION VARIABLE LPAREN parameters RPAREN LBRACE statements RBRACE'''
+    p[0] = ('function', p[2], p[4], p[7])
 
-def p_param_align_center(p):
-    '''param_align : CENTER'''
-    p[0] = AST.ParamAlignCenterBlock()
+def p_parameters(p):
+    '''parameters : VARIABLE
+                  | parameters COMMA VARIABLE'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[3]]
 
-def p_param_align_right(p):
-    '''param_align : RIGHT'''
-    p[0] = AST.ParamAlignRightBlock()
+# Expressions
+def p_expression(p):
+    '''expression : expression PLUS expression
+                  | expression MINUS expression
+                  | expression TIMES expression
+                  | expression DIVIDE expression
+                  | expression LT expression
+                  | expression LE expression
+                  | expression GT expression
+                  | expression GE expression
+                  | expression EQ expression
+                  | expression NE expression
+                  | expression AND expression
+                  | expression OR expression
+                  | NOT expression
+                  | LPAREN expression RPAREN
+                  | INTEGER
+                  | VARIABLE
+                  | STRING'''
+    if len(p) == 4:
+        p[0] = (p[2], p[1], p[3])
+    elif len(p) == 3:
+        p[0] = (p[1], p[2])
+    else:
+        p[0] = p[1]
 
-def p_param_align_left(p):
-    '''param_align : LEFT'''
-    p[0] = AST.ParamAlignLeftBlock()
-    
-def p_content(p):
-    '''content_string : STRING'''
-    p[0] = AST.StringBlock(str(p[1]))
-    
-def p_assign(p):
-    '''assign : VAR IDENTIFIER ASSIGNATION content_string'''
-    p[0] = AST.AssignBlock(p[1], p[3])
-
+# Statements
+def p_statements(p):
+    '''statements : statement
+                  | statements statement'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[2]]
 
 def p_error(p):
-    if p is not None:
-        print(f"Syntax error in line {p.lineno} at {p.value} with {p.type}")
-        parser = yacc.yacc()
-        parser.errok()
-
+    print(f"Syntax error at token {p.value}")
 
 yacc.yacc(outputdir="generated")
 
