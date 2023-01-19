@@ -20,8 +20,8 @@ def p_statement(p):
                  | print_statement
                  | if_statement
                  | while_statement
-                 | for_statement'''
-                #  | function_definition
+                 | for_statement
+                 | function_definition'''
                 #  | function_call'''
     p[0] = p[1]
 
@@ -41,9 +41,9 @@ def p_for_statement(p):
     '''for_statement : FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE'''
     p[0] = ('for', p[2], p[4], p[6], p[8])
 
-# def p_function_definition(p):
-#     '''function_definition : FUNCTION LPAREN variable_list RPAREN COLON statement_list'''
-#     p[0] = ('function', p[3], p[6])
+def p_function_definition(p):
+    '''function_definition : FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE'''
+    p[0] = ('function', p[2], p[4], p[7])
 
 # def p_function_call(p):
 #     '''function_call : VARIABLE LPAREN argument_list RPAREN'''
@@ -70,13 +70,13 @@ def p_comparison(p):
                   | expression NE expression'''
     p[0] = ('comp', p[2], p[1], p[3])
 
-# def p_variable_list(p):
-#     '''variable_list : VARIABLE
-#                      | variable_list COMMA VARIABLE'''
-#     if len(p) == 2:
-#         p[0] = [p[1]]
-#     else:
-#         p[0] = p[1] + [p[3]]
+def p_variable_list(p):
+    '''variable_list : VARIABLE
+                     | variable_list COMMA VARIABLE'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[3]]
             
             
 # def p_argument_list(p):

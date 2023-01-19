@@ -72,6 +72,7 @@ t_COLON = r':'
 t_IN = r'in'
 t_TO = r'to'
 
+
 def t_VARIABLE(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'VARIABLE')

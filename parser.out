@@ -4,10 +4,8 @@ Unused terminals:
 
     AND
     COLON
-    COMMA
     DIVIDE
     ELSE
-    FUNCTION
     MINUS
     NOT
     OR
@@ -25,68 +23,74 @@ Rule 5     statement -> print_statement
 Rule 6     statement -> if_statement
 Rule 7     statement -> while_statement
 Rule 8     statement -> for_statement
-Rule 9     assignment -> VARIABLE ASSIGN expression
-Rule 10    if_statement -> IF expression LBRACE statement_list RBRACE
-Rule 11    while_statement -> WHILE expression LBRACE statement_list RBRACE
-Rule 12    for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
-Rule 13    print_statement -> PRINT LPAREN expression RPAREN
-Rule 14    expression -> INTEGER
-Rule 15    expression -> VARIABLE
-Rule 16    expression -> STRING
-Rule 17    expression -> comparison
-Rule 18    comparison -> expression LT expression
-Rule 19    comparison -> expression LE expression
-Rule 20    comparison -> expression GT expression
-Rule 21    comparison -> expression GE expression
-Rule 22    comparison -> expression EQ expression
-Rule 23    comparison -> expression NE expression
+Rule 9     statement -> function_definition
+Rule 10    assignment -> VARIABLE ASSIGN expression
+Rule 11    if_statement -> IF expression LBRACE statement_list RBRACE
+Rule 12    while_statement -> WHILE expression LBRACE statement_list RBRACE
+Rule 13    for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+Rule 14    function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
+Rule 15    print_statement -> PRINT LPAREN expression RPAREN
+Rule 16    expression -> INTEGER
+Rule 17    expression -> VARIABLE
+Rule 18    expression -> STRING
+Rule 19    expression -> comparison
+Rule 20    comparison -> expression LT expression
+Rule 21    comparison -> expression LE expression
+Rule 22    comparison -> expression GT expression
+Rule 23    comparison -> expression GE expression
+Rule 24    comparison -> expression EQ expression
+Rule 25    comparison -> expression NE expression
+Rule 26    variable_list -> VARIABLE
+Rule 27    variable_list -> variable_list COMMA VARIABLE
 
 Terminals, with rules where they appear
 
 AND                  : 
-ASSIGN               : 9
+ASSIGN               : 10
 COLON                : 
-COMMA                : 
+COMMA                : 27
 DIVIDE               : 
 ELSE                 : 
-EQ                   : 22
-FOR                  : 12
-FUNCTION             : 
-GE                   : 21
-GT                   : 20
-IF                   : 10
-IN                   : 12
-INTEGER              : 12 12 14
-LBRACE               : 10 11 12
-LE                   : 19
-LPAREN               : 13
-LT                   : 18
+EQ                   : 24
+FOR                  : 13
+FUNCTION             : 14
+GE                   : 23
+GT                   : 22
+IF                   : 11
+IN                   : 13
+INTEGER              : 13 13 16
+LBRACE               : 11 12 13 14
+LE                   : 21
+LPAREN               : 14 15
+LT                   : 20
 MINUS                : 
-NE                   : 23
+NE                   : 25
 NOT                  : 
 OR                   : 
 PLUS                 : 
-PRINT                : 13
-RBRACE               : 10 11 12
-RPAREN               : 13
-STRING               : 16
+PRINT                : 15
+RBRACE               : 11 12 13 14
+RPAREN               : 14 15
+STRING               : 18
 TIMES                : 
-TO                   : 12
-VARIABLE             : 9 12 15
-WHILE                : 11
+TO                   : 13
+VARIABLE             : 10 13 14 17 26 27
+WHILE                : 12
 error                : 
 
 Nonterminals, with rules where they appear
 
 assignment           : 4
-comparison           : 17
-expression           : 9 10 11 13 18 18 19 19 20 20 21 21 22 22 23 23
+comparison           : 19
+expression           : 10 11 12 15 20 20 21 21 22 22 23 23 24 24 25 25
 for_statement        : 8
+function_definition  : 9
 if_statement         : 6
 print_statement      : 5
 program              : 0
 statement            : 2 3
-statement_list       : 1 3 10 11 12
+statement_list       : 1 3 11 12 13 14
+variable_list        : 14 27
 while_statement      : 7
 
 Parsing method: LALR
@@ -102,17 +106,20 @@ state 0
     (6) statement -> . if_statement
     (7) statement -> . while_statement
     (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
 
     program                        shift and go to state 1
     statement_list                 shift and go to state 2
@@ -122,6 +129,7 @@ state 0
     if_statement                   shift and go to state 6
     while_statement                shift and go to state 7
     for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
 
 state 1
 
@@ -138,25 +146,29 @@ state 2
     (6) statement -> . if_statement
     (7) statement -> . while_statement
     (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
     $end            reduce using rule 1 (program -> statement_list .)
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
 
-    statement                      shift and go to state 14
+    statement                      shift and go to state 16
     assignment                     shift and go to state 4
     print_statement                shift and go to state 5
     if_statement                   shift and go to state 6
     while_statement                shift and go to state 7
     for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
 
 state 3
 
@@ -167,6 +179,7 @@ state 3
     IF              reduce using rule 2 (statement_list -> statement .)
     WHILE           reduce using rule 2 (statement_list -> statement .)
     FOR             reduce using rule 2 (statement_list -> statement .)
+    FUNCTION        reduce using rule 2 (statement_list -> statement .)
     $end            reduce using rule 2 (statement_list -> statement .)
     RBRACE          reduce using rule 2 (statement_list -> statement .)
 
@@ -180,6 +193,7 @@ state 4
     IF              reduce using rule 4 (statement -> assignment .)
     WHILE           reduce using rule 4 (statement -> assignment .)
     FOR             reduce using rule 4 (statement -> assignment .)
+    FUNCTION        reduce using rule 4 (statement -> assignment .)
     $end            reduce using rule 4 (statement -> assignment .)
     RBRACE          reduce using rule 4 (statement -> assignment .)
 
@@ -193,6 +207,7 @@ state 5
     IF              reduce using rule 5 (statement -> print_statement .)
     WHILE           reduce using rule 5 (statement -> print_statement .)
     FOR             reduce using rule 5 (statement -> print_statement .)
+    FUNCTION        reduce using rule 5 (statement -> print_statement .)
     $end            reduce using rule 5 (statement -> print_statement .)
     RBRACE          reduce using rule 5 (statement -> print_statement .)
 
@@ -206,6 +221,7 @@ state 6
     IF              reduce using rule 6 (statement -> if_statement .)
     WHILE           reduce using rule 6 (statement -> if_statement .)
     FOR             reduce using rule 6 (statement -> if_statement .)
+    FUNCTION        reduce using rule 6 (statement -> if_statement .)
     $end            reduce using rule 6 (statement -> if_statement .)
     RBRACE          reduce using rule 6 (statement -> if_statement .)
 
@@ -219,6 +235,7 @@ state 7
     IF              reduce using rule 7 (statement -> while_statement .)
     WHILE           reduce using rule 7 (statement -> while_statement .)
     FOR             reduce using rule 7 (statement -> while_statement .)
+    FUNCTION        reduce using rule 7 (statement -> while_statement .)
     $end            reduce using rule 7 (statement -> while_statement .)
     RBRACE          reduce using rule 7 (statement -> while_statement .)
 
@@ -232,74 +249,96 @@ state 8
     IF              reduce using rule 8 (statement -> for_statement .)
     WHILE           reduce using rule 8 (statement -> for_statement .)
     FOR             reduce using rule 8 (statement -> for_statement .)
+    FUNCTION        reduce using rule 8 (statement -> for_statement .)
     $end            reduce using rule 8 (statement -> for_statement .)
     RBRACE          reduce using rule 8 (statement -> for_statement .)
 
 
 state 9
 
-    (9) assignment -> VARIABLE . ASSIGN expression
+    (9) statement -> function_definition .
 
-    ASSIGN          shift and go to state 15
+    VARIABLE        reduce using rule 9 (statement -> function_definition .)
+    PRINT           reduce using rule 9 (statement -> function_definition .)
+    IF              reduce using rule 9 (statement -> function_definition .)
+    WHILE           reduce using rule 9 (statement -> function_definition .)
+    FOR             reduce using rule 9 (statement -> function_definition .)
+    FUNCTION        reduce using rule 9 (statement -> function_definition .)
+    $end            reduce using rule 9 (statement -> function_definition .)
+    RBRACE          reduce using rule 9 (statement -> function_definition .)
 
 
 state 10
 
-    (13) print_statement -> PRINT . LPAREN expression RPAREN
+    (10) assignment -> VARIABLE . ASSIGN expression
 
-    LPAREN          shift and go to state 16
+    ASSIGN          shift and go to state 17
 
 
 state 11
 
-    (10) if_statement -> IF . expression LBRACE statement_list RBRACE
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
+    (15) print_statement -> PRINT . LPAREN expression RPAREN
 
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
+    LPAREN          shift and go to state 18
 
-    expression                     shift and go to state 17
-    comparison                     shift and go to state 21
 
 state 12
 
-    (11) while_statement -> WHILE . expression LBRACE statement_list RBRACE
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
+    (11) if_statement -> IF . expression LBRACE statement_list RBRACE
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
 
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
 
-    expression                     shift and go to state 22
-    comparison                     shift and go to state 21
+    expression                     shift and go to state 19
+    comparison                     shift and go to state 23
 
 state 13
 
-    (12) for_statement -> FOR . VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (12) while_statement -> WHILE . expression LBRACE statement_list RBRACE
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
 
-    VARIABLE        shift and go to state 23
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
 
+    expression                     shift and go to state 24
+    comparison                     shift and go to state 23
 
 state 14
+
+    (13) for_statement -> FOR . VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+
+    VARIABLE        shift and go to state 25
+
+
+state 15
+
+    (14) function_definition -> FUNCTION . VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
+
+    VARIABLE        shift and go to state 26
+
+
+state 16
 
     (3) statement_list -> statement_list statement .
 
@@ -308,384 +347,241 @@ state 14
     IF              reduce using rule 3 (statement_list -> statement_list statement .)
     WHILE           reduce using rule 3 (statement_list -> statement_list statement .)
     FOR             reduce using rule 3 (statement_list -> statement_list statement .)
+    FUNCTION        reduce using rule 3 (statement_list -> statement_list statement .)
     $end            reduce using rule 3 (statement_list -> statement_list statement .)
     RBRACE          reduce using rule 3 (statement_list -> statement_list statement .)
 
 
-state 15
-
-    (9) assignment -> VARIABLE ASSIGN . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
-
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
-
-    expression                     shift and go to state 24
-    comparison                     shift and go to state 21
-
-state 16
-
-    (13) print_statement -> PRINT LPAREN . expression RPAREN
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
-
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
-
-    expression                     shift and go to state 25
-    comparison                     shift and go to state 21
-
 state 17
 
-    (10) if_statement -> IF expression . LBRACE statement_list RBRACE
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
+    (10) assignment -> VARIABLE ASSIGN . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
 
-    LBRACE          shift and go to state 26
-    LT              shift and go to state 27
-    LE              shift and go to state 28
-    GT              shift and go to state 29
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
 
+    expression                     shift and go to state 27
+    comparison                     shift and go to state 23
 
 state 18
 
-    (14) expression -> INTEGER .
+    (15) print_statement -> PRINT LPAREN . expression RPAREN
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
 
-    LBRACE          reduce using rule 14 (expression -> INTEGER .)
-    LT              reduce using rule 14 (expression -> INTEGER .)
-    LE              reduce using rule 14 (expression -> INTEGER .)
-    GT              reduce using rule 14 (expression -> INTEGER .)
-    GE              reduce using rule 14 (expression -> INTEGER .)
-    EQ              reduce using rule 14 (expression -> INTEGER .)
-    NE              reduce using rule 14 (expression -> INTEGER .)
-    VARIABLE        reduce using rule 14 (expression -> INTEGER .)
-    PRINT           reduce using rule 14 (expression -> INTEGER .)
-    IF              reduce using rule 14 (expression -> INTEGER .)
-    WHILE           reduce using rule 14 (expression -> INTEGER .)
-    FOR             reduce using rule 14 (expression -> INTEGER .)
-    $end            reduce using rule 14 (expression -> INTEGER .)
-    RBRACE          reduce using rule 14 (expression -> INTEGER .)
-    RPAREN          reduce using rule 14 (expression -> INTEGER .)
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
 
+    expression                     shift and go to state 28
+    comparison                     shift and go to state 23
 
 state 19
 
-    (15) expression -> VARIABLE .
+    (11) if_statement -> IF expression . LBRACE statement_list RBRACE
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
 
-    LBRACE          reduce using rule 15 (expression -> VARIABLE .)
-    LT              reduce using rule 15 (expression -> VARIABLE .)
-    LE              reduce using rule 15 (expression -> VARIABLE .)
-    GT              reduce using rule 15 (expression -> VARIABLE .)
-    GE              reduce using rule 15 (expression -> VARIABLE .)
-    EQ              reduce using rule 15 (expression -> VARIABLE .)
-    NE              reduce using rule 15 (expression -> VARIABLE .)
-    VARIABLE        reduce using rule 15 (expression -> VARIABLE .)
-    PRINT           reduce using rule 15 (expression -> VARIABLE .)
-    IF              reduce using rule 15 (expression -> VARIABLE .)
-    WHILE           reduce using rule 15 (expression -> VARIABLE .)
-    FOR             reduce using rule 15 (expression -> VARIABLE .)
-    $end            reduce using rule 15 (expression -> VARIABLE .)
-    RBRACE          reduce using rule 15 (expression -> VARIABLE .)
-    RPAREN          reduce using rule 15 (expression -> VARIABLE .)
+    LBRACE          shift and go to state 29
+    LT              shift and go to state 30
+    LE              shift and go to state 31
+    GT              shift and go to state 32
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
 
 
 state 20
 
-    (16) expression -> STRING .
+    (16) expression -> INTEGER .
 
-    LBRACE          reduce using rule 16 (expression -> STRING .)
-    LT              reduce using rule 16 (expression -> STRING .)
-    LE              reduce using rule 16 (expression -> STRING .)
-    GT              reduce using rule 16 (expression -> STRING .)
-    GE              reduce using rule 16 (expression -> STRING .)
-    EQ              reduce using rule 16 (expression -> STRING .)
-    NE              reduce using rule 16 (expression -> STRING .)
-    VARIABLE        reduce using rule 16 (expression -> STRING .)
-    PRINT           reduce using rule 16 (expression -> STRING .)
-    IF              reduce using rule 16 (expression -> STRING .)
-    WHILE           reduce using rule 16 (expression -> STRING .)
-    FOR             reduce using rule 16 (expression -> STRING .)
-    $end            reduce using rule 16 (expression -> STRING .)
-    RBRACE          reduce using rule 16 (expression -> STRING .)
-    RPAREN          reduce using rule 16 (expression -> STRING .)
+    LBRACE          reduce using rule 16 (expression -> INTEGER .)
+    LT              reduce using rule 16 (expression -> INTEGER .)
+    LE              reduce using rule 16 (expression -> INTEGER .)
+    GT              reduce using rule 16 (expression -> INTEGER .)
+    GE              reduce using rule 16 (expression -> INTEGER .)
+    EQ              reduce using rule 16 (expression -> INTEGER .)
+    NE              reduce using rule 16 (expression -> INTEGER .)
+    VARIABLE        reduce using rule 16 (expression -> INTEGER .)
+    PRINT           reduce using rule 16 (expression -> INTEGER .)
+    IF              reduce using rule 16 (expression -> INTEGER .)
+    WHILE           reduce using rule 16 (expression -> INTEGER .)
+    FOR             reduce using rule 16 (expression -> INTEGER .)
+    FUNCTION        reduce using rule 16 (expression -> INTEGER .)
+    $end            reduce using rule 16 (expression -> INTEGER .)
+    RBRACE          reduce using rule 16 (expression -> INTEGER .)
+    RPAREN          reduce using rule 16 (expression -> INTEGER .)
 
 
 state 21
 
-    (17) expression -> comparison .
+    (17) expression -> VARIABLE .
 
-    LBRACE          reduce using rule 17 (expression -> comparison .)
-    LT              reduce using rule 17 (expression -> comparison .)
-    LE              reduce using rule 17 (expression -> comparison .)
-    GT              reduce using rule 17 (expression -> comparison .)
-    GE              reduce using rule 17 (expression -> comparison .)
-    EQ              reduce using rule 17 (expression -> comparison .)
-    NE              reduce using rule 17 (expression -> comparison .)
-    VARIABLE        reduce using rule 17 (expression -> comparison .)
-    PRINT           reduce using rule 17 (expression -> comparison .)
-    IF              reduce using rule 17 (expression -> comparison .)
-    WHILE           reduce using rule 17 (expression -> comparison .)
-    FOR             reduce using rule 17 (expression -> comparison .)
-    $end            reduce using rule 17 (expression -> comparison .)
-    RBRACE          reduce using rule 17 (expression -> comparison .)
-    RPAREN          reduce using rule 17 (expression -> comparison .)
+    LBRACE          reduce using rule 17 (expression -> VARIABLE .)
+    LT              reduce using rule 17 (expression -> VARIABLE .)
+    LE              reduce using rule 17 (expression -> VARIABLE .)
+    GT              reduce using rule 17 (expression -> VARIABLE .)
+    GE              reduce using rule 17 (expression -> VARIABLE .)
+    EQ              reduce using rule 17 (expression -> VARIABLE .)
+    NE              reduce using rule 17 (expression -> VARIABLE .)
+    VARIABLE        reduce using rule 17 (expression -> VARIABLE .)
+    PRINT           reduce using rule 17 (expression -> VARIABLE .)
+    IF              reduce using rule 17 (expression -> VARIABLE .)
+    WHILE           reduce using rule 17 (expression -> VARIABLE .)
+    FOR             reduce using rule 17 (expression -> VARIABLE .)
+    FUNCTION        reduce using rule 17 (expression -> VARIABLE .)
+    $end            reduce using rule 17 (expression -> VARIABLE .)
+    RBRACE          reduce using rule 17 (expression -> VARIABLE .)
+    RPAREN          reduce using rule 17 (expression -> VARIABLE .)
 
 
 state 22
 
-    (11) while_statement -> WHILE expression . LBRACE statement_list RBRACE
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
+    (18) expression -> STRING .
 
-    LBRACE          shift and go to state 33
-    LT              shift and go to state 27
-    LE              shift and go to state 28
-    GT              shift and go to state 29
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
+    LBRACE          reduce using rule 18 (expression -> STRING .)
+    LT              reduce using rule 18 (expression -> STRING .)
+    LE              reduce using rule 18 (expression -> STRING .)
+    GT              reduce using rule 18 (expression -> STRING .)
+    GE              reduce using rule 18 (expression -> STRING .)
+    EQ              reduce using rule 18 (expression -> STRING .)
+    NE              reduce using rule 18 (expression -> STRING .)
+    VARIABLE        reduce using rule 18 (expression -> STRING .)
+    PRINT           reduce using rule 18 (expression -> STRING .)
+    IF              reduce using rule 18 (expression -> STRING .)
+    WHILE           reduce using rule 18 (expression -> STRING .)
+    FOR             reduce using rule 18 (expression -> STRING .)
+    FUNCTION        reduce using rule 18 (expression -> STRING .)
+    $end            reduce using rule 18 (expression -> STRING .)
+    RBRACE          reduce using rule 18 (expression -> STRING .)
+    RPAREN          reduce using rule 18 (expression -> STRING .)
 
 
 state 23
 
-    (12) for_statement -> FOR VARIABLE . IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (19) expression -> comparison .
 
-    IN              shift and go to state 34
+    LBRACE          reduce using rule 19 (expression -> comparison .)
+    LT              reduce using rule 19 (expression -> comparison .)
+    LE              reduce using rule 19 (expression -> comparison .)
+    GT              reduce using rule 19 (expression -> comparison .)
+    GE              reduce using rule 19 (expression -> comparison .)
+    EQ              reduce using rule 19 (expression -> comparison .)
+    NE              reduce using rule 19 (expression -> comparison .)
+    VARIABLE        reduce using rule 19 (expression -> comparison .)
+    PRINT           reduce using rule 19 (expression -> comparison .)
+    IF              reduce using rule 19 (expression -> comparison .)
+    WHILE           reduce using rule 19 (expression -> comparison .)
+    FOR             reduce using rule 19 (expression -> comparison .)
+    FUNCTION        reduce using rule 19 (expression -> comparison .)
+    $end            reduce using rule 19 (expression -> comparison .)
+    RBRACE          reduce using rule 19 (expression -> comparison .)
+    RPAREN          reduce using rule 19 (expression -> comparison .)
 
 
 state 24
 
-    (9) assignment -> VARIABLE ASSIGN expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
+    (12) while_statement -> WHILE expression . LBRACE statement_list RBRACE
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
 
-    VARIABLE        reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    PRINT           reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    IF              reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    WHILE           reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    FOR             reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    $end            reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    RBRACE          reduce using rule 9 (assignment -> VARIABLE ASSIGN expression .)
-    LT              shift and go to state 27
-    LE              shift and go to state 28
-    GT              shift and go to state 29
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
+    LBRACE          shift and go to state 36
+    LT              shift and go to state 30
+    LE              shift and go to state 31
+    GT              shift and go to state 32
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
 
 
 state 25
 
-    (13) print_statement -> PRINT LPAREN expression . RPAREN
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
+    (13) for_statement -> FOR VARIABLE . IN INTEGER TO INTEGER LBRACE statement_list RBRACE
 
-    RPAREN          shift and go to state 35
-    LT              shift and go to state 27
-    LE              shift and go to state 28
-    GT              shift and go to state 29
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
+    IN              shift and go to state 37
 
 
 state 26
 
-    (10) if_statement -> IF expression LBRACE . statement_list RBRACE
-    (2) statement_list -> . statement
-    (3) statement_list -> . statement_list statement
-    (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . if_statement
-    (7) statement -> . while_statement
-    (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> FUNCTION VARIABLE . LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    LPAREN          shift and go to state 38
 
-    statement_list                 shift and go to state 36
-    statement                      shift and go to state 3
-    assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    if_statement                   shift and go to state 6
-    while_statement                shift and go to state 7
-    for_statement                  shift and go to state 8
 
 state 27
 
-    (18) comparison -> expression LT . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
+    (10) assignment -> VARIABLE ASSIGN expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
 
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
+    VARIABLE        reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    PRINT           reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    IF              reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    WHILE           reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    FOR             reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    FUNCTION        reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    $end            reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    RBRACE          reduce using rule 10 (assignment -> VARIABLE ASSIGN expression .)
+    LT              shift and go to state 30
+    LE              shift and go to state 31
+    GT              shift and go to state 32
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
 
-    expression                     shift and go to state 37
-    comparison                     shift and go to state 21
 
 state 28
 
-    (19) comparison -> expression LE . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
+    (15) print_statement -> PRINT LPAREN expression . RPAREN
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
 
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
+    RPAREN          shift and go to state 39
+    LT              shift and go to state 30
+    LE              shift and go to state 31
+    GT              shift and go to state 32
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
 
-    expression                     shift and go to state 38
-    comparison                     shift and go to state 21
 
 state 29
 
-    (20) comparison -> expression GT . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
-
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
-
-    expression                     shift and go to state 39
-    comparison                     shift and go to state 21
-
-state 30
-
-    (21) comparison -> expression GE . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
-
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
-
-    expression                     shift and go to state 40
-    comparison                     shift and go to state 21
-
-state 31
-
-    (22) comparison -> expression EQ . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
-
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
-
-    expression                     shift and go to state 41
-    comparison                     shift and go to state 21
-
-state 32
-
-    (23) comparison -> expression NE . expression
-    (14) expression -> . INTEGER
-    (15) expression -> . VARIABLE
-    (16) expression -> . STRING
-    (17) expression -> . comparison
-    (18) comparison -> . expression LT expression
-    (19) comparison -> . expression LE expression
-    (20) comparison -> . expression GT expression
-    (21) comparison -> . expression GE expression
-    (22) comparison -> . expression EQ expression
-    (23) comparison -> . expression NE expression
-
-    INTEGER         shift and go to state 18
-    VARIABLE        shift and go to state 19
-    STRING          shift and go to state 20
-
-    expression                     shift and go to state 42
-    comparison                     shift and go to state 21
-
-state 33
-
-    (11) while_statement -> WHILE expression LBRACE . statement_list RBRACE
+    (11) if_statement -> IF expression LBRACE . statement_list RBRACE
     (2) statement_list -> . statement
     (3) statement_list -> . statement_list statement
     (4) statement -> . assignment
@@ -693,358 +589,580 @@ state 33
     (6) statement -> . if_statement
     (7) statement -> . while_statement
     (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
 
-    statement_list                 shift and go to state 43
+    statement_list                 shift and go to state 40
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
     print_statement                shift and go to state 5
     if_statement                   shift and go to state 6
     while_statement                shift and go to state 7
     for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
+
+state 30
+
+    (20) comparison -> expression LT . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
+
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
+
+    expression                     shift and go to state 41
+    comparison                     shift and go to state 23
+
+state 31
+
+    (21) comparison -> expression LE . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
+
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
+
+    expression                     shift and go to state 42
+    comparison                     shift and go to state 23
+
+state 32
+
+    (22) comparison -> expression GT . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
+
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
+
+    expression                     shift and go to state 43
+    comparison                     shift and go to state 23
+
+state 33
+
+    (23) comparison -> expression GE . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
+
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
+
+    expression                     shift and go to state 44
+    comparison                     shift and go to state 23
 
 state 34
 
-    (12) for_statement -> FOR VARIABLE IN . INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (24) comparison -> expression EQ . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
 
-    INTEGER         shift and go to state 44
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
 
+    expression                     shift and go to state 45
+    comparison                     shift and go to state 23
 
 state 35
 
-    (13) print_statement -> PRINT LPAREN expression RPAREN .
+    (25) comparison -> expression NE . expression
+    (16) expression -> . INTEGER
+    (17) expression -> . VARIABLE
+    (18) expression -> . STRING
+    (19) expression -> . comparison
+    (20) comparison -> . expression LT expression
+    (21) comparison -> . expression LE expression
+    (22) comparison -> . expression GT expression
+    (23) comparison -> . expression GE expression
+    (24) comparison -> . expression EQ expression
+    (25) comparison -> . expression NE expression
 
-    VARIABLE        reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
-    PRINT           reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
-    IF              reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
-    WHILE           reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
-    FOR             reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
-    $end            reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
-    RBRACE          reduce using rule 13 (print_statement -> PRINT LPAREN expression RPAREN .)
+    INTEGER         shift and go to state 20
+    VARIABLE        shift and go to state 21
+    STRING          shift and go to state 22
 
+    expression                     shift and go to state 46
+    comparison                     shift and go to state 23
 
 state 36
 
-    (10) if_statement -> IF expression LBRACE statement_list . RBRACE
-    (3) statement_list -> statement_list . statement
+    (12) while_statement -> WHILE expression LBRACE . statement_list RBRACE
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement_list statement
     (4) statement -> . assignment
     (5) statement -> . print_statement
     (6) statement -> . if_statement
     (7) statement -> . while_statement
     (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    RBRACE          shift and go to state 45
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
 
-    statement                      shift and go to state 14
+    statement_list                 shift and go to state 47
+    statement                      shift and go to state 3
     assignment                     shift and go to state 4
     print_statement                shift and go to state 5
     if_statement                   shift and go to state 6
     while_statement                shift and go to state 7
     for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
 
 state 37
 
-    (18) comparison -> expression LT expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
-
-    LBRACE          reduce using rule 18 (comparison -> expression LT expression .)
-    LT              reduce using rule 18 (comparison -> expression LT expression .)
-    VARIABLE        reduce using rule 18 (comparison -> expression LT expression .)
-    PRINT           reduce using rule 18 (comparison -> expression LT expression .)
-    IF              reduce using rule 18 (comparison -> expression LT expression .)
-    WHILE           reduce using rule 18 (comparison -> expression LT expression .)
-    FOR             reduce using rule 18 (comparison -> expression LT expression .)
-    $end            reduce using rule 18 (comparison -> expression LT expression .)
-    RBRACE          reduce using rule 18 (comparison -> expression LT expression .)
-    RPAREN          reduce using rule 18 (comparison -> expression LT expression .)
-    LE              shift and go to state 28
-    GT              shift and go to state 29
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
-
-  ! LE              [ reduce using rule 18 (comparison -> expression LT expression .) ]
-  ! GT              [ reduce using rule 18 (comparison -> expression LT expression .) ]
-  ! GE              [ reduce using rule 18 (comparison -> expression LT expression .) ]
-  ! EQ              [ reduce using rule 18 (comparison -> expression LT expression .) ]
-  ! NE              [ reduce using rule 18 (comparison -> expression LT expression .) ]
-  ! LT              [ shift and go to state 27 ]
-
-
-state 38
-
-    (19) comparison -> expression LE expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
-
-    LBRACE          reduce using rule 19 (comparison -> expression LE expression .)
-    LT              reduce using rule 19 (comparison -> expression LE expression .)
-    LE              reduce using rule 19 (comparison -> expression LE expression .)
-    VARIABLE        reduce using rule 19 (comparison -> expression LE expression .)
-    PRINT           reduce using rule 19 (comparison -> expression LE expression .)
-    IF              reduce using rule 19 (comparison -> expression LE expression .)
-    WHILE           reduce using rule 19 (comparison -> expression LE expression .)
-    FOR             reduce using rule 19 (comparison -> expression LE expression .)
-    $end            reduce using rule 19 (comparison -> expression LE expression .)
-    RBRACE          reduce using rule 19 (comparison -> expression LE expression .)
-    RPAREN          reduce using rule 19 (comparison -> expression LE expression .)
-    GT              shift and go to state 29
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
-
-  ! GT              [ reduce using rule 19 (comparison -> expression LE expression .) ]
-  ! GE              [ reduce using rule 19 (comparison -> expression LE expression .) ]
-  ! EQ              [ reduce using rule 19 (comparison -> expression LE expression .) ]
-  ! NE              [ reduce using rule 19 (comparison -> expression LE expression .) ]
-  ! LT              [ shift and go to state 27 ]
-  ! LE              [ shift and go to state 28 ]
-
-
-state 39
-
-    (20) comparison -> expression GT expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
-
-    LBRACE          reduce using rule 20 (comparison -> expression GT expression .)
-    LT              reduce using rule 20 (comparison -> expression GT expression .)
-    LE              reduce using rule 20 (comparison -> expression GT expression .)
-    GT              reduce using rule 20 (comparison -> expression GT expression .)
-    VARIABLE        reduce using rule 20 (comparison -> expression GT expression .)
-    PRINT           reduce using rule 20 (comparison -> expression GT expression .)
-    IF              reduce using rule 20 (comparison -> expression GT expression .)
-    WHILE           reduce using rule 20 (comparison -> expression GT expression .)
-    FOR             reduce using rule 20 (comparison -> expression GT expression .)
-    $end            reduce using rule 20 (comparison -> expression GT expression .)
-    RBRACE          reduce using rule 20 (comparison -> expression GT expression .)
-    RPAREN          reduce using rule 20 (comparison -> expression GT expression .)
-    GE              shift and go to state 30
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
-
-  ! GE              [ reduce using rule 20 (comparison -> expression GT expression .) ]
-  ! EQ              [ reduce using rule 20 (comparison -> expression GT expression .) ]
-  ! NE              [ reduce using rule 20 (comparison -> expression GT expression .) ]
-  ! LT              [ shift and go to state 27 ]
-  ! LE              [ shift and go to state 28 ]
-  ! GT              [ shift and go to state 29 ]
-
-
-state 40
-
-    (21) comparison -> expression GE expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
-
-    LBRACE          reduce using rule 21 (comparison -> expression GE expression .)
-    LT              reduce using rule 21 (comparison -> expression GE expression .)
-    LE              reduce using rule 21 (comparison -> expression GE expression .)
-    GT              reduce using rule 21 (comparison -> expression GE expression .)
-    GE              reduce using rule 21 (comparison -> expression GE expression .)
-    VARIABLE        reduce using rule 21 (comparison -> expression GE expression .)
-    PRINT           reduce using rule 21 (comparison -> expression GE expression .)
-    IF              reduce using rule 21 (comparison -> expression GE expression .)
-    WHILE           reduce using rule 21 (comparison -> expression GE expression .)
-    FOR             reduce using rule 21 (comparison -> expression GE expression .)
-    $end            reduce using rule 21 (comparison -> expression GE expression .)
-    RBRACE          reduce using rule 21 (comparison -> expression GE expression .)
-    RPAREN          reduce using rule 21 (comparison -> expression GE expression .)
-    EQ              shift and go to state 31
-    NE              shift and go to state 32
-
-  ! EQ              [ reduce using rule 21 (comparison -> expression GE expression .) ]
-  ! NE              [ reduce using rule 21 (comparison -> expression GE expression .) ]
-  ! LT              [ shift and go to state 27 ]
-  ! LE              [ shift and go to state 28 ]
-  ! GT              [ shift and go to state 29 ]
-  ! GE              [ shift and go to state 30 ]
-
-
-state 41
-
-    (22) comparison -> expression EQ expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
-
-    LBRACE          reduce using rule 22 (comparison -> expression EQ expression .)
-    LT              reduce using rule 22 (comparison -> expression EQ expression .)
-    LE              reduce using rule 22 (comparison -> expression EQ expression .)
-    GT              reduce using rule 22 (comparison -> expression EQ expression .)
-    GE              reduce using rule 22 (comparison -> expression EQ expression .)
-    EQ              reduce using rule 22 (comparison -> expression EQ expression .)
-    VARIABLE        reduce using rule 22 (comparison -> expression EQ expression .)
-    PRINT           reduce using rule 22 (comparison -> expression EQ expression .)
-    IF              reduce using rule 22 (comparison -> expression EQ expression .)
-    WHILE           reduce using rule 22 (comparison -> expression EQ expression .)
-    FOR             reduce using rule 22 (comparison -> expression EQ expression .)
-    $end            reduce using rule 22 (comparison -> expression EQ expression .)
-    RBRACE          reduce using rule 22 (comparison -> expression EQ expression .)
-    RPAREN          reduce using rule 22 (comparison -> expression EQ expression .)
-    NE              shift and go to state 32
-
-  ! NE              [ reduce using rule 22 (comparison -> expression EQ expression .) ]
-  ! LT              [ shift and go to state 27 ]
-  ! LE              [ shift and go to state 28 ]
-  ! GT              [ shift and go to state 29 ]
-  ! GE              [ shift and go to state 30 ]
-  ! EQ              [ shift and go to state 31 ]
-
-
-state 42
-
-    (23) comparison -> expression NE expression .
-    (18) comparison -> expression . LT expression
-    (19) comparison -> expression . LE expression
-    (20) comparison -> expression . GT expression
-    (21) comparison -> expression . GE expression
-    (22) comparison -> expression . EQ expression
-    (23) comparison -> expression . NE expression
-
-    LBRACE          reduce using rule 23 (comparison -> expression NE expression .)
-    LT              reduce using rule 23 (comparison -> expression NE expression .)
-    LE              reduce using rule 23 (comparison -> expression NE expression .)
-    GT              reduce using rule 23 (comparison -> expression NE expression .)
-    GE              reduce using rule 23 (comparison -> expression NE expression .)
-    EQ              reduce using rule 23 (comparison -> expression NE expression .)
-    NE              reduce using rule 23 (comparison -> expression NE expression .)
-    VARIABLE        reduce using rule 23 (comparison -> expression NE expression .)
-    PRINT           reduce using rule 23 (comparison -> expression NE expression .)
-    IF              reduce using rule 23 (comparison -> expression NE expression .)
-    WHILE           reduce using rule 23 (comparison -> expression NE expression .)
-    FOR             reduce using rule 23 (comparison -> expression NE expression .)
-    $end            reduce using rule 23 (comparison -> expression NE expression .)
-    RBRACE          reduce using rule 23 (comparison -> expression NE expression .)
-    RPAREN          reduce using rule 23 (comparison -> expression NE expression .)
-
-  ! LT              [ shift and go to state 27 ]
-  ! LE              [ shift and go to state 28 ]
-  ! GT              [ shift and go to state 29 ]
-  ! GE              [ shift and go to state 30 ]
-  ! EQ              [ shift and go to state 31 ]
-  ! NE              [ shift and go to state 32 ]
-
-
-state 43
-
-    (11) while_statement -> WHILE expression LBRACE statement_list . RBRACE
-    (3) statement_list -> statement_list . statement
-    (4) statement -> . assignment
-    (5) statement -> . print_statement
-    (6) statement -> . if_statement
-    (7) statement -> . while_statement
-    (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
-
-    RBRACE          shift and go to state 46
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
-
-    statement                      shift and go to state 14
-    assignment                     shift and go to state 4
-    print_statement                shift and go to state 5
-    if_statement                   shift and go to state 6
-    while_statement                shift and go to state 7
-    for_statement                  shift and go to state 8
-
-state 44
-
-    (12) for_statement -> FOR VARIABLE IN INTEGER . TO INTEGER LBRACE statement_list RBRACE
-
-    TO              shift and go to state 47
-
-
-state 45
-
-    (10) if_statement -> IF expression LBRACE statement_list RBRACE .
-
-    VARIABLE        reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-    IF              reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-    $end            reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 10 (if_statement -> IF expression LBRACE statement_list RBRACE .)
-
-
-state 46
-
-    (11) while_statement -> WHILE expression LBRACE statement_list RBRACE .
-
-    VARIABLE        reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-    IF              reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-    $end            reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 11 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
-
-
-state 47
-
-    (12) for_statement -> FOR VARIABLE IN INTEGER TO . INTEGER LBRACE statement_list RBRACE
+    (13) for_statement -> FOR VARIABLE IN . INTEGER TO INTEGER LBRACE statement_list RBRACE
 
     INTEGER         shift and go to state 48
 
 
+state 38
+
+    (14) function_definition -> FUNCTION VARIABLE LPAREN . variable_list RPAREN LBRACE statement_list RBRACE
+    (26) variable_list -> . VARIABLE
+    (27) variable_list -> . variable_list COMMA VARIABLE
+
+    VARIABLE        shift and go to state 49
+
+    variable_list                  shift and go to state 50
+
+state 39
+
+    (15) print_statement -> PRINT LPAREN expression RPAREN .
+
+    VARIABLE        reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    PRINT           reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    IF              reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    WHILE           reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    FOR             reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    FUNCTION        reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    $end            reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+    RBRACE          reduce using rule 15 (print_statement -> PRINT LPAREN expression RPAREN .)
+
+
+state 40
+
+    (11) if_statement -> IF expression LBRACE statement_list . RBRACE
+    (3) statement_list -> statement_list . statement
+    (4) statement -> . assignment
+    (5) statement -> . print_statement
+    (6) statement -> . if_statement
+    (7) statement -> . while_statement
+    (8) statement -> . for_statement
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
+
+    RBRACE          shift and go to state 51
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
+
+    statement                      shift and go to state 16
+    assignment                     shift and go to state 4
+    print_statement                shift and go to state 5
+    if_statement                   shift and go to state 6
+    while_statement                shift and go to state 7
+    for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
+
+state 41
+
+    (20) comparison -> expression LT expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
+
+    LBRACE          reduce using rule 20 (comparison -> expression LT expression .)
+    LT              reduce using rule 20 (comparison -> expression LT expression .)
+    VARIABLE        reduce using rule 20 (comparison -> expression LT expression .)
+    PRINT           reduce using rule 20 (comparison -> expression LT expression .)
+    IF              reduce using rule 20 (comparison -> expression LT expression .)
+    WHILE           reduce using rule 20 (comparison -> expression LT expression .)
+    FOR             reduce using rule 20 (comparison -> expression LT expression .)
+    FUNCTION        reduce using rule 20 (comparison -> expression LT expression .)
+    $end            reduce using rule 20 (comparison -> expression LT expression .)
+    RBRACE          reduce using rule 20 (comparison -> expression LT expression .)
+    RPAREN          reduce using rule 20 (comparison -> expression LT expression .)
+    LE              shift and go to state 31
+    GT              shift and go to state 32
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
+
+  ! LE              [ reduce using rule 20 (comparison -> expression LT expression .) ]
+  ! GT              [ reduce using rule 20 (comparison -> expression LT expression .) ]
+  ! GE              [ reduce using rule 20 (comparison -> expression LT expression .) ]
+  ! EQ              [ reduce using rule 20 (comparison -> expression LT expression .) ]
+  ! NE              [ reduce using rule 20 (comparison -> expression LT expression .) ]
+  ! LT              [ shift and go to state 30 ]
+
+
+state 42
+
+    (21) comparison -> expression LE expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
+
+    LBRACE          reduce using rule 21 (comparison -> expression LE expression .)
+    LT              reduce using rule 21 (comparison -> expression LE expression .)
+    LE              reduce using rule 21 (comparison -> expression LE expression .)
+    VARIABLE        reduce using rule 21 (comparison -> expression LE expression .)
+    PRINT           reduce using rule 21 (comparison -> expression LE expression .)
+    IF              reduce using rule 21 (comparison -> expression LE expression .)
+    WHILE           reduce using rule 21 (comparison -> expression LE expression .)
+    FOR             reduce using rule 21 (comparison -> expression LE expression .)
+    FUNCTION        reduce using rule 21 (comparison -> expression LE expression .)
+    $end            reduce using rule 21 (comparison -> expression LE expression .)
+    RBRACE          reduce using rule 21 (comparison -> expression LE expression .)
+    RPAREN          reduce using rule 21 (comparison -> expression LE expression .)
+    GT              shift and go to state 32
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
+
+  ! GT              [ reduce using rule 21 (comparison -> expression LE expression .) ]
+  ! GE              [ reduce using rule 21 (comparison -> expression LE expression .) ]
+  ! EQ              [ reduce using rule 21 (comparison -> expression LE expression .) ]
+  ! NE              [ reduce using rule 21 (comparison -> expression LE expression .) ]
+  ! LT              [ shift and go to state 30 ]
+  ! LE              [ shift and go to state 31 ]
+
+
+state 43
+
+    (22) comparison -> expression GT expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
+
+    LBRACE          reduce using rule 22 (comparison -> expression GT expression .)
+    LT              reduce using rule 22 (comparison -> expression GT expression .)
+    LE              reduce using rule 22 (comparison -> expression GT expression .)
+    GT              reduce using rule 22 (comparison -> expression GT expression .)
+    VARIABLE        reduce using rule 22 (comparison -> expression GT expression .)
+    PRINT           reduce using rule 22 (comparison -> expression GT expression .)
+    IF              reduce using rule 22 (comparison -> expression GT expression .)
+    WHILE           reduce using rule 22 (comparison -> expression GT expression .)
+    FOR             reduce using rule 22 (comparison -> expression GT expression .)
+    FUNCTION        reduce using rule 22 (comparison -> expression GT expression .)
+    $end            reduce using rule 22 (comparison -> expression GT expression .)
+    RBRACE          reduce using rule 22 (comparison -> expression GT expression .)
+    RPAREN          reduce using rule 22 (comparison -> expression GT expression .)
+    GE              shift and go to state 33
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
+
+  ! GE              [ reduce using rule 22 (comparison -> expression GT expression .) ]
+  ! EQ              [ reduce using rule 22 (comparison -> expression GT expression .) ]
+  ! NE              [ reduce using rule 22 (comparison -> expression GT expression .) ]
+  ! LT              [ shift and go to state 30 ]
+  ! LE              [ shift and go to state 31 ]
+  ! GT              [ shift and go to state 32 ]
+
+
+state 44
+
+    (23) comparison -> expression GE expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
+
+    LBRACE          reduce using rule 23 (comparison -> expression GE expression .)
+    LT              reduce using rule 23 (comparison -> expression GE expression .)
+    LE              reduce using rule 23 (comparison -> expression GE expression .)
+    GT              reduce using rule 23 (comparison -> expression GE expression .)
+    GE              reduce using rule 23 (comparison -> expression GE expression .)
+    VARIABLE        reduce using rule 23 (comparison -> expression GE expression .)
+    PRINT           reduce using rule 23 (comparison -> expression GE expression .)
+    IF              reduce using rule 23 (comparison -> expression GE expression .)
+    WHILE           reduce using rule 23 (comparison -> expression GE expression .)
+    FOR             reduce using rule 23 (comparison -> expression GE expression .)
+    FUNCTION        reduce using rule 23 (comparison -> expression GE expression .)
+    $end            reduce using rule 23 (comparison -> expression GE expression .)
+    RBRACE          reduce using rule 23 (comparison -> expression GE expression .)
+    RPAREN          reduce using rule 23 (comparison -> expression GE expression .)
+    EQ              shift and go to state 34
+    NE              shift and go to state 35
+
+  ! EQ              [ reduce using rule 23 (comparison -> expression GE expression .) ]
+  ! NE              [ reduce using rule 23 (comparison -> expression GE expression .) ]
+  ! LT              [ shift and go to state 30 ]
+  ! LE              [ shift and go to state 31 ]
+  ! GT              [ shift and go to state 32 ]
+  ! GE              [ shift and go to state 33 ]
+
+
+state 45
+
+    (24) comparison -> expression EQ expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
+
+    LBRACE          reduce using rule 24 (comparison -> expression EQ expression .)
+    LT              reduce using rule 24 (comparison -> expression EQ expression .)
+    LE              reduce using rule 24 (comparison -> expression EQ expression .)
+    GT              reduce using rule 24 (comparison -> expression EQ expression .)
+    GE              reduce using rule 24 (comparison -> expression EQ expression .)
+    EQ              reduce using rule 24 (comparison -> expression EQ expression .)
+    VARIABLE        reduce using rule 24 (comparison -> expression EQ expression .)
+    PRINT           reduce using rule 24 (comparison -> expression EQ expression .)
+    IF              reduce using rule 24 (comparison -> expression EQ expression .)
+    WHILE           reduce using rule 24 (comparison -> expression EQ expression .)
+    FOR             reduce using rule 24 (comparison -> expression EQ expression .)
+    FUNCTION        reduce using rule 24 (comparison -> expression EQ expression .)
+    $end            reduce using rule 24 (comparison -> expression EQ expression .)
+    RBRACE          reduce using rule 24 (comparison -> expression EQ expression .)
+    RPAREN          reduce using rule 24 (comparison -> expression EQ expression .)
+    NE              shift and go to state 35
+
+  ! NE              [ reduce using rule 24 (comparison -> expression EQ expression .) ]
+  ! LT              [ shift and go to state 30 ]
+  ! LE              [ shift and go to state 31 ]
+  ! GT              [ shift and go to state 32 ]
+  ! GE              [ shift and go to state 33 ]
+  ! EQ              [ shift and go to state 34 ]
+
+
+state 46
+
+    (25) comparison -> expression NE expression .
+    (20) comparison -> expression . LT expression
+    (21) comparison -> expression . LE expression
+    (22) comparison -> expression . GT expression
+    (23) comparison -> expression . GE expression
+    (24) comparison -> expression . EQ expression
+    (25) comparison -> expression . NE expression
+
+    LBRACE          reduce using rule 25 (comparison -> expression NE expression .)
+    LT              reduce using rule 25 (comparison -> expression NE expression .)
+    LE              reduce using rule 25 (comparison -> expression NE expression .)
+    GT              reduce using rule 25 (comparison -> expression NE expression .)
+    GE              reduce using rule 25 (comparison -> expression NE expression .)
+    EQ              reduce using rule 25 (comparison -> expression NE expression .)
+    NE              reduce using rule 25 (comparison -> expression NE expression .)
+    VARIABLE        reduce using rule 25 (comparison -> expression NE expression .)
+    PRINT           reduce using rule 25 (comparison -> expression NE expression .)
+    IF              reduce using rule 25 (comparison -> expression NE expression .)
+    WHILE           reduce using rule 25 (comparison -> expression NE expression .)
+    FOR             reduce using rule 25 (comparison -> expression NE expression .)
+    FUNCTION        reduce using rule 25 (comparison -> expression NE expression .)
+    $end            reduce using rule 25 (comparison -> expression NE expression .)
+    RBRACE          reduce using rule 25 (comparison -> expression NE expression .)
+    RPAREN          reduce using rule 25 (comparison -> expression NE expression .)
+
+  ! LT              [ shift and go to state 30 ]
+  ! LE              [ shift and go to state 31 ]
+  ! GT              [ shift and go to state 32 ]
+  ! GE              [ shift and go to state 33 ]
+  ! EQ              [ shift and go to state 34 ]
+  ! NE              [ shift and go to state 35 ]
+
+
+state 47
+
+    (12) while_statement -> WHILE expression LBRACE statement_list . RBRACE
+    (3) statement_list -> statement_list . statement
+    (4) statement -> . assignment
+    (5) statement -> . print_statement
+    (6) statement -> . if_statement
+    (7) statement -> . while_statement
+    (8) statement -> . for_statement
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
+
+    RBRACE          shift and go to state 52
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
+
+    statement                      shift and go to state 16
+    assignment                     shift and go to state 4
+    print_statement                shift and go to state 5
+    if_statement                   shift and go to state 6
+    while_statement                shift and go to state 7
+    for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
+
 state 48
 
-    (12) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER . LBRACE statement_list RBRACE
+    (13) for_statement -> FOR VARIABLE IN INTEGER . TO INTEGER LBRACE statement_list RBRACE
 
-    LBRACE          shift and go to state 49
+    TO              shift and go to state 53
 
 
 state 49
 
-    (12) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE . statement_list RBRACE
+    (26) variable_list -> VARIABLE .
+
+    RPAREN          reduce using rule 26 (variable_list -> VARIABLE .)
+    COMMA           reduce using rule 26 (variable_list -> VARIABLE .)
+
+
+state 50
+
+    (14) function_definition -> FUNCTION VARIABLE LPAREN variable_list . RPAREN LBRACE statement_list RBRACE
+    (27) variable_list -> variable_list . COMMA VARIABLE
+
+    RPAREN          shift and go to state 54
+    COMMA           shift and go to state 55
+
+
+state 51
+
+    (11) if_statement -> IF expression LBRACE statement_list RBRACE .
+
+    VARIABLE        reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    PRINT           reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    IF              reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    WHILE           reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    FOR             reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    FUNCTION        reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    $end            reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 11 (if_statement -> IF expression LBRACE statement_list RBRACE .)
+
+
+state 52
+
+    (12) while_statement -> WHILE expression LBRACE statement_list RBRACE .
+
+    VARIABLE        reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    PRINT           reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    IF              reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    WHILE           reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    FOR             reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    FUNCTION        reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    $end            reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 12 (while_statement -> WHILE expression LBRACE statement_list RBRACE .)
+
+
+state 53
+
+    (13) for_statement -> FOR VARIABLE IN INTEGER TO . INTEGER LBRACE statement_list RBRACE
+
+    INTEGER         shift and go to state 56
+
+
+state 54
+
+    (14) function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN . LBRACE statement_list RBRACE
+
+    LBRACE          shift and go to state 57
+
+
+state 55
+
+    (27) variable_list -> variable_list COMMA . VARIABLE
+
+    VARIABLE        shift and go to state 58
+
+
+state 56
+
+    (13) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER . LBRACE statement_list RBRACE
+
+    LBRACE          shift and go to state 59
+
+
+state 57
+
+    (14) function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE . statement_list RBRACE
     (2) statement_list -> . statement
     (3) statement_list -> . statement_list statement
     (4) statement -> . assignment
@@ -1052,64 +1170,162 @@ state 49
     (6) statement -> . if_statement
     (7) statement -> . while_statement
     (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
 
-    statement_list                 shift and go to state 50
+    statement_list                 shift and go to state 60
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
     print_statement                shift and go to state 5
     if_statement                   shift and go to state 6
     while_statement                shift and go to state 7
     for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
 
-state 50
+state 58
 
-    (12) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list . RBRACE
+    (27) variable_list -> variable_list COMMA VARIABLE .
+
+    RPAREN          reduce using rule 27 (variable_list -> variable_list COMMA VARIABLE .)
+    COMMA           reduce using rule 27 (variable_list -> variable_list COMMA VARIABLE .)
+
+
+state 59
+
+    (13) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE . statement_list RBRACE
+    (2) statement_list -> . statement
+    (3) statement_list -> . statement_list statement
+    (4) statement -> . assignment
+    (5) statement -> . print_statement
+    (6) statement -> . if_statement
+    (7) statement -> . while_statement
+    (8) statement -> . for_statement
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
+
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
+
+    statement_list                 shift and go to state 61
+    statement                      shift and go to state 3
+    assignment                     shift and go to state 4
+    print_statement                shift and go to state 5
+    if_statement                   shift and go to state 6
+    while_statement                shift and go to state 7
+    for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
+
+state 60
+
+    (14) function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list . RBRACE
     (3) statement_list -> statement_list . statement
     (4) statement -> . assignment
     (5) statement -> . print_statement
     (6) statement -> . if_statement
     (7) statement -> . while_statement
     (8) statement -> . for_statement
-    (9) assignment -> . VARIABLE ASSIGN expression
-    (13) print_statement -> . PRINT LPAREN expression RPAREN
-    (10) if_statement -> . IF expression LBRACE statement_list RBRACE
-    (11) while_statement -> . WHILE expression LBRACE statement_list RBRACE
-    (12) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    RBRACE          shift and go to state 51
-    VARIABLE        shift and go to state 9
-    PRINT           shift and go to state 10
-    IF              shift and go to state 11
-    WHILE           shift and go to state 12
-    FOR             shift and go to state 13
+    RBRACE          shift and go to state 62
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
 
-    statement                      shift and go to state 14
+    statement                      shift and go to state 16
     assignment                     shift and go to state 4
     print_statement                shift and go to state 5
     if_statement                   shift and go to state 6
     while_statement                shift and go to state 7
     for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
 
-state 51
+state 61
 
-    (12) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .
+    (13) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list . RBRACE
+    (3) statement_list -> statement_list . statement
+    (4) statement -> . assignment
+    (5) statement -> . print_statement
+    (6) statement -> . if_statement
+    (7) statement -> . while_statement
+    (8) statement -> . for_statement
+    (9) statement -> . function_definition
+    (10) assignment -> . VARIABLE ASSIGN expression
+    (15) print_statement -> . PRINT LPAREN expression RPAREN
+    (11) if_statement -> . IF expression LBRACE statement_list RBRACE
+    (12) while_statement -> . WHILE expression LBRACE statement_list RBRACE
+    (13) for_statement -> . FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE
+    (14) function_definition -> . FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE
 
-    VARIABLE        reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
-    PRINT           reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
-    IF              reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
-    WHILE           reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
-    FOR             reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
-    $end            reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
-    RBRACE          reduce using rule 12 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    RBRACE          shift and go to state 63
+    VARIABLE        shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 12
+    WHILE           shift and go to state 13
+    FOR             shift and go to state 14
+    FUNCTION        shift and go to state 15
+
+    statement                      shift and go to state 16
+    assignment                     shift and go to state 4
+    print_statement                shift and go to state 5
+    if_statement                   shift and go to state 6
+    while_statement                shift and go to state 7
+    for_statement                  shift and go to state 8
+    function_definition            shift and go to state 9
+
+state 62
+
+    (14) function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .
+
+    VARIABLE        reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    PRINT           reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    IF              reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    WHILE           reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    FOR             reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    FUNCTION        reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    $end            reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 14 (function_definition -> FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE .)
+
+
+state 63
+
+    (13) for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .
+
+    VARIABLE        reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    PRINT           reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    IF              reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    WHILE           reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    FOR             reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    FUNCTION        reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    $end            reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
+    RBRACE          reduce using rule 13 (for_statement -> FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE .)
 
