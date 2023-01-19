@@ -25,3 +25,5 @@ function my_function(a, b) {
     print(a)
     print(b)
 }
+
+my_function(1, 2)

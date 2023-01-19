@@ -21,8 +21,8 @@ def p_statement(p):
                  | if_statement
                  | while_statement
                  | for_statement
-                 | function_definition'''
-                #  | function_call'''
+                 | function_definition
+                 | function_call'''
     p[0] = p[1]
 
 def p_assignment(p):
@@ -45,9 +45,9 @@ def p_function_definition(p):
     '''function_definition : FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE statement_list RBRACE'''
     p[0] = ('function', p[2], p[4], p[7])
 
-# def p_function_call(p):
-#     '''function_call : VARIABLE LPAREN argument_list RPAREN'''
-#     p[0] = ('call', p[1], p[3])
+def p_function_call(p):
+    '''function_call : VARIABLE LPAREN argument_list RPAREN'''
+    p[0] = ('call', p[1], p[3])
 
 def p_print_statement(p):
     '''print_statement : PRINT LPAREN expression RPAREN'''
@@ -57,8 +57,8 @@ def p_expression(p):
     '''expression : INTEGER
                   | VARIABLE
                   | STRING
-                  | comparison'''
-                #   | function_call'''
+                  | comparison
+                  | function_call'''
     p[0] = p[1]
 
 def p_comparison(p):
@@ -79,13 +79,13 @@ def p_variable_list(p):
         p[0] = p[1] + [p[3]]
             
             
-# def p_argument_list(p):
-#     '''argument_list : expression
-#                      | argument_list COMMA expression'''
-#     if len(p) == 2:
-#         p[0] = [p[1]]
-#     else:
-#         p[0] = p[1] + [p[3]]
+def p_argument_list(p):
+    '''argument_list : expression
+                     | argument_list COMMA expression'''
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[3]]
 
 def p_error(p):
     print(f"Syntax error at token {p.value}")
