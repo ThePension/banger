@@ -33,7 +33,8 @@ tokens = [
     'OR',
     'NOT',
     'COLON',
-    'IN'
+    'IN',
+    'TO',
 ]
 
 reserved = {
@@ -44,6 +45,7 @@ reserved = {
     'print': 'PRINT',
     'function': 'FUNCTION',
     'in': 'IN',
+    'to': 'TO',
     # 'function_call': 'FUNCTION_CALL'
 }
 
@@ -67,6 +69,8 @@ t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
 t_COLON = r':'
+t_IN = r'in'
+t_TO = r'to'
 
 def t_VARIABLE(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'

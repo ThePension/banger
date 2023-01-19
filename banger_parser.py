@@ -19,8 +19,8 @@ def p_statement(p):
     '''statement : assignment
                  | print_statement
                  | if_statement
-                 | while_statement'''
-                #  | for_statement
+                 | while_statement
+                 | for_statement'''
                 #  | function_definition
                 #  | function_call'''
     p[0] = p[1]
@@ -37,9 +37,9 @@ def p_while_statement(p):
     '''while_statement : WHILE expression LBRACE statement_list RBRACE'''
     p[0] = ('while', p[2], p[4])
 
-# def p_for_statement(p):
-#     '''for_statement : FOR VARIABLE IN expression COLON statement_list'''
-#     p[0] = ('for', p[2], p[4], p[6])
+def p_for_statement(p):
+    '''for_statement : FOR VARIABLE IN INTEGER TO INTEGER LBRACE statement_list RBRACE'''
+    p[0] = ('for', p[2], p[4], p[6], p[8])
 
 # def p_function_definition(p):
 #     '''function_definition : FUNCTION LPAREN variable_list RPAREN COLON statement_list'''
