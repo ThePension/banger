@@ -18,8 +18,8 @@ def p_statement_list(p):
 def p_statement(p):
     '''statement : assignment
                  | print_statement
-                 | if_statement'''
-                #  | while_statement
+                 | if_statement
+                 | while_statement'''
                 #  | for_statement
                 #  | function_definition
                 #  | function_call'''
@@ -33,9 +33,9 @@ def p_if_statement(p):
     '''if_statement : IF expression LBRACE statement_list RBRACE'''
     p[0] = ('if', p[2], p[4])
 
-# def p_while_statement(p):
-#     '''while_statement : WHILE expression COLON statement_list'''
-#     p[0] = ('while', p[2], p[4])
+def p_while_statement(p):
+    '''while_statement : WHILE expression LBRACE statement_list RBRACE'''
+    p[0] = ('while', p[2], p[4])
 
 # def p_for_statement(p):
 #     '''for_statement : FOR VARIABLE IN expression COLON statement_list'''
