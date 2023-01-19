@@ -1,8 +1,12 @@
 my_variable = 5
 my_string = "Hello World"
 
-
 my_variable2 = my_variable
 
+if my_variable > 3 {
+    print("my_variable is greater than 3")
+}
 
-print("my_variable is greater than 3")
+if 3 > 2 {
+    print("3 > 2")
+}
