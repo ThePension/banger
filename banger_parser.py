@@ -3,88 +3,98 @@ from banger_lex import tokens
 import sys
 import AST
 
-# Variable assignments
-def p_assignment(p):
-    '''statement : VARIABLE ASSIGN expression'''
-    p[0] = ('assign', p[1], p[3])
+def p_program(p):
+    '''program : statement_list'''
+    p[0] = p[1]
 
-# If statements
-def p_if(p):
-    '''statement : IF LPAREN expression RPAREN LBRACE statements RBRACE
-                 | IF LPAREN expression RPAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE'''
-    if len(p) == 8:
-        p[0] = ('if', p[3], p[6])
-    else:
-        p[0] = ('if-else', p[3], p[6], p[10])
-
-# While loops
-def p_while(p):
-    '''statement : WHILE LPAREN expression RPAREN LBRACE statements RBRACE'''
-    p[0] = ('while', p[3], p[6])
-
-# For loops  
-def p_for_loop(p):
-    '''statement : FOR VARIABLE IN VARIABLE LBRACE statements RBRACE'''
-    p[0] = ("for_loop", p[2], p[4], p[6])
-
-# Print statement
-def p_print(p):
-    '''statement : PRINT LPAREN expression RPAREN'''
-    p[0] = ('print', p[3])
-    
-# Function definition
-def p_function(p):
-    '''statement : FUNCTION VARIABLE LPAREN parameters RPAREN LBRACE statements RBRACE'''
-    p[0] = ('function', p[2], p[4], p[7])
-
-def p_parameters(p):
-    '''parameters : VARIABLE
-                  | parameters COMMA VARIABLE'''
-    if len(p) == 2:
-        p[0] = [p[1]]
-    else:
-        p[0] = p[1] + [p[3]]
-
-# Expressions
-def p_expression(p):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
-                  | expression TIMES expression
-                  | expression DIVIDE expression
-                  | expression LT expression
-                  | expression LE expression
-                  | expression GT expression
-                  | expression GE expression
-                  | expression EQ expression
-                  | expression NE expression
-                  | expression AND expression
-                  | expression OR expression
-                  | NOT expression
-                  | LPAREN expression RPAREN
-                  | INTEGER
-                  | VARIABLE
-                  | STRING'''
-    if len(p) == 4:
-        p[0] = (p[2], p[1], p[3])
-    elif len(p) == 3:
-        p[0] = (p[1], p[2])
-    else:
-        p[0] = p[1]
-
-# Statements
-def p_statements(p):
-    '''statements : statement
-                  | statements statement'''
+def p_statement_list(p):
+    '''statement_list : statement
+                      | statement_list statement'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
         p[0] = p[1] + [p[2]]
 
+def p_statement(p):
+    '''statement : assignment
+                 | print_statement'''
+                #  | if_statement
+                #  | while_statement
+                #  | for_statement
+                #  | function_definition
+                #  | function_call
+                #  | print_statement'''
+    p[0] = p[1]
+
+def p_assignment(p):
+    '''assignment : VARIABLE ASSIGN expression'''
+    p[0] = ('assign', p[1], p[3])
+
+# def p_if_statement(p):
+#     '''if_statement : IF expression COLON statement_list'''
+#     p[0] = ('if', p[2], p[4])
+
+# def p_while_statement(p):
+#     '''while_statement : WHILE expression COLON statement_list'''
+#     p[0] = ('while', p[2], p[4])
+
+# def p_for_statement(p):
+#     '''for_statement : FOR VARIABLE IN expression COLON statement_list'''
+#     p[0] = ('for', p[2], p[4], p[6])
+
+# def p_function_definition(p):
+#     '''function_definition : FUNCTION LPAREN variable_list RPAREN COLON statement_list'''
+#     p[0] = ('function', p[3], p[6])
+
+# def p_function_call(p):
+#     '''function_call : VARIABLE LPAREN argument_list RPAREN'''
+#     p[0] = ('call', p[1], p[3])
+
+def p_print_statement(p):
+    '''print_statement : PRINT LPAREN expression RPAREN'''
+    p[0] = ('print', p[3])
+
+def p_expression(p):
+    '''expression : INTEGER
+                  | VARIABLE
+                  | STRING'''
+                #   | comparison
+                #   | function_call'''
+    p[0] = p[1]
+
+# def p_comparison(p):
+#     '''comparison : expression LT expression
+#                   | expression LE expression
+#                   | expression GT expression
+#                   | expression GE expression
+#                   | expression EQ expression
+#                   | expression NE expression'''
+#     p[0] = ('comp', p[2], p[1], p[3])
+
+# def p_variable_list(p):
+#     '''variable_list : VARIABLE
+#                      | variable_list COMMA VARIABLE'''
+#     if len(p) == 2:
+#         p[0] = [p[1]]
+#     else:
+#         p[0] = p[1] + [p[3]]
+            
+            
+# def p_argument_list(p):
+#     '''argument_list : expression
+#                      | argument_list COMMA expression'''
+#     if len(p) == 2:
+#         p[0] = [p[1]]
+#     else:
+#         p[0] = p[1] + [p[3]]
+
 def p_error(p):
-    print(f"Syntax error at token {p.value}")
+    print("Syntax error in input!")
+            
+# Build the parser
+parser = yacc.yacc()
 
 yacc.yacc(outputdir="generated")
-
 
 def parse(program):
     return yacc.parse(program)
@@ -93,5 +103,5 @@ def parse(program):
 if __name__ == "__main__":
     import sys
     prog = open(sys.argv[1]).read()
-    result = yacc.parse(prog, debug=0)
-    print(result)
+    results = yacc.parse(prog, debug=0)
+    [print(result) for result in results]

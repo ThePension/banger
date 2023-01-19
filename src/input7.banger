@@ -1,0 +1,8 @@
+my_variable = 5
+my_string = "Hello World"
+
+
+my_variable2 = my_variable
+
+
+print("my_variable is greater than 3")

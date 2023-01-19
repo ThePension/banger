@@ -44,6 +44,7 @@ reserved = {
     'print': 'PRINT',
     'function': 'FUNCTION',
     'in': 'IN',
+    # 'function_call': 'FUNCTION_CALL'
 }
 
 t_ASSIGN = r'='
