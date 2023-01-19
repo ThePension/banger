@@ -1,15 +1,15 @@
 import pydot
 
 
-class Block:
+class Node:
     count = 0
     type = 'Node (unspecified)'
     shape = 'ellipse'
 
     def __init__(self, children=None):
         self.params = []
-        self.ID = str(Block.count)
-        Block.count += 1
+        self.ID = str(Node.count)
+        Node.count += 1
         if not children:
             self.children = []
         elif hasattr(children, '__len__'):
@@ -25,7 +25,7 @@ class Block:
         result = "%s%s\n" % (prefix, repr(self))
         prefix += '|  '
         for c in self.children:
-            if not isinstance(c, Block):
+            if not isinstance(c, Node):
                 result += "%s*** Error: Child of type %r: %r\n" % (
                     prefix, type(c), c)
                 continue
@@ -89,76 +89,79 @@ class Block:
             graph.add_edge(edge)
         return graph
 
-class Document(Block):
-    type = "document"
+class ProgramNode(Node):
+    type = "program"
 
-class GenericBlock(Block):
-    type = 'block'
+# class StatementsList(Node):
+#     type = 'statements_list'
 
-class CodeBlock(Block):
-    type = "code"
+class StatementNode(Node):
+    type = "statement"
 
-class ListBlock(Block):
-    type = "list"
+class AssignNode(Node):
+    type = "assign"
 
-class TitleBlock(Block):
-    type = "title"
+class IfNode(Node):
+    type = "if"
 
-class ListBlock(Block):
-    type = "list_block"
+class WhileNode(Node):
+    type = "while"
 
-class ListElement(Block):
-    type = "list_element"
+class ForNode(Node):
+    type = "for"
 
-class ParamBlock(Block):
+class FunctionDefinitionNode(Node):
     type = "param"
 
-class ImageBlock(Block):
+class FunctionCallNode(Node):
     type = "image"
     
-class TextBlock(Block):
-    type = "text"
+class PrintNode(Node):
+    type = "print"
 
-class ParamAlignCenterBlock(ParamBlock):
-    type = "param_align_center_block"
+class ExpressionNode(Node):
+    type = "expression"
 
-class ParamAlignRightBlock(ParamBlock):
-    type = "param_align_right_block"
+class ComparisonNode(Node):
+    type = "comparison"
 
-class ParamAlignLeftBlock(ParamBlock):
-    type = "param_align_left_block"
+class VariablesListNode(Node):
+    type = "variables_list"
 
-class ParamBGBlock(ParamBlock):
-    type = "param_bg"
+class ArgumentsListNode(Node):
+    type = "arguments_list"
 
-    def __init__(self, tok):
-        Block.__init__(self)
-        self.tok = tok
-
-    def __repr__(self):
-        return repr(self.tok)
-
-class ParamFontBlock(ParamBlock):
-    type = "param_font"
-
-    def __init__(self, tok):
-        Block.__init__(self)
-        self.tok = tok
-
-    def __repr__(self):
-        return repr(self.tok)
-
-class StringBlock(Block):
+class StringBlock(Node):
     type = "string"
 
     def __init__(self, tok):
-        Block.__init__(self)
+        Node.__init__(self)
         self.tok = tok
 
     def __repr__(self):
         return repr(self.tok)
 
 
+class VariableNode(Node):
+    type = "variable"
+
+    def __init__(self, tok):
+        Node.__init__(self)
+        self.tok = tok
+
+    def __repr__(self):
+        return repr(self.tok)
+
+class IntegerNode(Node):
+    type = "integer"
+
+    def __init__(self, tok):
+        Node.__init__(self)
+        self.tok = tok
+
+    def __repr__(self):
+        return repr(self.tok)
+    
 # class OpBlock(Block):
 #     def __init__(self, op, children):
 #         Block.__init__(self, children)
@@ -171,19 +174,6 @@ class StringBlock(Block):
 #     def __repr__(self):
 #         return "%s (%s)" % (self.op, self.nbargs)
 
-
-# class AssignNode(Block):
-#     type = '='
-
-# class WhileNode(Block):
-#     type = 'while'
-
-
-class EntryBlock(Block):
-    type = 'ENTRY'
-
-    def __init__(self):
-        Block.__init__(self, None)
 
 
 def addToClass(cls):
