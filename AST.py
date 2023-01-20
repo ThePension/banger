@@ -1,3 +1,4 @@
+import os
 import pydot
 
 
@@ -50,7 +51,8 @@ class Node:
                 edge.set_label(str(i))
             dot.add_edge(edge)
             # Workaround for a bug in pydot 1.0.2 on Windows:
-            #dot.set_graphviz_executables({'dot': r'C:\Program Files\Graphviz2.38\bin\dot.exe'})
+            os.environ["PATH"] += os.pathsep + 'C:/Apps/Graphviz2.38/bin/'
+            # dot.set_graphviz_executables({'dot': r'C:\Apps\Graphviz2.38\bin\dot.exe'})
         return dot
 
     def threadTree(self, graph, seen=None, col=0):
@@ -111,10 +113,10 @@ class ForNode(Node):
     type = "for"
 
 class FunctionDefinitionNode(Node):
-    type = "param"
+    type = "function_definition"
 
 class FunctionCallNode(Node):
-    type = "image"
+    type = "function_call"
     
 class PrintNode(Node):
     type = "print"
@@ -131,7 +133,7 @@ class VariablesListNode(Node):
 class ArgumentsListNode(Node):
     type = "arguments_list"
 
-class StringBlock(Node):
+class StringNode(Node):
     type = "string"
 
     def __init__(self, tok):
@@ -140,7 +142,6 @@ class StringBlock(Node):
 
     def __repr__(self):
         return repr(self.tok)
-
 
 class VariableNode(Node):
     type = "variable"
@@ -162,6 +163,15 @@ class IntegerNode(Node):
     def __repr__(self):
         return repr(self.tok)
     
+class TokenNode(Node):
+    type = 'token'
+    def __init__(self, tok):
+        Node.__init__(self)
+        self.tok = tok
+        
+    def __repr__(self):
+        return repr(self.tok)
+    
 # class OpBlock(Block):
 #     def __init__(self, op, children):
 #         Block.__init__(self, children)
@@ -174,7 +184,11 @@ class IntegerNode(Node):
 #     def __repr__(self):
 #         return "%s (%s)" % (self.op, self.nbargs)
 
+class EntryNode(Node):
+    type = 'ENTRY'
 
+    def __init__(self):
+        Node.__init__(self, None)
 
 def addToClass(cls):
     ''' D�corateur permettant d'ajouter la fonction d�cor�e en tant que m�thode
