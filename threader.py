@@ -1,6 +1,7 @@
 import AST
 from AST import ProgramNode, addToClass
 
+entry = None
 
 @addToClass(AST.WhileNode)
 def thread(self, lastNode):
@@ -72,7 +73,50 @@ def thread(self, lastNode):
     
     return self
 
+@addToClass(AST.FunctionDefinitionNode)
+def thread(self, lastNode):
+    lastNode.addNext(self)
+    lastNode = self.children[0].thread(self)
+    
+    for node in self.children[1:-1]:
+        lastNode = node.thread(lastNode)
+        
+    lastNode.addNext(self)
+    # self.next[-1].addNext(self.children[-1])
+    return self
+
+@addToClass(AST.FunctionCallNode)
+def thread(self, lastNode):
+    lastNode.addNext(self)
+    func_def = None
+    # Search for the function definition in the previous nodes
+    for node in entry.next:
+        if isinstance(node, AST.FunctionDefinitionNode) and node.children[0].tok == self.children[0].tok:
+            func_def = node
+            break
+    if not func_def:
+        raise Exception("Function not defined.")
+    
+    lastNode = func_def.children[-1].thread(self)
+    
+    lastNode.addNext(self)
+    
+    return self
+
+
+# @addToClass(AST.FunctionCallNode)
+# def thread(self, lastNode):
+#     # Get the function definition node
+#     function = self.children[0]
+#     # Add a link from the last node to the function definition node
+#     lastNode.addNext(function)
+#     # The function call node is the exit point for the function
+#     return self
+
+
+
 def thread(tree):
+    global entry
     entry = AST.EntryNode()
     tree.thread(entry)
 
