@@ -31,6 +31,25 @@ def thread(self, lastNode):
     lastNode.addNext(self)
     return self
 
+@addToClass(AST.IfNode)
+def thread(self, lastNode):
+    beforeCondition = lastNode
+    conditionNode = self.children[0]
+    
+    # Go through the condition to get the last node
+    lastNode = conditionNode.thread(lastNode)
+    
+    # From the last node of the condition, go to the if, instead of program
+    lastNode.addNext(self)
+    
+    # From the if, go through the program to get the last node (should be programNode)
+    lastNode = self.children[1].thread(self) # lastNode == programNode
+    
+    # Program is done
+    # From the program return to the condition (which is the last "next node" of the node before the condition)
+    lastNode.addNext(self)
+    
+    return self
 
 def thread(tree):
     entry = AST.EntryNode()

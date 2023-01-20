@@ -1,0 +1,7 @@
+my_variable = 5
+
+if my_variable < 10 {
+    print(my_variable)
+}
+
+print("test")
