@@ -15,6 +15,7 @@ if 3 > 2 {
 while my_variable < 10 {
     print(my_variable)
     print("in the while")
+    my_variable = my_variable + 1
 }
 
 function my_function(a, b) {
@@ -24,11 +25,6 @@ function my_function(a, b) {
 
 for i in 1 to 5 {
     print(i)
-
-    while 3 < 4 {
-        my_function(2, 3)
-    }
-
 
     if my_function(1, 2) == 9 { # this is a comment
         print("my_function returned true")

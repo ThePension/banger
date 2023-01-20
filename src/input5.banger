@@ -12,4 +12,8 @@ function fibo(n) {
     }
 }
 
+print("Fibonacci Series: ")
+
 fibo(10)
+
+print("End of Program")

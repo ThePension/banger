@@ -1,6 +1,6 @@
-my_variable = 11
+my_variable = 5
 
 while my_variable < 10 {
     print(my_variable)
-    print("in the while")
+    my_variable = my_variable + 1
 }
