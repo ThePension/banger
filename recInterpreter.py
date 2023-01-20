@@ -67,6 +67,13 @@ def execute(self):
     # else:
     #     self.children[2].execute()
 
+@addToClass(AST.ForNode)
+def execute(self):
+    vars[self.children[0].children[0].tok] = self.children[0].children[1].execute()
+    while(self.children[1].execute()):
+        self.children[2].execute()
+        vars[self.children[0].children[0].tok] += 1
+
 @addToClass(AST.IntegerNode)
 def execute(self):
     return self.tok

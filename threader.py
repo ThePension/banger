@@ -51,6 +51,27 @@ def thread(self, lastNode):
     
     return self
 
+@addToClass(AST.ForNode)
+def thread(self, lastNode):
+    beforeAssign = lastNode
+    assignNode = self.children[0]
+    
+    # Go through the assignation to get the last node
+    lastNode = assignNode.thread(lastNode)
+    
+    toNode = self.children[1]
+    
+    lastNode.addNext(toNode)
+    
+    # From the last node of the assignation, go to the for (testing condition), instead of program
+    toNode.addNext(self)
+    
+    lastNode = self.children[2].thread(self)
+    
+    lastNode.addNext(beforeAssign.next[-1])
+    
+    return self
+
 def thread(tree):
     entry = AST.EntryNode()
     tree.thread(entry)
