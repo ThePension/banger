@@ -82,7 +82,6 @@ def thread(self, lastNode):
         lastNode = node.thread(lastNode)
         
     lastNode.addNext(self)
-    # self.next[-1].addNext(self.children[-1])
     return self
 
 @addToClass(AST.FunctionCallNode)
@@ -102,18 +101,6 @@ def thread(self, lastNode):
     lastNode.addNext(self)
     
     return self
-
-
-# @addToClass(AST.FunctionCallNode)
-# def thread(self, lastNode):
-#     # Get the function definition node
-#     function = self.children[0]
-#     # Add a link from the last node to the function definition node
-#     lastNode.addNext(function)
-#     # The function call node is the exit point for the function
-#     return self
-
-
 
 def thread(tree):
     global entry

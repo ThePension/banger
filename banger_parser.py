@@ -3,6 +3,14 @@ from banger_lex import tokens
 import sys
 import AST
 
+operations = {
+    "+" : lambda x, y : x + y,
+    "-" : lambda x, y : x - y,
+    "*" : lambda x, y : x * y,
+    "/" : lambda x, y : x / y,
+    "%" : lambda x, y : x % y,
+}
+
 def p_program(p):
     '''program : statement'''
     p[0] = AST.ProgramNode(p[1])
@@ -73,6 +81,18 @@ def p_expression_comparison(p):
 def p_expression_function_call(p):
     '''expression : function_call'''  
     p[0] = p[1]
+    
+def p_expr_op(p):
+    '''expression : expression PLUS expression 
+                  | expression MINUS expression
+                  | expression TIMES expression
+                  | expression DIVIDE expression
+                  | expression MODULO expression'''
+    p[0] = AST.OpNode(p[2], [p[1], p[3]])
+    
+def p_expr_group(p):
+    '''expression : LPAREN expression RPAREN'''
+    p[0] = p[2]
 
 def p_comparison(p):
     '''comparison : expression LT expression
@@ -111,6 +131,11 @@ precedence = (
     ('left', 'GE'),
     ('left', 'EQ'),
     ('left', 'NE'),
+    ('left', 'PLUS'),
+    ('left', 'MINUS'),
+    ('left', 'TIMES'),
+    ('left', 'DIVIDE'),
+    ('left', 'MODULO'),
 )
             
 # Build the parser

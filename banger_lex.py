@@ -23,6 +23,7 @@ tokens = [
     'MINUS',
     'TIMES',
     'DIVIDE',
+    'MODULO',
     'LT',
     'LE',
     'GT',
@@ -59,6 +60,7 @@ t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
+t_MODULO = r'%'
 t_LT = r'<'
 t_LE = r'<='
 t_GT = r'>'

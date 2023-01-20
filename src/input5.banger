@@ -1,7 +1,15 @@
-test
 
-title center
+function fibo(n) {
+    n1 = 0
+    n2 = 1
+    nextTerm = 0
 
-ligne asdf
+    for i in 0 to n {
+        print(n1)
+        nextTerm = n1 + n2
+        n1 = n2
+        n2 = nextTerm
+    }
+}
 
-test
+fibo(10)

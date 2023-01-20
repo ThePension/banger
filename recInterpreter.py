@@ -2,12 +2,13 @@ import AST
 from AST import addToClass
 from functools import reduce
 
-# operations = {
-#     "+" : lambda x , y : x + y,
-#     "-" : lambda x , y : x - y,
-#     "*" : lambda x , y : x * y,
-#     "/" : lambda x , y : x / y,
-# }
+operations = {
+    "+" : lambda x, y : x + y,
+    "-" : lambda x, y : x - y,
+    "*" : lambda x, y : x * y,
+    "/" : lambda x, y : x / y,
+    "%" : lambda x, y : x % y,
+}
 
 comparison_ops = {
     "<" : lambda x , y : x < y,
@@ -85,20 +86,22 @@ def execute(self):
 @addToClass(AST.FunctionDefinitionNode)
 def execute(self):
     vars[self.children[0].tok] = self
-    # print(vars[self.children[0].tok])
     
 @addToClass(AST.FunctionCallNode)
 def execute(self):
-    # print(self)
     func = vars[self.children[0].tok]
     args = [arg.execute() for arg in self.children[1:]]
-    # print(args)
     childrens = func.children[1:-1]
-    # print(childrens)
     for i in range(len(args)):
-        # print("i = %d" % i)
         vars[childrens[i].tok] = args[i]
     func.children[-1].execute()
+    
+@addToClass(AST.OpNode)
+def execute(self):
+    args = [c.execute() for c in self.children]
+    if len(args) == 1:
+        args.insert(0, 0)
+    return reduce(operations[self.op], args)
 
 if __name__ == "__main__" :
     from banger_parser import parse
