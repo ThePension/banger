@@ -1,7 +1,8 @@
-my_variable = 5
+my_variable = 11
 
 if my_variable < 10 {
     print(my_variable)
+    print("is less than 10")
 }
 
 print("test")

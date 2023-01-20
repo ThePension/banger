@@ -1,4 +1,4 @@
-my_variable = 5
+my_variable = 11
 
 while my_variable < 10 {
     print(my_variable)
