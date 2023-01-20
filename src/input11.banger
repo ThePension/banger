@@ -1,5 +1,8 @@
 function my_print(txt1, txt2) {
-    print(txt)
+    print(txt1)
+    print(txt2)
 }
 
 my_print("Hello", "World")
+
+my_print("Salut", "Mec")
