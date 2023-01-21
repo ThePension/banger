@@ -63,11 +63,9 @@ def execute(node):
             arg1 = valueOfToken(stack.pop())
             op = stack.pop()
             val = comparison_ops[op](arg1, arg2)
-            print("Comparison result: %s" % val)
             stack.append(val)
         elif node.__class__ == AST.IfNode:
             cond = valueOfToken(stack.pop())
-            print("If condition: %s" % cond)
             if cond:
                 node = node.next[0]
             else:

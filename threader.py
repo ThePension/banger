@@ -3,6 +3,14 @@ from AST import ProgramNode, addToClass
 
 entry = None
 
+def getNextNode(currentNode, parentNode):
+    for children in parentNode.children:
+        if children == currentNode:
+            nextNodeIndex = parentNode.children.index(children) + 1
+            if nextNodeIndex < len(parentNode.children):
+                return parentNode.children[nextNodeIndex]
+    return None
+
 @addToClass(AST.WhileNode)
 def thread(self, lastNode, parentNode = None):
     beforeCondition = lastNode
@@ -53,7 +61,6 @@ def thread(self, lastNode, parentNode = None):
 
 @addToClass(AST.IfNode)
 def thread(self, lastNode, parentNode = None):
-    print(self.next)
     beforeCondition = lastNode
     conditionNode = self.children[0]
     
@@ -74,11 +81,12 @@ def thread(self, lastNode, parentNode = None):
     # program is done
     # From the program return to the following node (which is nextNode)
     # lastNode.addNext(parentNode.children[2].thread(lastNode, self))
-    parentNode.children[2].thread(lastNode, self)
+    nextNode = getNextNode(self, parentNode)
+    
+    if nextNode:
+        nextNode.thread(lastNode, self)
     
     return self
-
-
 
 @addToClass(AST.ForNode)
 def thread(self, lastNode, parentNode = None):
