@@ -34,6 +34,7 @@ tokens = [
     'OR',
     'NOT',
     'COLON',
+    'SEMICOLON',
     'IN',
     'TO',
 ]
@@ -71,6 +72,7 @@ t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'
 t_COLON = r':'
+t_SEMICOLON = r';'
 t_IN = r'in'
 t_TO = r'to'
 

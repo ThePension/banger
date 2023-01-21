@@ -29,12 +29,6 @@ def p_statement(p):
                  | function_call'''
     p[0] = p[1]
 
-def p_assignment(p):
-    '''assignment : VARIABLE ASSIGN expression'''
-    id = AST.TokenNode(p[1])
-    expr = p[3]
-    p[0] = AST.AssignNode([id, expr])
-
 def p_if_statement(p):
     '''if_statement : IF expression LBRACE program RBRACE'''
     p[0] = AST.IfNode([p[2], p[4]])
@@ -44,11 +38,18 @@ def p_while_statement(p):
     p[0] = AST.WhileNode([p[2], p[4]])
 
 def p_for_statement(p):
-    '''for_statement : FOR VARIABLE IN expression TO expression LBRACE program RBRACE'''
-    id = AST.TokenNode(p[2])
-    expr = p[4]
-    assign = AST.AssignNode([id, expr])
-    p[0] = AST.ForNode([assign, AST.ComparisonNode([AST.StringNode("<="), id, p[6]])] + [p[8]])
+    '''for_statement : FOR LPAREN assignment SEMICOLON comparison SEMICOLON assignment RPAREN LBRACE program RBRACE'''
+    # id = AST.TokenNode(p[2])
+    # expr = p[4]
+    # assign = AST.AssignNode([id, expr])
+    print("for statement")
+    p[0] = AST.ForNode([p[3], p[5], p[7]] + [p[10]])
+
+def p_assignment(p):
+    '''assignment : VARIABLE ASSIGN expression'''
+    id = AST.TokenNode(p[1])
+    expr = p[3]
+    p[0] = AST.AssignNode([id, expr])
 
 def p_function_definition(p):
     '''function_definition : FUNCTION VARIABLE LPAREN variable_list RPAREN LBRACE program RBRACE'''
