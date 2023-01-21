@@ -39,10 +39,6 @@ def p_while_statement(p):
 
 def p_for_statement(p):
     '''for_statement : FOR LPAREN assignment SEMICOLON comparison SEMICOLON assignment RPAREN LBRACE program RBRACE'''
-    # id = AST.TokenNode(p[2])
-    # expr = p[4]
-    # assign = AST.AssignNode([id, expr])
-    print("for statement")
     p[0] = AST.ForNode([p[3], p[5], p[7]] + [p[10]])
 
 def p_assignment(p):

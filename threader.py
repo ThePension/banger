@@ -92,6 +92,9 @@ def thread(self, lastNode, parentNode = None):
 def thread(self, lastNode, parentNode = None):
     beforeAssign = lastNode
     assignNode = self.children[0]
+    comparisonNode = self.children[1]
+    expressionNode = self.children[2]
+    programNode = self.children[3]
     
     # Go through the assignation to get the last node
     lastNode = assignNode.thread(lastNode, self)
