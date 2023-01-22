@@ -14,28 +14,21 @@ def getNextNodeRec(currentNode, parentNode):
         # return getNextNodeRec(parentNode, getParentNode(parentNode))
         return getNextNodeRec(parentNode, parentNode.parent)
 
-# def getNextNode(currentNode, parentNode):
-#     currentNodeIndex = parentNode.children.index(currentNode)
-#     if currentNodeIndex + 1 < len(parentNode.children):
-#         return parentNode.children[currentNodeIndex + 1]
-#     else:
-#         return None
-
 
 @addToClass(AST.WhileNode)
-def thread(self, lastNode, parentNode = None):
+def thread(self, lastNode):
     beforeCondition = lastNode
     conditionNode = self.children[0] # first child
     programNode = self.children[1] # second child
 
     # Go through the condition to get the last node
-    lastNode = conditionNode.thread(lastNode, self)
+    lastNode = conditionNode.thread(lastNode)
 
     # From the last node of the condition, go to the while, instead of program
     lastNode.addNext(self)
 
     # From the while, go through the program to get the last node (should be programNode)
-    lastNode = programNode.thread(self, self) # lastNode == programNode
+    lastNode = programNode.thread(self) # lastNode == programNode
     
     # Program is done
     # From the program return to the condition (which is the last "next node" of the node before the condition)
@@ -44,39 +37,20 @@ def thread(self, lastNode, parentNode = None):
     return self
 
 @addToClass(AST.Node)
-def thread(self, lastNode, parentNode = None):
+def thread(self, lastNode):
     for c in self.children:
-        lastNode = c.thread(lastNode, self)
+        lastNode = c.thread(lastNode)
 
     lastNode.addNext(self)
     return self
 
-# @addToClass(AST.IfNode)
-# def thread(self, lastNode):
-#     beforeCondition = lastNode
-#     conditionNode = self.children[0]
-#     programNode = self.children[1]
-    
-#     # Go through the condition to get the last node
-#     lastNode = conditionNode.thread(lastNode)
-    
-#     # From the last node of the condition, go to the if, instead of program
-#     lastNode.addNext(self)
-    
-#     # From the if, go through the program to get the last node (should be programNode)
-#     lastNode = programNode.thread(self) # lastNode == lastNode of programNode
-    
-#     # Program is done, go after the if
-    
-#     return self
-
 @addToClass(AST.IfNode)
-def thread(self, lastNode, parentNode = None):
+def thread(self, lastNode):
     beforeCondition = lastNode
     conditionNode = self.children[0]
     
     # Go through the condition to get the last node
-    lastNode = conditionNode.thread(lastNode, self)
+    lastNode = conditionNode.thread(lastNode)
     
     # From the last node of the condition, go to the if, instead of program
     lastNode.addNext(self)
@@ -84,57 +58,60 @@ def thread(self, lastNode, parentNode = None):
     programNode = self.children[1]
     
     # From the if, go through the program to get the last node (should be programNode)
-    lastNode = programNode.thread(self, self)
-    
-    # Set nextNode as the node following the if statement
-    # self.nextNode = beforeCondition.next[-1]
+    lastNode = programNode.thread(self)
     
     # program is done
     # From the program return to the following node
     nextNode = getNextNodeRec(self, self.parent)
         
     if nextNode:
-        nextNode.thread(lastNode, self)
+        nextNode.thread(lastNode)
     
     return self
 
 @addToClass(AST.ForNode)
-def thread(self, lastNode, parentNode = None):
+def thread(self, lastNode):
     beforeAssign = lastNode
     assignNode = self.children[0]
     comparisonNode = self.children[1]
     expressionNode = self.children[2]
     programNode = self.children[3]
-    
+
     # Go through the assignation to get the last node
-    lastNode = assignNode.thread(lastNode, self)
+    lastNode = assignNode.thread(lastNode)
+
+    # Go through the comparison to get the last node
+    lastNode = comparisonNode.thread(lastNode)
     
-    toNode = self.children[1]
+    # From the last node of the comparison, go to the for Node (to test the condition)
+    lastNode.addNext(self)
+
+    # From the for Node, go through the program to get the last node (should be programNode)
+    lastNode = programNode.thread(self)
+
+    # Go through the expression to get the last node
+    lastNode = expressionNode.thread(lastNode)
     
-    lastNode.addNext(toNode)
-    
-    # From the last node of the assignation, go to the for (testing condition), instead of program
-    toNode.addNext(self)
-    
-    lastNode = self.children[2].thread(self, self)
-    
-    lastNode.addNext(beforeAssign.next[-1])
+    # From the last node of the expression, go back to the comparison
+    lastNode.addNext(assignNode.next[-1])
     
     return self
 
+
+
 @addToClass(AST.FunctionDefinitionNode)
-def thread(self, lastNode, parentNode = None):
+def thread(self, lastNode):
     lastNode.addNext(self)
-    lastNode = self.children[0].thread(self, self)
+    lastNode = self.children[0].thread(self)
     
     for node in self.children[1:-1]:
-        lastNode = node.thread(lastNode, self)
+        lastNode = node.thread(lastNode)
         
     lastNode.addNext(self)
     return self
 
 @addToClass(AST.FunctionCallNode)
-def thread(self, lastNode, parentNode = None):
+def thread(self, lastNode):
     lastNode.addNext(self)
     func_def = None
     # Search for the function definition in the previous nodes
@@ -145,7 +122,7 @@ def thread(self, lastNode, parentNode = None):
     if not func_def:
         raise Exception("Function not defined.")
     
-    lastNode = func_def.children[-1].thread(self, self)
+    lastNode = func_def.children[-1].thread(self)
     
     lastNode.addNext(self)
     
@@ -162,7 +139,7 @@ def thread(tree):
     
     setParentRec(tree, entry)
     
-    tree.thread(entry, tree)
+    tree.thread(entry)
 
     return entry
 

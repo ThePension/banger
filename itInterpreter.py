@@ -72,10 +72,11 @@ def execute(node):
                 node = node.next[1]
             continue
         elif node.__class__ == AST.ForNode:
-            val = valueOfToken(stack.pop())
-            name = stack.pop()
-            vars[name] = val
-            node = node.next[0]
+            cond = valueOfToken(stack.pop())
+            if cond:
+                node = node.next[0]
+            else:
+                node = node.next[1]
             continue
         elif node.__class__ == AST.IntegerNode:
             stack.append(node.tok)
