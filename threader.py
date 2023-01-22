@@ -2,14 +2,25 @@ import AST
 from AST import ProgramNode, addToClass
 
 entry = None
+         
 
-def getNextNode(currentNode, parentNode):
-    for children in parentNode.children:
-        if children == currentNode:
-            nextNodeIndex = parentNode.children.index(children) + 1
-            if nextNodeIndex < len(parentNode.children):
-                return parentNode.children[nextNodeIndex]
-    return None
+def getNextNodeRec(currentNode, parentNode):
+    if parentNode == None:
+        return None
+    currentNodeIndex = parentNode.children.index(currentNode)
+    if currentNodeIndex + 1 < len(parentNode.children):
+        return parentNode.children[currentNodeIndex + 1]
+    else:
+        # return getNextNodeRec(parentNode, getParentNode(parentNode))
+        return getNextNodeRec(parentNode, parentNode.parent)
+
+# def getNextNode(currentNode, parentNode):
+#     currentNodeIndex = parentNode.children.index(currentNode)
+#     if currentNodeIndex + 1 < len(parentNode.children):
+#         return parentNode.children[currentNodeIndex + 1]
+#     else:
+#         return None
+
 
 @addToClass(AST.WhileNode)
 def thread(self, lastNode, parentNode = None):
@@ -79,10 +90,9 @@ def thread(self, lastNode, parentNode = None):
     # self.nextNode = beforeCondition.next[-1]
     
     # program is done
-    # From the program return to the following node (which is nextNode)
-    # lastNode.addNext(parentNode.children[2].thread(lastNode, self))
-    nextNode = getNextNode(self, parentNode)
-    
+    # From the program return to the following node
+    nextNode = getNextNodeRec(self, self.parent)
+        
     if nextNode:
         nextNode.thread(lastNode, self)
     
@@ -141,9 +151,17 @@ def thread(self, lastNode, parentNode = None):
     
     return self
 
+def setParentRec(node, parent):
+    node.parent = parent
+    for child in node.children:
+        setParentRec(child, node)
+
 def thread(tree):
     global entry
     entry = AST.EntryNode()
+    
+    setParentRec(tree, entry)
+    
     tree.thread(entry, tree)
 
     return entry
