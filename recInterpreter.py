@@ -35,13 +35,6 @@ def execute(self):
             print("*** Error : variable %s undefined !" % self.tok)
     return self.tok
 
-# @addToClass(AST.OpNode)
-# def execute(self):
-#     args = [c.execute() for c in self.children]
-#     if len(args) == 1:
-#         args.insert(0, 0)
-#     return reduce(operations[self.op], args)
-
 @addToClass(AST.AssignNode)
 def execute(self):
     vars[self.children[0].tok] = self.children[1].execute()

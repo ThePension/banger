@@ -26,10 +26,8 @@ functions = { }
 
 def valueOfToken(t):
     if isinstance(t, str):
-        try:
+        if t in vars:
             return vars[t]
-        except KeyError:
-            print("*** Error : variable %s undefined ! " % t)
     return t
 
 def execute(node):
