@@ -1,0 +1,9 @@
+function recTest(depth)
+{
+    print(depth)
+    if depth > 0 {
+        recTest(depth - 1)
+    }
+}
+
+recTest(5)

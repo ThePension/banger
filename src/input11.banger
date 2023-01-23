@@ -1,15 +1,14 @@
-function add(a, b) {
-    print(a + b)
-}
-
-add(1, 2)
-
-add(2, 3)
-
-function multiply(a, b) {
+function multiply(a, b)
+{
     print(a * b)
 }
 
-add(3, 4)
+function multiplicationTable(a)
+{
+    for(b = 0; b <= 12; b = b + 1)
+    {
+        multiply(a, b)
+    }
+}
 
-multiply(4, 5)
+multiplicationTable(3)

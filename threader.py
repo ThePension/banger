@@ -3,7 +3,8 @@ from AST import ProgramNode, addToClass
 
 entry = None
 
-functions_def = {}
+functions_def_threaded = {}
+functions_def_non_threaded = {}
 function_calls_stack = []
 
 def getNextNodeRec(currentNode, parentNode):
@@ -112,10 +113,9 @@ def thread(self, lastNode):
     
     # Thread the function body
     func_entry = AST.EntryNode()
-    func_lastNode = self.children[-1].thread(func_entry)
-    
+        
     # Set the function definition in the global variable
-    functions_def[functionNameNode.tok] = (func_entry, func_lastNode) # self.children[-1]
+    functions_def_non_threaded[functionNameNode.tok] = (func_entry, self)
     
     return self
 
@@ -135,10 +135,19 @@ def thread(self, lastNode):
     
     func_name = self.children[0].tok
     
-    if func_name not in functions_def:
-        raise Exception("Function " +  func_name + " not defined.")
+    if func_name not in functions_def_threaded:
+        if func_name not in functions_def_non_threaded:
+            raise Exception("Function " +  func_name + " not defined.")
+        else:
+            # Thread the function definition
+            func_def_entry, function = functions_def_non_threaded[func_name]
+            
+            func_def_lastnode = function.children[-1].thread(func_def_entry)
+            
+            # Set the threaded function definition in the global variable
+            functions_def_threaded[func_name] = (func_def_entry, func_def_lastnode)
     else:
-        func_def_entry, func_def_lastnode = functions_def[func_name]
+        func_def_entry, func_def_lastnode = functions_def_threaded[func_name]
     
     self.addNext(func_def_entry)
             
