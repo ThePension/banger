@@ -1,8 +1,15 @@
-function my_print(txt1, txt2) {
-    print(txt1)
-    print(txt2)
+function add(a, b) {
+    print(a + b)
 }
 
-my_print("Hello", "World")
+add(1, 2)
 
-my_print("Salut", "Mec")
+add(2, 3)
+
+function multiply(a, b) {
+    print(a * b)
+}
+
+add(3, 4)
+
+multiply(4, 5)

@@ -1,10 +1,9 @@
-
 function fibo(n) {
     n1 = 0
     n2 = 1
     nextTerm = 0
 
-    for i in 0 to n {
+    for (i = 0; i < n; i = i + 1) {
         print(n1)
         nextTerm = n1 + n2
         n1 = n2
@@ -15,5 +14,7 @@ function fibo(n) {
 print("Fibonacci Series: ")
 
 fibo(10)
+
+fibo(30)
 
 print("End of Program")

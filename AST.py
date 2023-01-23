@@ -114,9 +114,27 @@ class ForNode(Node):
 
 class FunctionDefinitionNode(Node):
     type = "function_definition"
+    
+    def __init__(self, children):
+        Node.__init__(self, children)
+        self.nodes_that_call = []
+        self.calls_stack = []
+        
+        try:
+            self.nbargs = len(children)
+        except AttributeError:
+            self.nbargs = 1
 
 class FunctionCallNode(Node):
     type = "function_call"
+    
+    def __init__(self, children):
+        Node.__init__(self, children)
+                
+        try:
+            self.nbargs = len(children)
+        except AttributeError:
+            self.nbargs = 1
     
 class PrintNode(Node):
     type = "print"
@@ -127,11 +145,11 @@ class ExpressionNode(Node):
 class ComparisonNode(Node):
     type = "comparison"
 
-class VariablesListNode(Node):
-    type = "variables_list"
+# class VariablesListNode(Node):
+#     type = "variables_list"
 
-class ArgumentsListNode(Node):
-    type = "arguments_list"
+# class ArgumentsListNode(Node):
+#     type = "arguments_list"
 
 class StringNode(Node):
     type = "string"

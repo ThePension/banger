@@ -2,10 +2,12 @@ import AST
 from AST import ProgramNode, addToClass
 
 entry = None
-         
+
+functions_def = {}
+function_calls_stack = []
 
 def getNextNodeRec(currentNode, parentNode):
-    if parentNode == None:
+    if parentNode == None or currentNode not in parentNode.children:
         return None
     currentNodeIndex = parentNode.children.index(currentNode)
     if currentNodeIndex + 1 < len(parentNode.children):
@@ -97,36 +99,50 @@ def thread(self, lastNode):
     
     return self
 
-
-
 @addToClass(AST.FunctionDefinitionNode)
 def thread(self, lastNode):
-    lastNode.addNext(self)
-    lastNode = self.children[0].thread(self)
+    functionNameNode = self.children[0]
+    lastNode = functionNameNode.thread(lastNode)
     
+    # Thread the parameters
     for node in self.children[1:-1]:
         lastNode = node.thread(lastNode)
-        
+    
     lastNode.addNext(self)
+    
+    # Thread the function body
+    func_entry = AST.EntryNode()
+    func_lastNode = self.children[-1].thread(func_entry)
+    
+    # Set the function definition in the global variable
+    functions_def[functionNameNode.tok] = (func_entry, func_lastNode) # self.children[-1]
+    
     return self
 
 @addToClass(AST.FunctionCallNode)
 def thread(self, lastNode):
-    lastNode.addNext(self)
-    func_def = None
-    # Search for the function definition in the previous nodes
-    for node in entry.next:
-        if isinstance(node, AST.FunctionDefinitionNode) and node.children[0].tok == self.children[0].tok:
-            func_def = node
-            break
-    if not func_def:
-        raise Exception("Function not defined.")
+    functionName = self.children[0]
     
-    lastNode = func_def.children[-1].thread(self)
+    lastNode.addNext(functionName)
     
+    lastNode = functionName
+    
+    # Thread the parameters
+    for node in self.children[1:]:
+        lastNode = node.thread(lastNode)
+        
     lastNode.addNext(self)
     
-    return self
+    func_name = self.children[0].tok
+    
+    if func_name not in functions_def:
+        raise Exception("Function " +  func_name + " not defined.")
+    else:
+        func_def_entry, func_def_lastnode = functions_def[func_name]
+    
+    self.addNext(func_def_entry)
+            
+    return func_def_lastnode
 
 def setParentRec(node, parent):
     node.parent = parent
