@@ -14,7 +14,6 @@ def getNextNodeRec(currentNode, parentNode):
     if currentNodeIndex + 1 < len(parentNode.children):
         return parentNode.children[currentNodeIndex + 1]
     else:
-        # return getNextNodeRec(parentNode, getParentNode(parentNode))
         return getNextNodeRec(parentNode, parentNode.parent)
 
 
