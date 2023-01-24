@@ -1,15 +1,5 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    AND
-    COLON
-    ELSE
-    IN
-    NOT
-    OR
-    TO
-
 Grammar
 
 Rule 0     S' -> program
@@ -53,19 +43,15 @@ Rule 37    argument_list -> argument_list COMMA expression
 
 Terminals, with rules where they appear
 
-AND                  : 
 ASSIGN               : 13
-COLON                : 
 COMMA                : 35 37
 DIVIDE               : 25
-ELSE                 : 
 EQ                   : 32
 FOR                  : 12
 FUNCTION             : 14
 GE                   : 31
 GT                   : 30
 IF                   : 10
-IN                   : 
 INTEGER              : 17
 LBRACE               : 10 11 12 14
 LE                   : 29
@@ -74,8 +60,6 @@ LT                   : 28
 MINUS                : 23
 MODULO               : 26
 NE                   : 33
-NOT                  : 
-OR                   : 
 PLUS                 : 22
 PRINT                : 16
 RBRACE               : 10 11 12 14
@@ -83,7 +67,6 @@ RPAREN               : 12 14 15 16 27
 SEMICOLON            : 12 12
 STRING               : 19
 TIMES                : 24
-TO                   : 
 VARIABLE             : 13 14 15 18 34 35
 WHILE                : 11
 error                : 

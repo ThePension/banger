@@ -148,5 +148,4 @@ if __name__ == "__main__":
     import sys
     prog = open(sys.argv[1]).read()
     results = yacc.parse(prog, debug=0)
-    # [print(result) for result in results]
     print(results)

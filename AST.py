@@ -94,9 +94,6 @@ class Node:
 class ProgramNode(Node):
     type = "program"
 
-# class StatementsList(Node):
-#     type = 'statements_list'
-
 class StatementNode(Node):
     type = "statement"
 
@@ -144,12 +141,6 @@ class ExpressionNode(Node):
 
 class ComparisonNode(Node):
     type = "comparison"
-
-# class VariablesListNode(Node):
-#     type = "variables_list"
-
-# class ArgumentsListNode(Node):
-#     type = "arguments_list"
 
 class StringNode(Node):
     type = "string"
