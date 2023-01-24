@@ -51,6 +51,8 @@ de contrôle de base, des variables, des fonctions et des opérations arithméti
 
 # Code samples
 
+Ces exemples de code montrent comment les fonctionnalités de base de notre compilateur peuvent être utilisées. Ces fichiers, ainsi que d'autres fichiers d'exemples, sont disponibles dans le dossier `./src/`.
+
 <table>
 <tr>
 <th>Input</th>
