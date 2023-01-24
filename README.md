@@ -2,9 +2,31 @@
 
 # Banger
 
+## Requirements
+
+### Packages
+
+- `matplotlib`
+- `functools`
+- `ply`
+- `pydot`
+- `os`
+
+### External apps
+
+- `Graphviz`
+
+## Use
+
+Afin de lancer (interpréter) votre programme (`my_prog.banger`) implémenté en Banger, il suffit de lancer la commande suivante :
+
+```sh
+python itInterpreter.py my_prog.banger
+```
+
+Les sorties seront alors affichées dans la console.
+
 ## Description
-
-
 
 ### Features
 
